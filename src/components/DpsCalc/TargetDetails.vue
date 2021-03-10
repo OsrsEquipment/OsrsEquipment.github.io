@@ -3,10 +3,15 @@
     <monster-select
       v-model="target"
     />
-    <monster-details
-      :monster="computedTarget"
-      :debuffed-monsters="debuffedTargets"
-    />
+    <template v-if="target">
+      <monster-details
+        :monster="target"
+        :debuffed-monsters="debuffedTargets"
+      />
+    </template>
+    <template v-else>
+      Pick a target, any target
+    </template>
   </osrs-container>
 </template>
 
@@ -28,14 +33,6 @@ export default {
     return {
       target: undefined,
     };
-  },
-  computed: {
-    computedTarget() {
-      if (this.debuffedTarget) {
-        return this.debuffedTarget;
-      }
-      return this.target;
-    },
   },
   watch: {
     target: function targetChanged(target) {

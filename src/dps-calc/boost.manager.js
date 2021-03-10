@@ -131,7 +131,7 @@ class BoostManager {
       .forEach((itemEffect, name) => {
         if (itemEffect.check(equipment)) {
           boosts.push(itemEffect.boost(equipment));
-          console.debug(`${name} active`);
+          console.log(`${name} active`);
         }
       });
     return boosts;

@@ -3,7 +3,7 @@ import Utils from '../../services/utils';
 import { DhlPassive } from '../boosts';
 
 class DragonHunterLance extends ItemEffect {
-  static name = 'Dragon hunter crossbow';
+  static name = 'Dragon hunter lance';
 
   static ids = [22978];
 

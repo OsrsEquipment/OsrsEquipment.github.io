@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import PlayerDetails from '../components/DpsCalc/PlayerDetails.vue';
+import PlayerDetails from '../components/DpsCalc/LoadoutDetails.vue';
 import TargetDetails from '../components/DpsCalc/TargetDetails.vue';
 import CalculationResult from '../components/DpsCalc/CalculationResult.vue';
 import DpsCalculator from '../dps-calc/dps-calculator';

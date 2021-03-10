@@ -1,17 +1,11 @@
 const moduleTarget = {
   namespaced: true,
   state: () => ({
-    target: undefined,
+    customMonsters: [],
   }),
   mutations: {
-    SET_TARGET(state, target) {
-      state.target = target;
-    },
   },
   actions: {
-    setTarget({ commit }, target) {
-      commit('SET_TARGET', target);
-    },
   },
   getters: {},
 };

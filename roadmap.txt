@@ -1,3 +1,5 @@
+loadout creation page, this page will show all saved loadouts
+
 clean up data to remove duplicate or cosmetic variations
 
 special attacks

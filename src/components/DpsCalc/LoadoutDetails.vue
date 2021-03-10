@@ -1,5 +1,5 @@
 <template>
-  <osrs-container class="player-details-container">
+  <osrs-container class="loadout-details-container">
     <osrs-tabs
       v-model="selectedTab"
     >
@@ -24,7 +24,7 @@
     </osrs-tabs>
     <osrs-tab-items
       v-model="selectedTab"
-      class="player-details-tab-items"
+      class="loadout-details-tab-items"
     >
       <osrs-tab-item>
         <stance-selector
@@ -39,12 +39,12 @@
         />
       </osrs-tab-item>
       <osrs-tab-item>
-        <div class="player-details-equipment-tab">
+        <div class="loadout-details-equipment-tab">
           <player-equipment
-            :equipment.sync="equipment"
+            :equipment.sync="loadout.equipment"
           />
           <equipment-stats
-            :equipment="equipment"
+            :equipment="loadout.equipment"
             :bonuses="bonuses"
           />
         </div>
@@ -81,10 +81,10 @@ import EquipmentStats from './EquipmentStats.vue';
 import PlayerSkills from './PlayerSkills.vue';
 import PlayerPrayer from './PlayerPrayer.vue';
 import PlayerPotions from './PlayerPotions.vue';
-import PlayerSettings from './PlayerSettings.vue';
+import PlayerSettings from './LoadoutSettings.vue';
 
 export default {
-  name: 'PlayerDetails',
+  name: 'LoadoutDetails',
   components: {
     PlayerSettings,
     PlayerPotions,
@@ -99,6 +99,11 @@ export default {
     OsrsTab,
     OsrsContainer,
   },
+  provide() {
+    return {
+      loadout: this.loadout,
+    };
+  },
   props: {
     bonuses: {
       type: Object,
@@ -108,54 +113,57 @@ export default {
   data() {
     return {
       selectedTab: 2,
-      equipment: {},
-      skills: {},
-      stance: {},
-      boosts: [],
-      activePrayers: [],
-      potions: [],
-      settings: {},
-      spell: undefined,
+      loadout: {
+        equipment: {},
+        skills: {},
+        stance: {},
+        boosts: [],
+        activePrayers: [],
+        potions: [],
+        settings: {},
+        spell: undefined,
+      },
     };
   },
   computed: {
     weapon() {
-      return this.equipment && this.equipment.weapon ? this.equipment.weapon : undefined;
+      return this.loadout.equipment && this.loadout.equipment.weapon
+        ? this.loadout.equipment.weapon : undefined;
     },
   },
   watch: {
-    equipment: {
+    'loadout.equipment': {
       immediate: true,
       handler(equipment) {
         this.$emit('equipment-changed', equipment);
         this.updateBoosts();
       },
     },
-    skills: {
+    'loadout.skills': {
       immediate: true,
       handler(skills) {
         this.$emit('skills-changed', skills);
       },
     },
-    stance: {
+    'loadout.stance': {
       immediate: true,
       handler(stance) {
         this.$emit('stance-changed', stance);
       },
     },
-    boosts: {
+    'loadout.boosts': {
       immediate: true,
       handler(boosts) {
         this.$emit('boosts-changed', boosts);
       },
     },
-    settings: {
+    'loadout.settings': {
       immediate: true,
       handler(settings) {
         this.$emit('settings-changed', settings);
       },
     },
-    spell: {
+    'loadout.spell': {
       immediate: true,
       handler(spell) {
         this.$emit('spell-changed', spell);
@@ -164,40 +172,40 @@ export default {
   },
   methods: {
     setStance(stance) {
-      this.stance = stance;
+      this.loadout.stance = stance;
     },
     setSkills(skills) {
-      this.skills = skills;
+      this.loadout.skills = skills;
     },
     updateBoosts() {
-      this.boosts = [
-        ...BoostManager.getPrayerBoosts(this.activePrayers),
-        ...BoostManager.getEquipmentBoosts(this.equipment),
-        ...BoostManager.getPotionBoosts(this.potions),
-        ...BoostManager.getOtherBoosts(this.settings),
+      this.loadout.boosts = [
+        ...BoostManager.getPrayerBoosts(this.loadout.activePrayers),
+        ...BoostManager.getEquipmentBoosts(this.loadout.equipment),
+        ...BoostManager.getPotionBoosts(this.loadout.potions),
+        ...BoostManager.getOtherBoosts(this.loadout.settings),
       ];
     },
     prayersChanged(activePrayers) {
-      this.activePrayers = activePrayers;
+      this.loadout.activePrayers = activePrayers;
       this.updateBoosts();
     },
     potionsChanged(potions) {
-      this.potions = potions;
+      this.loadout.potions = potions;
       this.updateBoosts();
     },
     settingsChanged(settings) {
-      this.settings = settings;
+      this.loadout.settings = settings;
       this.updateBoosts();
     },
     spellSelected(spell) {
-      this.spell = spell;
+      this.loadout.spell = spell;
     },
   },
 };
 </script>
 
 <style scoped>
-.player-details-container {
+.loadout-details-container {
   position: relative;
   min-width: 360px;
   max-width: 400px;
@@ -207,7 +215,7 @@ export default {
   align-items: center;
 }
 
-.player-details-tab-items {
+.loadout-details-tab-items {
   width: 100%;
   flex: 1;
   display: flex;
@@ -215,7 +223,7 @@ export default {
   align-items: center;
 }
 
-.player-details-equipment-tab {
+.loadout-details-equipment-tab {
   width: 100%;
   display: flex;
   justify-content: space-around;

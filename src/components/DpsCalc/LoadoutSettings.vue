@@ -1,6 +1,6 @@
 <template>
-  <div class="player-settings-container">
-    <div class="player-settings-grid">
+  <div class="loadout-settings-container">
+    <div class="loadout-settings-grid">
       <!-- Dwh setting -->
       <osrs-tooltip>
         <template #activator="{ on }">
@@ -102,6 +102,7 @@
         <span>Is target in wilderness?</span>
       </osrs-tooltip>
     </div>
+    <loadout-manager />
   </div>
 </template>
 
@@ -110,10 +111,13 @@ import ItemsManager from '../../services/managers/items.manager';
 import OsrsNumberInput from '../OsrsNumberInput.vue';
 import OsrsCheckbox from '../OsrsCheckbox.vue';
 import OsrsTooltip from '../OsrsTooltip.vue';
+import LoadoutManager from '../LoadoutManager.vue';
 
 export default {
-  name: 'PlayerSettings',
-  components: { OsrsTooltip, OsrsCheckbox, OsrsNumberInput },
+  name: 'LoadoutSettings',
+  components: {
+    LoadoutManager, OsrsTooltip, OsrsCheckbox, OsrsNumberInput,
+  },
   data() {
     return {
       bgsId: 11804,
@@ -158,14 +162,14 @@ export default {
 </script>
 
 <style scoped>
-.player-settings-container {
+.loadout-settings-container {
   display: flex;
   flex-direction: column;
   width: 100%;
   margin: 10px;
 }
 
-.player-settings-grid {
+.loadout-settings-grid {
   display: grid;
   grid-template-columns: 32px 1fr 32px 1fr;
   grid-auto-rows: 32px;
