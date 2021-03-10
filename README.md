@@ -1,4 +1,4 @@
-# toolscape.github.io
+# osrsequipment.github.io
 
 ## Project setup
 ```
@@ -18,6 +18,11 @@ npm run build
 ### Lints and fixes files
 ```
 npm run lint
+```
+
+### deploy `master` to GH pages
+```
+npm run deploy
 ```
 
 ### Customize configuration
