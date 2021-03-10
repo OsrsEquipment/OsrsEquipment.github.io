@@ -4,22 +4,22 @@
       v-model="selectedTab"
     >
       <osrs-tab>
-        <v-img src="../../assets/osrs/Combat icon.png" />
+        <img src="../../assets/osrs/Combat icon.png" />
       </osrs-tab>
       <osrs-tab>
-        <v-img src="../../assets/osrs/Stats icon.png" />
+        <img src="../../assets/osrs/Stats icon.png" />
       </osrs-tab>
       <osrs-tab>
-        <v-img src="../../assets/osrs/Worn equipment.png" />
+        <img src="../../assets/osrs/Worn equipment.png" />
       </osrs-tab>
       <osrs-tab>
-        <v-img src="../../assets/osrs/Prayer tab icon.png" />
+        <img src="../../assets/osrs/Prayer tab icon.png" />
       </osrs-tab>
       <osrs-tab>
-        <v-img src="../../assets/osrs/Vial.png" />
+        <img src="../../assets/osrs/Vial.png" />
       </osrs-tab>
       <osrs-tab>
-        <v-img src="../../assets/osrs/Cog.png" />
+        <img src="../../assets/osrs/Cog.png" />
       </osrs-tab>
     </osrs-tabs>
     <osrs-tab-items
@@ -109,6 +109,10 @@ export default {
       type: Object,
       default: undefined,
     },
+    value: {
+      type: Object,
+      default: undefined,
+    },
   },
   data() {
     return {
@@ -132,41 +136,12 @@ export default {
     },
   },
   watch: {
-    'loadout.equipment': {
+    value: {
       immediate: true,
-      handler(equipment) {
-        this.$emit('equipment-changed', equipment);
-        this.updateBoosts();
-      },
-    },
-    'loadout.skills': {
-      immediate: true,
-      handler(skills) {
-        this.$emit('skills-changed', skills);
-      },
-    },
-    'loadout.stance': {
-      immediate: true,
-      handler(stance) {
-        this.$emit('stance-changed', stance);
-      },
-    },
-    'loadout.boosts': {
-      immediate: true,
-      handler(boosts) {
-        this.$emit('boosts-changed', boosts);
-      },
-    },
-    'loadout.settings': {
-      immediate: true,
-      handler(settings) {
-        this.$emit('settings-changed', settings);
-      },
-    },
-    'loadout.spell': {
-      immediate: true,
-      handler(spell) {
-        this.$emit('spell-changed', spell);
+      handler(value) {
+        if (value) {
+          this.loadout = value;
+        }
       },
     },
   },

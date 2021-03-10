@@ -3,15 +3,14 @@
     class="player-equip-slot-container"
     @click="$emit('slot-click')"
   >
-    <v-img
+    <img
       class="player-equip-slot-bg"
       :width="width"
       :height="height"
       :src="slotBg"
     />
-    <v-img
+    <img
       v-if="hasItemEquipped"
-      contain
       class="player-equip-slot-equipped-item"
       :width="width"
       :height="height"

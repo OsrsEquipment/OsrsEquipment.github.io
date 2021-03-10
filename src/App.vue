@@ -1,15 +1,18 @@
 <template>
   <v-app class="toolscape-application-wrapper">
     <v-main class="">
+      <osrs-navbar/>
       <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
+import OsrsNavbar from './components/OsrsNavbar.vue';
 
 export default {
   name: 'App',
+  components: { OsrsNavbar },
 };
 </script>
 
@@ -52,6 +55,6 @@ export default {
 
 <style scoped>
 .toolscape-application-wrapper {
-  background: #0c0c0c !important;
+  background: var(--osrs-darkest-brown) !important;
 }
 </style>

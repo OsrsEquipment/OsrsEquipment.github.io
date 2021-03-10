@@ -1,5 +1,7 @@
 <template>
-  <div class="osrs-container osrs-text-plain-11">
+  <div
+    class="osrs-container osrs-text-plain-11"
+  >
     <slot />
   </div>
 </template>
@@ -16,5 +18,6 @@ export default {
   border: 5px ridge var(--osrs-light-brown);
   background-color: var(--osrs-brown);
   padding: 4px 8px;
+  box-shadow: 1px 1px 6px black;
 }
 </style>

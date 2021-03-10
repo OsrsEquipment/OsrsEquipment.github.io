@@ -4,7 +4,7 @@
       <!-- Dwh setting -->
       <osrs-tooltip>
         <template #activator="{ on }">
-          <v-img
+          <img
             v-if="dwhObject"
             :src="`data:image/png;base64,${dwhObject.icon}`"
             v-on="on"
@@ -102,7 +102,6 @@
         <span>Is target in wilderness?</span>
       </osrs-tooltip>
     </div>
-    <loadout-manager />
   </div>
 </template>
 
@@ -111,12 +110,11 @@ import ItemsManager from '../../services/managers/items.manager';
 import OsrsNumberInput from '../OsrsNumberInput.vue';
 import OsrsCheckbox from '../OsrsCheckbox.vue';
 import OsrsTooltip from '../OsrsTooltip.vue';
-import LoadoutManager from '../LoadoutManager.vue';
 
 export default {
   name: 'LoadoutSettings',
   components: {
-    LoadoutManager, OsrsTooltip, OsrsCheckbox, OsrsNumberInput,
+    OsrsTooltip, OsrsCheckbox, OsrsNumberInput,
   },
   data() {
     return {
