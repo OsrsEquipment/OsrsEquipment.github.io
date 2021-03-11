@@ -20,160 +20,160 @@
       >
         <div class="monster-details-grid">
           <div class="monster-detail-header monster-detail-combat-stats-header">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Combat icon.png"
-            />
+              alt="combat"
+            >
             Combat stats (Lv. {{ localMonster.combat_level }})
           </div>
           <div class="monster-detail-stat monster-detail-hp">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Hitpoints icon.png"
-            />
+              alt="hitpoints"
+            >
             {{ localMonster.hitpoints }}
           </div>
           <div class="monster-detail-stat monster-detail-attack">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Attack icon.png"
-            />
+              alt="attack"
+            >
             {{ localMonster.attack_level }}
           </div>
           <div class="monster-detail-stat monster-detail-strength">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Strength icon.png"
-            />
+              alt="strength"
+            >
             {{ localMonster.strength_level }}
           </div>
           <div class="monster-detail-stat monster-detail-defence">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Defence icon.png"
-            />
+              alt="defence"
+            >
             {{ localMonster.defence_level }}
           </div>
           <div class="monster-detail-stat monster-detail-magic">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Magic icon.png"
-            />
+              alt="magic"
+            >
             {{ localMonster.magic_level }}
           </div>
           <div class="monster-detail-stat monster-detail-ranged">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Ranged icon.png"
-            />
+              alt="ranged"
+            >
             {{ localMonster.ranged_level }}
           </div>
           <div class="monster-detail-header monster-detail-aggressive-stats-header">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Attack icon.png"
-            />
+              alt="attack"
+            >
             Aggressive stats
           </div>
           <div class="monster-detail-stat monster-detail-aggressive-stat-attack">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Attack icon.png"
-            />
+              alt="attack"
+            >
             {{ localMonster.attack_bonus }}
           </div>
           <div class="monster-detail-stat monster-detail-aggressive-stat-strength">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Strength icon.png"
-            />
+              alt="strength"
+            >
             {{ localMonster.strength_bonus }}
           </div>
           <div class="monster-detail-stat monster-detail-aggressive-stat-magic">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Magic icon.png"
-            />
+              alt="magic"
+            >
             {{ localMonster.attack_magic }}
           </div>
           <div class="monster-detail-stat monster-detail-aggressive-stat-magic-damage">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Magic Damage icon.png"
-            />
+              alt="magic damage"
+            >
             {{ localMonster.magic_bonus }}
           </div>
           <div class="monster-detail-stat monster-detail-aggressive-stat-ranged">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Ranged icon.png"
-            />
+              alt="ranged"
+            >
             {{ localMonster.attack_ranged }}
           </div>
           <div class="monster-detail-stat monster-detail-aggressive-stat-ranged-strength">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Ranged Strength icon.png"
-            />
+              alt="ranged strength"
+            >
             {{ localMonster.ranged_bonus }}
           </div>
           <div class="monster-detail-header monster-detail-defensive-stats-header">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Defence icon.png"
-            />
+              alt="defence"
+            >
             Defensive stats
           </div>
           <div class="monster-detail-stat monster-detail-stab-defence">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/White dagger.png"
-            />
+              alt="white dagger"
+            >
             {{ localMonster.defence_stab }}
           </div>
           <div class="monster-detail-stat monster-detail-slash-defence">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/White scimitar.png"
-            />
+              alt="white scimitar"
+            >
             {{ localMonster.defence_slash }}
           </div>
           <div class="monster-detail-stat monster-detail-crush-defence">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/White warhammer.png"
-            />
+              alt="white warhammer"
+            >
             {{ localMonster.defence_crush }}
           </div>
           <div class="monster-detail-stat monster-detail-magic-defence">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Magic icon.png"
-            />
+              alt="magic"
+            >
             {{ localMonster.defence_magic }}
           </div>
           <div class="monster-detail-stat monster-detail-ranged-defence">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Ranged icon.png"
-            />
+              alt="ranged"
+            >
             {{ localMonster.defence_ranged }}
           </div>
           <div class="monster-detail-header monster-detail-immunities-header">
             Immunities
           </div>
           <div class="monster-detail-stat monster-detail-immunity-poison">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Poison hitsplat.png"
-            />
+              alt="poison"
+            >
             {{ localMonster.immune_poison ? 'Immune to poison' : 'Not immune to poison' }}
           </div>
           <div class="monster-detail-stat monster-detail-immunity-venom">
-            <v-img
-              contain
+            <img
               src="../../assets/osrs/Venom hitsplat.png"
-            />
+              alt="venom"
+            >
             {{ localMonster.immune_venom ? 'Immune to venom' : 'Not immune to venom' }}
           </div>
         </div>

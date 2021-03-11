@@ -50,8 +50,8 @@ class Dps {
   targetDefenceRollModifiers = new Map();
 
   constructor({
-    skills, equipment, bonuses, boosts, stance, weapon, spell,
-  }, target, settings) {
+    skills, equipment, bonuses, boosts, stance, weapon, spell, settings,
+  }, target) {
     this.skills = { ...skills };
     this.equipment = { ...equipment };
     this.bonuses = { ...bonuses };
@@ -60,7 +60,7 @@ class Dps {
     this.weapon = weapon;
     this.target = { ...target };
     this.debuffedTarget = { ...target };
-    this.settings = settings;
+    this.settings = { ...settings };
     this.spell = spell;
   }
 
@@ -122,55 +122,80 @@ class Dps {
   }
 
   get maxHit() {
-    let result = this.effectiveStrength;
-    result *= (this.strengthBonus + 64);
-    result += 320;
-    result /= 640;
-    result = Math.floor(result);
-    result *= Math.max(this.bonuses.slayer, this.bonuses.undead);
-    result = Math.floor(result);
-    for (const value of this.damageModifiers.values()) {
-      result = Math.floor(result * value);
-    }
-    return result;
+    Object.defineProperty(this, 'maxHit', {
+      value: (() => {
+        let result = this.effectiveStrength;
+        result *= (this.strengthBonus + 64);
+        result += 320;
+        result /= 640;
+        result = Math.floor(result);
+        result *= Math.max(this.bonuses.slayer, this.bonuses.undead);
+        result = Math.floor(result);
+        for (const value of this.damageModifiers.values()) {
+          result = Math.floor(result * value);
+        }
+        return result;
+      })(),
+    });
+    return this.maxHit;
   }
 
   get attackRoll() {
-    let result = this.effectiveAttack;
-    result *= (this.attackBonus + 64);
-    result *= Math.max(this.bonuses.slayer, this.bonuses.undead);
-    result = Math.floor(result);
-    for (const value of this.accuracyModifiers.values()) {
-      result = Math.floor(result * value);
-    }
-    return result;
+    Object.defineProperty(this, 'attackRoll', {
+      value: (() => {
+        let result = this.effectiveAttack;
+        result *= (this.attackBonus + 64);
+        result *= Math.max(this.bonuses.slayer, this.bonuses.undead);
+        result = Math.floor(result);
+        for (const value of this.accuracyModifiers.values()) {
+          result = Math.floor(result * value);
+        }
+        return result;
+      })(),
+    });
+    return this.attackRoll;
   }
 
   get defenceRoll() {
-    const targetDefence = this.targetDefence + 9;
-    const targetStyleDefence = this.targetDefenceBonus + 64;
-    let result = targetDefence * targetStyleDefence;
-    for (const value of this.targetDefenceRollModifiers.values()) {
-      result = Math.floor(result * value);
-    }
-    return result;
+    Object.defineProperty(this, 'defenceRoll', {
+      value: (() => {
+        const targetDefence = this.targetDefence + 9;
+        const targetStyleDefence = this.targetDefenceBonus + 64;
+        let result = targetDefence * targetStyleDefence;
+        for (const value of this.targetDefenceRollModifiers.values()) {
+          result = Math.floor(result * value);
+        }
+        return result;
+      })(),
+    });
+    return this.defenceRoll;
   }
 
   get hitChance() {
-    const { attackRoll } = this;
-    const { defenceRoll } = this;
-    if (attackRoll > defenceRoll) {
-      return 1 - ((defenceRoll + 2) / (2 * attackRoll + 1));
-    }
-    return attackRoll / (2 * defenceRoll + 1);
+    Object.defineProperty(this, 'hitChance', {
+      value: (() => {
+        const { attackRoll } = this;
+        const { defenceRoll } = this;
+        if (attackRoll > defenceRoll) {
+          return 1 - ((defenceRoll + 2) / (2 * attackRoll + 1));
+        }
+        return attackRoll / (2 * defenceRoll + 1);
+      })(),
+    });
+    return this.hitChance;
   }
 
   get averageDamage() {
-    let avgDmg = this.maxHit * this.hitChance / 2;
-    for (const value of this.averageDamageModifier.values()) {
-      avgDmg *= value;
-    }
-    return avgDmg;
+    Object.defineProperty(this, 'averageDamage', {
+      value: (() => {
+        let avgDmg = this.maxHit * this.hitChance / 2;
+        for (const value of this.averageDamageModifier.values()) {
+          avgDmg *= value;
+        }
+        return avgDmg;
+      })(),
+    });
+    return this.averageDamage;
   }
 
   get dps() {

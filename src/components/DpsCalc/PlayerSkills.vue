@@ -5,7 +5,10 @@
       @enter-pressed="fetchPlayer(playerName)"
     >
       <template #prepend>
-        <v-img src="../../assets/osrs/HiScores icon.png" />
+        <img
+          src="../../assets/osrs/HiScores icon.png"
+          alt="Hi scores"
+        >
       </template>
       <template #append>
         <osrs-flat-button @click="fetchPlayer(playerName)">
@@ -138,17 +141,6 @@ export default {
   justify-content: flex-start;
   align-items: center;
   height: 100%;
-}
-
-.hiscores-search-img {
-  display: flex;
-  height: 36px;
-  width: 36px;
-  align-items: center;
-}
-
-.player-skills-player-name-input {
-  font-size: 20px;
 }
 
 .player-skills-grid {

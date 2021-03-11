@@ -119,6 +119,7 @@ export default {
   },
   data() {
     return {
+      internalEquipment: undefined,
       equipSelectDialog: {
         show: false,
         itemSlots: ['weapon', '2h'],
@@ -129,7 +130,37 @@ export default {
   computed: {
     showDartsSlot() {
       const blowpipeId = 12926;
-      return !!(this.equipment.weapon && this.equipment.weapon.id === blowpipeId);
+      return !!(this.computedEquipment.weapon && this.computedEquipment.weapon.id === blowpipeId);
+    },
+    computedEquipment: {
+      get() {
+        return this.internalEquipment;
+      },
+      set(val) {
+        this.internalEquipment = val;
+        this.$emit('update:equipment', val);
+      },
+    },
+  },
+  watch: {
+    equipment: {
+      immediate: true,
+      handler(value) {
+        this.internalEquipment = value || {
+          head: undefined,
+          cape: undefined,
+          neck: undefined,
+          ammo: undefined,
+          weapon: undefined,
+          body: undefined,
+          shield: undefined,
+          legs: undefined,
+          hands: undefined,
+          feet: undefined,
+          ring: undefined,
+          darts: undefined,
+        };
+      },
     },
   },
   methods: {
@@ -139,7 +170,7 @@ export default {
       this.equipSelectDialog.show = true;
     },
     itemSelected(item) {
-      const localEquipment = { ...this.equipment };
+      const localEquipment = { ...this.computedEquipment };
       if (item) {
         let { slot } = item.equipment;
         if (/^\w+\sdart$/.test(item.name)) {
@@ -161,10 +192,10 @@ export default {
         }
         localEquipment[slot] = undefined;
       }
-      this.$emit('update:equipment', localEquipment);
+      this.computedEquipment = localEquipment;
     },
     clear() {
-      this.$emit('update:equipment', {
+      this.computedEquipment = {
         head: undefined,
         cape: undefined,
         neck: undefined,
@@ -177,7 +208,7 @@ export default {
         feet: undefined,
         ring: undefined,
         darts: undefined,
-      });
+      };
     },
   },
 };

@@ -4,22 +4,40 @@
       v-model="selectedTab"
     >
       <osrs-tab>
-        <img src="../../assets/osrs/Combat icon.png" />
+        <img
+          src="../../assets/osrs/Combat icon.png"
+          alt="Combat"
+        >
       </osrs-tab>
       <osrs-tab>
-        <img src="../../assets/osrs/Stats icon.png" />
+        <img
+          src="../../assets/osrs/Stats icon.png"
+          alt="Stats"
+        >
       </osrs-tab>
       <osrs-tab>
-        <img src="../../assets/osrs/Worn equipment.png" />
+        <img
+          src="../../assets/osrs/Worn equipment.png"
+          alt="Equipment"
+        >
       </osrs-tab>
       <osrs-tab>
-        <img src="../../assets/osrs/Prayer tab icon.png" />
+        <img
+          src="../../assets/osrs/Prayer tab icon.png"
+          alt="Prayers"
+        >
       </osrs-tab>
       <osrs-tab>
-        <img src="../../assets/osrs/Vial.png" />
+        <img
+          src="../../assets/osrs/Vial.png"
+          alt="Potions"
+        >
       </osrs-tab>
       <osrs-tab>
-        <img src="../../assets/osrs/Cog.png" />
+        <img
+          src="../../assets/osrs/Cog.png"
+          alt="Settings"
+        >
       </osrs-tab>
     </osrs-tabs>
     <osrs-tab-items
@@ -41,7 +59,8 @@
       <osrs-tab-item>
         <div class="loadout-details-equipment-tab">
           <player-equipment
-            :equipment.sync="loadout.equipment"
+            :equipment="loadout.equipment"
+            @update:equipment="equipmentChanged"
           />
           <equipment-stats
             :equipment="loadout.equipment"
@@ -69,7 +88,6 @@
 </template>
 
 <script>
-import BoostManager from '../../dps-calc/boost.manager';
 import OsrsContainer from '../OsrsContainer.vue';
 import OsrsTabs from '../OsrsTabs/OsrsTabs.vue';
 import OsrsTab from '../OsrsTabs/OsrsTab.vue';
@@ -122,7 +140,7 @@ export default {
         skills: {},
         stance: {},
         boosts: [],
-        activePrayers: [],
+        prayers: [],
         potions: [],
         settings: {},
         spell: undefined,
@@ -134,46 +152,45 @@ export default {
       return this.loadout.equipment && this.loadout.equipment.weapon
         ? this.loadout.equipment.weapon : undefined;
     },
+    internalLoadout: {
+      get() {
+        return this.loadout;
+      },
+      set(val) {
+        this.loadout = val;
+        this.$emit('input', val);
+      },
+    },
   },
   watch: {
     value: {
       immediate: true,
       handler(value) {
-        if (value) {
-          this.loadout = value;
-        }
+        this.loadout = value || {};
       },
     },
   },
   methods: {
     setStance(stance) {
-      this.loadout.stance = stance;
+      this.internalLoadout = { ...this.internalLoadout, stance };
     },
     setSkills(skills) {
-      this.loadout.skills = skills;
+      this.internalLoadout = { ...this.internalLoadout, skills };
     },
-    updateBoosts() {
-      this.loadout.boosts = [
-        ...BoostManager.getPrayerBoosts(this.loadout.activePrayers),
-        ...BoostManager.getEquipmentBoosts(this.loadout.equipment),
-        ...BoostManager.getPotionBoosts(this.loadout.potions),
-        ...BoostManager.getOtherBoosts(this.loadout.settings),
-      ];
-    },
-    prayersChanged(activePrayers) {
-      this.loadout.activePrayers = activePrayers;
-      this.updateBoosts();
+    prayersChanged(prayers) {
+      this.internalLoadout = { ...this.internalLoadout, prayers };
     },
     potionsChanged(potions) {
-      this.loadout.potions = potions;
-      this.updateBoosts();
+      this.internalLoadout = { ...this.internalLoadout, potions };
     },
     settingsChanged(settings) {
-      this.loadout.settings = settings;
-      this.updateBoosts();
+      this.internalLoadout = { ...this.internalLoadout, settings };
     },
     spellSelected(spell) {
-      this.loadout.spell = spell;
+      this.internalLoadout = { ...this.internalLoadout, spell };
+    },
+    equipmentChanged(equipment) {
+      this.internalLoadout = { ...this.internalLoadout, equipment };
     },
   },
 };

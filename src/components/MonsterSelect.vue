@@ -8,36 +8,27 @@
     <template #item="{ item }">
       <div class="monster-select-item">
         <span>{{ item.name }}</span>
-        <v-spacer></v-spacer>
-        <v-img
-          contain
-          max-width="20"
-          max-height="20"
+        <v-spacer />
+        <img
           class="mx-2"
           src="../assets/osrs/Combat icon.png"
           alt="Combat level"
-        />
+        >
         {{ item.combat_level }}
-        <v-img
-          contain
-          max-width="20"
-          max-height="20"
+        <img
           class="mx-2"
           src="../assets/osrs/Hitpoints icon.png"
           alt="Hitpoints"
-        />
+        >
         {{ item.hitpoints }}
       </div>
     </template>
     <template #prepend>
-      <v-img
-        contain
-        max-width="20"
-        max-height="20"
+      <img
         class="me-2"
         src="../assets/osrs/Monster Examine.png"
         alt="Monster"
-      />
+      >
     </template>
   </osrs-autocomplete>
 </template>
@@ -100,10 +91,6 @@ export default {
 </script>
 
 <style scoped>
-.monster-title {
-  display: flex;
-}
-
 .monster-select-item {
   display: flex;
   justify-content: flex-start;

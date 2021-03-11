@@ -1,57 +1,56 @@
 <template>
   <osrs-container
     class="calc-result-container"
-    @dblclick="clicked"
   >
     <div
-      v-if="dpsResult"
+      v-if="loadouts && target"
     >
       <div class="calc-result-grid">
         <span class="crg-header">
           Combat
         </span>
         <span class="crg-cell">
-          {{ combatType }}
+          {{ combatType(dpsLoadout1) }}
         </span>
         <span class="crg-cell" />
         <span class="crg-cell">
-          {{ combatType2 }}
+          {{ combatType(dpsLoadout2) }}
         </span>
         <span class="crg-header">
           Max hit
         </span>
         <span class="crg-cell">
-          {{ dpsResult.maxHit }}
+          {{ dpsLoadout1.maxHit }}
         </span>
         <span class="crg-cell crg-cell-middle">
-          {{ valueDifference(dpsResult.maxHit, comparisonDpsResult.maxHit) }}
+          {{ valueDifference(dpsLoadout1.maxHit, dpsLoadout2.maxHit) }}
         </span>
         <span class="crg-cell">
-          {{ comparisonDpsResult.maxHit }}
+          {{ dpsLoadout2.maxHit }}
         </span>
         <span class="crg-header">
           Accuracy
         </span>
         <span class="crg-cell">
-          {{ formattedHitChance }}
+          {{ formatHitChance(dpsLoadout1.hitChance) }}
         </span>
         <span class="crg-cell crg-cell-middle">
-          {{ valueDifference(dpsResult.hitChance, comparisonDpsResult.hitChance) }}
+          {{ valueDifference(dpsLoadout1.hitChance, dpsLoadout2.hitChance) }}
         </span>
         <span class="crg-cell">
-          {{ formattedHitChance2 }}
+          {{ formatHitChance(dpsLoadout2.hitChance) }}
         </span>
         <span class="crg-header">
           DPS
         </span>
         <span class="crg-cell">
-          {{ formattedDps }}
+          {{ formatDps(dpsLoadout1.dps) }}
         </span>
         <span class="crg-cell crg-cell-middle">
-          {{ valueDifference(dpsResult.dps, comparisonDpsResult.dps) }}
+          {{ valueDifference(dpsLoadout1.dps, dpsLoadout2.dps) }}
         </span>
         <span class="crg-cell">
-          {{ formattedDps2 }}
+          {{ formatDps(dpsLoadout2.dps) }}
         </span>
       </div>
       <osrs-tabs
@@ -63,7 +62,7 @@
           v-for="(boosts, index) of computedBoosts"
           :key="index"
         >
-          <span>Loadout {{ index + 1 }}</span>
+          <span>Loadout {{ index + 1 }} ({{ boosts.length }})</span>
         </osrs-tab>
       </osrs-tabs>
       <osrs-tab-items
@@ -90,8 +89,9 @@
 </template>
 
 <script>
-import RangedDps from '../../dps-calc/ranged-dps';
+import DpsCalculator from '../../dps-calc/dps-calculator';
 import MagicDps from '../../dps-calc/magic-dps';
+import RangedDps from '../../dps-calc/ranged-dps';
 import OsrsContainer from '../OsrsContainer.vue';
 import OsrsTabs from '../OsrsTabs/OsrsTabs.vue';
 import OsrsTab from '../OsrsTabs/OsrsTab.vue';
@@ -99,16 +99,19 @@ import OsrsTabItems from '../OsrsTabs/OsrsTabItems.vue';
 import OsrsTabItem from '../OsrsTabs/OsrsTabItem.vue';
 
 export default {
-  name: 'CalculationResult',
+  name: 'DpsDetails',
   components: {
     OsrsTabItem, OsrsTabItems, OsrsTab, OsrsTabs, OsrsContainer,
   },
   props: {
-    dpsResult: {
-      type: Object,
-      default: undefined,
+    loadouts: {
+      type: Array,
+      default: () => [],
+      validator(value) {
+        return Array.isArray(value) && value.length > 0 && value.length <= 2;
+      },
     },
-    comparisonDpsResult: {
+    target: {
       type: Object,
       default: undefined,
     },
@@ -119,62 +122,22 @@ export default {
     };
   },
   computed: {
-    combatType() {
-      if (this.dpsResult instanceof RangedDps) {
-        return 'Ranged';
-      }
-      if (this.dpsResult instanceof MagicDps) {
-        return 'Magic';
-      }
-      return 'Melee';
+    dpsLoadout1() {
+      return this.calculate(this.loadouts[0]);
     },
-    combatType2() {
-      if (this.comparisonDpsResult instanceof RangedDps) {
-        return 'Ranged';
-      }
-      if (this.comparisonDpsResult instanceof MagicDps) {
-        return 'Magic';
-      }
-      return 'Melee';
-    },
-    formattedHitChance() {
-      if (this.dpsResult) {
-        return `${(this.dpsResult.hitChance * 100).toFixed(2)}%`;
-      }
-      return '';
-    },
-    formattedHitChance2() {
-      if (this.comparisonDpsResult) {
-        return `${(this.comparisonDpsResult.hitChance * 100).toFixed(2)}%`;
-      }
-      return '';
-    },
-    formattedDps() {
-      if (this.dpsResult) {
-        return this.dpsResult.dps.toFixed(4);
-      }
-      return '';
-    },
-    formattedDps2() {
-      if (this.comparisonDpsResult) {
-        return this.comparisonDpsResult.dps.toFixed(4);
-      }
-      return '';
+    dpsLoadout2() {
+      return this.calculate(this.loadouts[1]);
     },
     computedBoosts() {
       const boosts = [];
-      if (this.dpsResult) {
-        boosts.push(this.dpsResult.boosts.filter((boost) => boost.show));
-      }
-      if (this.comparisonDpsResult) {
-        boosts.push(this.comparisonDpsResult.boosts.filter((boost) => boost.show));
-      }
+      boosts.push(this.dpsLoadout1.boosts.filter((i) => i.show));
+      boosts.push(this.dpsLoadout2.boosts.filter((i) => i.show));
       return boosts;
     },
   },
   methods: {
-    clicked() {
-      console.log(this.dpsResult);
+    calculate(loadout) {
+      return DpsCalculator.calculate(loadout, this.target);
     },
     valueDifference(a, b) {
       if (a === b) {
@@ -184,6 +147,21 @@ export default {
         return `< +${((a - b) / a * 100).toFixed(2)}%`;
       }
       return `+${((b - a) / b * 100).toFixed(2)}% >`;
+    },
+    combatType(dps) {
+      if (dps instanceof RangedDps) {
+        return 'Ranged';
+      }
+      if (dps instanceof MagicDps) {
+        return 'Magic';
+      }
+      return 'Melee';
+    },
+    formatHitChance(hitChance) {
+      return `${(hitChance * 100).toFixed(2)}%`;
+    },
+    formatDps(dps) {
+      return `${dps.toFixed(4)}`;
     },
   },
 };

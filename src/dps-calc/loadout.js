@@ -1,7 +1,8 @@
 import PassiveBoost from './boosts/passive-boost';
 import StanceBoost from './boosts/stance-boost';
+import BoostManager from './boost.manager';
 
-class Player {
+class Loadout {
   skills = {
     attack: 1,
     strength: 1,
@@ -45,29 +46,34 @@ class Player {
     undead: 1,
   };
 
-  boosts = [new PassiveBoost(), new StanceBoost()];
+  boosts;
 
   stance;
 
   spell;
 
+  prayers;
+
+  potions;
+
+  settings;
+
   constructor({
-    skills, equipment, boosts, stance, spell,
+    skills, equipment, stance, spell, prayers, potions, settings,
   }) {
-    this.skills = { ...skills };
-    this.equipment = { ...equipment };
-    this.boosts = [...this.boosts, ...boosts];
-    this.stance = stance || {
-      attack_style: 'accurate',
-      attack_type: 'crush',
-      boosts: '',
-      combat_style: 'punch',
-    };
+    this.skills = skills;
+    this.equipment = equipment;
+    this.stance = stance;
     this.spell = spell;
+    this.prayers = prayers;
+    this.potions = potions;
+    this.settings = settings;
     this.calculateBonuses();
+    this.calculateBoosts();
   }
 
   calculateBonuses() {
+    if (!this.equipment) return;
     const skipBonuses = ['requirements', 'slot'];
     Object.values(this.equipment)
       .filter(Boolean)
@@ -82,29 +88,23 @@ class Player {
       });
   }
 
-  // accepts a single id or an array of ids
-  hasEquipped(equipIds) {
-    let ids;
-    if (!Array.isArray(equipIds)) {
-      ids = [equipIds];
-    } else {
-      ids = equipIds;
-    }
-    const equipsArray = Object.values(this.equipment);
-    for (let i = 0; i < ids.length; i++) {
-      if (!equipsArray.some((equip) => ids.indexOf(equip.id) > -1)) {
-        return false;
-      }
-    }
-    return true;
+  calculateBoosts() {
+    const boosts = [new PassiveBoost(), new StanceBoost()];
+    boosts.push(
+      ...BoostManager.getPrayerBoosts(this.prayers),
+      ...BoostManager.getEquipmentBoosts(this.equipment),
+      ...BoostManager.getPotionBoosts(this.potions),
+      ...BoostManager.getOtherBoosts(this.settings),
+    );
+    this.boosts = boosts;
   }
 
-  get weapon() {
-    if (this.equipment.weapon) {
-      return this.equipment.weapon.weapon;
-    }
-    return undefined;
-  }
+  // get weapon() {
+  //   if (this.equipment.weapon) {
+  //     return this.equipment.weapon.weapon;
+  //   }
+  //   return undefined;
+  // }
 }
 
-export default Player;
+export default Loadout;

@@ -5,18 +5,17 @@
       :key="prayer.id"
       font-size="24px"
     >
-      <template #activator>
+      <template #activator="{ on }">
         <div
           :class="{'active-prayer': isPrayerActive(prayer)}"
           class="player-prayer-icon-container"
           @click="prayerToggle(prayer)"
+          v-on="on"
         >
-          <v-img
+          <img
             :src="`data:image/png;base64,${prayer.icon}`"
-            width="40px"
-            height="40px"
-            contain
-          />
+            :alt="prayer.name"
+          >
         </div>
       </template>
       <div>
@@ -149,8 +148,8 @@ export default {
   border-radius: 100%;
   background: transparent;
   padding: 2px;
-  width: 100%;
-  height: 100%;
+  min-width: 40px;
+  min-height: 40px;
   cursor: pointer;
 }
 

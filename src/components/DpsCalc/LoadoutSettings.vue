@@ -7,8 +7,9 @@
           <img
             v-if="dwhObject"
             :src="`data:image/png;base64,${dwhObject.icon}`"
+            alt="Dragon warhammer"
             v-on="on"
-          />
+          >
         </template>
         <span>Dragon warhammer specials that hit and deal more than 0 damage</span> <br>
         <span>Each hit reduces defence level by 30% of current defence level</span>
@@ -20,12 +21,13 @@
       />
       <!-- Arclight setting -->
       <osrs-tooltip>
-        <template #activator="{on}">
-          <v-img
+        <template #activator="{ on }">
+          <img
             v-if="arclightObject"
             :src="`data:image/png;base64,${arclightObject.icon}`"
+            alt="Arclight"
             v-on="on"
-          />
+          >
         </template>
         <span>Arclight/Darklight specials hit</span> <br>
         <span>Each hit reduces defence level by 5% (10% if demon)</span>
@@ -38,11 +40,12 @@
       <!-- Bgs setting -->
       <osrs-tooltip>
         <template #activator="{ on }">
-          <v-img
+          <img
             v-if="bgsObject"
             :src="`data:image/png;base64,${bgsObject.icon}`"
+            alt="Bandos godsword"
             v-on="on"
-          />
+          >
         </template>
         <span>Bandos godsword specials damage</span> <br>
         <span>Reduces defence (and other stats) by this amount</span> <br>
@@ -54,10 +57,10 @@
         @input="updateSettings"
       />
       <!-- Slayer setting -->
-      <v-img
-        contain
+      <img
         src="../../assets/osrs/Slayer icon.png"
-      />
+        alt="Slayer"
+      >
       <osrs-tooltip>
         <template #activator="{ on }">
           <osrs-checkbox
@@ -71,11 +74,11 @@
       <!-- Hitpoints setting -->
       <osrs-tooltip>
         <template #activator="{ on }">
-          <v-img
-            contain
+          <img
             src="../../assets/osrs/Hitpoints icon.png"
+            alt="Hitpoints"
             v-on="on"
-          />
+          >
         </template>
         <span>Your current hitpoints</span> <br>
         <span>Used for Dharok's set effect</span>
@@ -86,11 +89,11 @@
         :max="99"
         @input="updateSettings"
       />
-      <!-- Hitpoints setting -->
-      <v-img
-        contain
+      <!-- Wilderness setting -->
+      <img
         src="../../assets/osrs/Skull icon.png"
-      />
+        alt="Skull"
+      >
       <osrs-tooltip>
         <template #activator="{ on }">
           <osrs-checkbox

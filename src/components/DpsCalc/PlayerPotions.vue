@@ -16,7 +16,10 @@
             @click="selectionPotion(category, undefined)"
             v-on="on"
           >
-            <v-img src="../../assets/osrs/Vial.png" />
+            <img
+              src="../../assets/osrs/Vial.png"
+              alt="None"
+            >
           </div>
         </template>
         <span>Nothing</span>
@@ -32,9 +35,10 @@
             @click="selectionPotion(category, potion)"
             v-on="on"
           >
-            <v-img
+            <img
               :src="getImageSrc(potion)"
-            />
+              :alt="potion.name"
+            >
           </div>
         </template>
         <span>{{ potion.name }}</span>

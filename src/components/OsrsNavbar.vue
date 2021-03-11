@@ -1,9 +1,10 @@
 <template>
   <div class="osrs-navbar-container">
     <div class="osrs-navbar-app-icon">
-      <v-img
+      <img
         src="../assets/osrs/Worn equipment.png"
-      />
+        alt="app icon"
+      >
     </div>
     <router-link
       class="osrs-navbar-link"

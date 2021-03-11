@@ -28,6 +28,10 @@ export default {
       type: Array,
       default: undefined,
     },
+    value: {
+      type: Object,
+      default: undefined,
+    },
   },
   data() {
     return {
@@ -36,7 +40,7 @@ export default {
   },
   watch: {
     target: function targetChanged(target) {
-      this.$emit('target-changed', target);
+      this.$emit('input', target);
     },
   },
   methods: {

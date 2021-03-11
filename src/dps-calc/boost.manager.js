@@ -125,6 +125,7 @@ class BoostManager {
   }
 
   static getEquipmentBoosts(equipment) {
+    if (!equipment) return [];
     const boosts = [];
     BoostManager
       .itemEffects

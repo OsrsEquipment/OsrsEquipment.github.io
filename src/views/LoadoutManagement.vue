@@ -1,26 +1,43 @@
 <template>
-  <v-container class="loadout-management-container">
+  <v-container
+    v-scroll="onScroll"
+    class="loadout-management-container"
+  >
     <div class="loadout-overview-container">
       <div
         class="single-loadout-container"
       >
-        <osrs-text-input
-          v-model="tempLoadout.name"
-        />
-        <loadout-details
-          :value="tempLoadout"
-        />
-        <div class="single-loadout-container-actions">
-          <osrs-flat-button
-            class="manage-loadout-buttons"
-            @click="saveLoadout"
+        <template v-if="addingNewLoadout">
+          <osrs-text-input
+            v-model="tempLoadout.name"
+          />
+          <loadout-details
+            :value="tempLoadout"
+          />
+          <div class="single-loadout-container-actions">
+            <osrs-flat-button
+              class="manage-loadout-buttons"
+              @click="saveLoadout"
+            >
+              Save
+            </osrs-flat-button>
+          </div>
+        </template>
+        <template v-else>
+          <osrs-container
+            class="single-loadout-container new-loadout-container"
           >
-            Save
-          </osrs-flat-button>
-        </div>
+            <osrs-flat-button
+              class="manage-loadout-buttons"
+              @click="newLoadout"
+            >
+              New loadout
+            </osrs-flat-button>
+          </osrs-container>
+        </template>
       </div>
       <div
-        v-for="loadout of loadouts"
+        v-for="loadout of computedLoadouts"
         :key="loadout.name"
         class="single-loadout-container"
       >
@@ -31,6 +48,12 @@
           :value="loadout"
         />
         <div class="single-loadout-container-actions">
+          <osrs-flat-button
+            class="manage-loadout-buttons"
+            @click="copyLoadout(loadout)"
+          >
+            Copy
+          </osrs-flat-button>
           <osrs-flat-button
             class="manage-loadout-buttons"
             @click="updateLoadout(loadout)"
@@ -54,10 +77,13 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 import LoadoutDetails from '../components/DpsCalc/LoadoutDetails.vue';
 import OsrsFlatButton from '../components/OsrsFlatButton.vue';
 import OsrsTextInput from '../components/OsrsTextInput.vue';
+import OsrsContainer from '../components/OsrsContainer.vue';
 
 export default {
   name: 'LoadoutManagement',
-  components: { OsrsTextInput, OsrsFlatButton, LoadoutDetails },
+  components: {
+    OsrsContainer, OsrsTextInput, OsrsFlatButton, LoadoutDetails,
+  },
   data() {
     return {
       tempLoadout: {
@@ -71,6 +97,8 @@ export default {
         settings: {},
         spell: undefined,
       },
+      lastItem: 7,
+      addingNewLoadout: false,
     };
   },
   computed: {
@@ -80,6 +108,9 @@ export default {
     ...mapGetters({
       getByName: 'loadouts/getByName',
     }),
+    computedLoadouts() {
+      return this.loadouts.slice(0, this.lastItem);
+    },
   },
   methods: {
     ...mapActions({
@@ -88,6 +119,9 @@ export default {
       update: 'loadouts/update',
       clear: 'loadouts/clear',
     }),
+    newLoadout() {
+      this.addingNewLoadout = true;
+    },
     saveLoadout() {
       if (
         this.tempLoadout
@@ -95,7 +129,7 @@ export default {
         && this.tempLoadout.name.length > 0
         && !this.getByName(this.tempLoadout.name)
       ) {
-        console.log(this.tempLoadout);
+        this.addingNewLoadout = false;
         this.add({ name: this.tempLoadout.name, loadout: { ...this.tempLoadout } });
         this.tempLoadout = {
           name: 'New loadout',
@@ -118,6 +152,24 @@ export default {
     deleteLoadout(loadout) {
       this.remove({ loadout });
     },
+    copyLoadout(loadout) {
+      this.tempLoadout = { ...loadout };
+      this.addingNewLoadout = true;
+    },
+    onScroll() {
+      if (this.lastItem > this.loadouts.length) return;
+
+      const showMoreItems = (
+        document.documentElement.scrollHeight
+        - (document.documentElement.scrollTop
+          + document.documentElement.clientHeight)
+      ) < 400;
+
+      if (showMoreItems) {
+        console.log('last item ', this.lastItem);
+        this.lastItem += 4;
+      }
+    },
   },
 };
 </script>
@@ -131,6 +183,7 @@ export default {
 }
 
 .single-loadout-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -156,4 +209,13 @@ export default {
   margin: 0 5px;
 }
 
+.new-loadout-container {
+  position: relative;
+  min-width: 360px;
+  max-width: 400px;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 </style>

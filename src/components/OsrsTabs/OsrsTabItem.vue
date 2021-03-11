@@ -7,7 +7,12 @@
       class="osrs-tab-item-container"
       :class="{'osrs-active-tab-item': active}"
     >
-      <slot />
+      <v-lazy
+        class="lazy-tab-item"
+        :transition="''"
+      >
+        <slot />
+      </v-lazy>
     </div>
   </v-item>
 </template>
@@ -29,5 +34,13 @@ export default {
 
 .osrs-tab-item-container.osrs-active-tab-item {
   display: flex;
+}
+
+.lazy-tab-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
 }
 </style>

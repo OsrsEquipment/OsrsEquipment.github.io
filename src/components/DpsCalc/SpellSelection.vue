@@ -2,14 +2,16 @@
   <div>
     <osrs-tabs v-model="selectedTab">
       <osrs-tab>
-        <v-img
+        <img
           src="../../assets/osrs/Spellbook.png"
-        />
+          alt="Standard spellbook"
+        >
       </osrs-tab>
       <osrs-tab>
-        <v-img
+        <img
           src="../../assets/osrs/Ancient_spellbook.png"
-        />
+          alt="Ancient spellbook"
+        >
       </osrs-tab>
       <osrs-tab>Other</osrs-tab>
     </osrs-tabs>
@@ -24,11 +26,11 @@
             @click="selectSpell(spell)"
           >
             <template #activator="{ on }">
-              <v-img
-                contain
+              <img
                 :src="`data:image/png;base64,${spell.icon}`"
+                :alt="spell.name"
                 v-on="on"
-              />
+              >
             </template>
             <span>{{ spell.name }}</span>
           </osrs-tooltip>
@@ -43,11 +45,11 @@
             @click="selectSpell(spell)"
           >
             <template #activator="{ on }">
-              <v-img
-                contain
+              <img
                 :src="`data:image/png;base64,${spell.icon}`"
+                :alt="spell.name"
                 v-on="on"
-              />
+              >
             </template>
             <span>{{ spell.name }}</span>
           </osrs-tooltip>
@@ -62,11 +64,11 @@
             @click="selectSpell(spell)"
           >
             <template #activator="{ on }">
-              <v-img
-                contain
+              <img
                 :src="`data:image/png;base64,${spell.icon}`"
+                :alt="spell.name"
                 v-on="on"
-              />
+              >
             </template>
             <span>{{ spell.name }}</span>
           </osrs-tooltip>

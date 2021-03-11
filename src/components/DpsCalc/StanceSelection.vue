@@ -57,10 +57,10 @@
           <span>
             {{ selectedSpell.name }}
           </span>
-          <v-img
-            contain
+          <img
             :src="`data:image/png;base64,${selectedSpell.icon}`"
-          />
+            :alt="selectedSpell.name"
+          >
         </div>
       </div>
     </template>

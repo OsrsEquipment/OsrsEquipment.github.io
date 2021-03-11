@@ -5,17 +5,15 @@
   >
     <img
       class="player-equip-slot-bg"
-      :width="width"
-      :height="height"
       :src="slotBg"
-    />
+      alt="slot"
+    >
     <img
       v-if="hasItemEquipped"
       class="player-equip-slot-equipped-item"
-      :width="width"
-      :height="height"
       :src="`data:image/png;base64,${equippedItem.icon}`"
-    />
+      :alt="equippedItem.name"
+    >
   </div>
 </template>
 
@@ -67,6 +65,7 @@ export default {
 
 .player-equip-slot-equipped-item {
   position: absolute;
-  top: 0;
+  top: 2px;
+  left: 2px;
 }
 </style>

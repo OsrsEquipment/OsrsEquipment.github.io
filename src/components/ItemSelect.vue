@@ -7,10 +7,10 @@
   >
     <template #item="{ item }">
       <div class="item-select-list-item">
-        <v-img
-          contain
+        <img
           :src="`data:image/png;base64,${item.icon}`"
-        />
+          :alt="item.name"
+        >
         <v-list-item-title v-text="item.name" />
       </div>
     </template>

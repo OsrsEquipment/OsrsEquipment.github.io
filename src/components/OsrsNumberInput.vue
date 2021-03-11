@@ -9,7 +9,7 @@
       type="number"
       :min="min"
       :max="max"
-      @input="$emit('input', $event.target.value)"
+      @input="$emit('input', Number($event.target.value))"
       @keyup="detectEnter"
     >
     <div class="osrs-number-input-append">
