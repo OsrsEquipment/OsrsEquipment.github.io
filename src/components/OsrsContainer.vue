@@ -17,7 +17,6 @@ export default {
   display: block;
   border: 5px ridge var(--osrs-light-brown);
   background-color: var(--osrs-brown);
-  padding: 4px 8px;
   box-shadow: 1px 1px 6px black;
 }
 </style>
