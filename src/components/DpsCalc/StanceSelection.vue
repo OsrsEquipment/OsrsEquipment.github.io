@@ -11,7 +11,7 @@
           <osrs-tooltip
             v-for="(stance, index) in stances"
             :key="index"
-            font-size="32px"
+            font-size="24px"
           >
             <template #activator="{ on }">
               <osrs-flat-button
@@ -192,14 +192,14 @@ export default {
   width: calc(128px * 2 + 10px);
   margin: 20px 5px;
   display: grid;
-  grid-template-columns: 128px 128px;
-  grid-auto-rows: 64px;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 48px;
   gap: 4px;
   place-items: center;
 }
 
 .stance-selection-stance {
-  width: 128px;
+  width: 96px;
 }
 
 .stance-selection-header {

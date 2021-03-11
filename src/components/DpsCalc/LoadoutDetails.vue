@@ -2,6 +2,7 @@
   <osrs-container class="loadout-details-container">
     <osrs-tabs
       v-model="selectedTab"
+      class="loadout-tabs-container"
     >
       <osrs-tab>
         <img
@@ -119,7 +120,7 @@ export default {
   },
   provide() {
     return {
-      loadout: this.loadout,
+      loadout: this.internalLoadout,
     };
   },
   props: {
@@ -135,6 +136,47 @@ export default {
   data() {
     return {
       selectedTab: 2,
+      defaultLoadout: {
+        skills: {
+          attack: 99,
+          hitpoints: 99,
+          mining: 99,
+          strength: 99,
+          agility: 99,
+          smithing: 99,
+          defence: 99,
+          herblore: 99,
+          fishing: 99,
+          ranged: 99,
+          thieving: 99,
+          cooking: 99,
+          prayer: 99,
+          crafting: 99,
+          firemaking: 99,
+          magic: 99,
+          fletching: 99,
+          woodcutting: 99,
+          runecraft: 1,
+          slayer: 99,
+          farming: 99,
+          construction: 99,
+          hunter: 99,
+        },
+        settings: {
+          bgsSpecialDamage: 0,
+          dwhSpecials: 0,
+          arclightSpecials: 0,
+          onSlayerTask: true,
+          inWilderness: true,
+          currentHitpoints: 1,
+        },
+        stance: {
+          attack_style: 'accurate',
+          attack_type: 'crush',
+          combat_style: 'punch',
+          experience: 'attack',
+        },
+      },
       loadout: {
         equipment: {},
         skills: {},
@@ -149,8 +191,8 @@ export default {
   },
   computed: {
     weapon() {
-      return this.loadout.equipment && this.loadout.equipment.weapon
-        ? this.loadout.equipment.weapon : undefined;
+      return this.internalLoadout.equipment && this.internalLoadout.equipment.weapon
+        ? this.internalLoadout.equipment.weapon : undefined;
     },
     internalLoadout: {
       get() {
@@ -166,7 +208,12 @@ export default {
     value: {
       immediate: true,
       handler(value) {
-        this.loadout = value || {};
+        console.log('Value update');
+        if (value) {
+          this.loadout = value;
+        } else {
+          this.internalLoadout = this.defaultLoadout;
+        }
       },
     },
   },
@@ -199,20 +246,23 @@ export default {
 <style scoped>
 .loadout-details-container {
   position: relative;
-  min-width: 360px;
-  max-width: 400px;
-  min-height: 520px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 320px;
+  height: 450px;
+  margin: 10px 5px;
+}
+
+.loadout-tabs-container {
+  margin: 5px;
+  height: 40px;
 }
 
 .loadout-details-tab-items {
-  width: 100%;
-  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  max-width: 100%;
+  height: calc(100% - 50px);
 }
 
 .loadout-details-equipment-tab {

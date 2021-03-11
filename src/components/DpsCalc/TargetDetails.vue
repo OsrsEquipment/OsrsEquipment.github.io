@@ -51,9 +51,9 @@ export default {
 <style scoped>
 .target-details-container {
   position: relative;
-  min-width: 350px;
-  max-width: 400px;
-  min-height: 400px;
+  width: 320px;
+  height: 450px;
+  margin: 10px 5px;
   display: flex;
   flex-direction: column;
   align-items: center;

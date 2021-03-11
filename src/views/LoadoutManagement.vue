@@ -131,17 +131,7 @@ export default {
       ) {
         this.addingNewLoadout = false;
         this.add({ name: this.tempLoadout.name, loadout: { ...this.tempLoadout } });
-        this.tempLoadout = {
-          name: 'New loadout',
-          equipment: {},
-          skills: {},
-          stance: {},
-          boosts: [],
-          activePrayers: [],
-          potions: [],
-          settings: {},
-          spell: undefined,
-        };
+        this.tempLoadout = undefined;
       } else {
         alert('Could not save, make sure you use a unique name');
       }

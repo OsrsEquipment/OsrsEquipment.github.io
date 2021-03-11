@@ -1,46 +1,45 @@
 <template>
   <v-item
     v-slot="{ active }"
-    class="osrs-tab-item"
+    ref="osrsTabItem"
   >
-    <div
-      class="osrs-tab-item-container"
-      :class="{'osrs-active-tab-item': active}"
-    >
-      <v-lazy
-        class="lazy-tab-item"
-        :transition="''"
-      >
+    <template v-if="isBooted">
+      <div v-show="active">
         <slot />
-      </v-lazy>
-    </div>
+      </div>
+    </template>
+    <template v-else>
+      <div v-show="false"></div>
+    </template>
   </v-item>
 </template>
 
 <script>
 export default {
   name: 'OsrsTabItem',
+  data() {
+    return {
+      isBooted: false,
+    };
+  },
+  mounted() {
+    this.checkBooted();
+  },
+  beforeUpdate() {
+    this.checkBooted();
+  },
+  methods: {
+    checkBooted() {
+      if (this.isBooted) return;
+      this.$nextTick(() => {
+        if (this.$refs.osrsTabItem && this.$refs.osrsTabItem.isActive) {
+          this.isBooted = true;
+        }
+      });
+    },
+  },
 };
 </script>
 
 <style scoped>
-.osrs-tab-item-container {
-  background: var(--osrs-brown);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
-.osrs-tab-item-container.osrs-active-tab-item {
-  display: flex;
-}
-
-.lazy-tab-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-}
 </style>

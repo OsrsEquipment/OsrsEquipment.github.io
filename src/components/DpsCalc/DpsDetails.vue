@@ -169,8 +169,9 @@ export default {
 
 <style scoped>
 .calc-result-container {
-  min-width: 360px;
-  max-width: 360px;
+  width: 320px;
+  height: 450px;
+  margin: 10px 5px;
 }
 
 .calc-result-grid {
@@ -211,11 +212,11 @@ export default {
 .calc-result-boost-list {
   width: 100%;
   max-width: 340px;
-  max-height: 180px;
+  max-height: 140px;
   overflow-y: auto;
   overflow-x: hidden;
   list-style: none;
-  padding: 0;
+  padding: 0 4px;
 }
 
 .calc-result-boost-list-item {

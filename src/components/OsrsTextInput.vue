@@ -48,10 +48,8 @@ export default {
 <style scoped>
 .osrs-text-input-container {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin: 8px 4px;
-  width: 100%;
+  padding: 4px;
+  max-width: 100%;
 }
 
 .osrs-text-input {
@@ -63,16 +61,16 @@ export default {
   caret-color: var(--osrs-orange);
   text-indent: 10px;
   color: var(--osrs-orange);
-  max-width: 100%;
   flex: 1;
+  width: 100%;
 }
 
 .osrs-text-input-prepend {
-  margin-right: 5px;
+  padding-right: 5px;
 }
 
 .osrs-text-input-append {
-  margin-left: 5px;
+  padding-left: 5px;
   display: flex;
   align-items: center;
 }

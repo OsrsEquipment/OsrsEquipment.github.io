@@ -43,6 +43,7 @@ import OsrsTotalLevelTile from './OsrsTotalLevelTile.vue';
 
 export default {
   name: 'PlayerSkills',
+  inject: ['loadout'],
   components: {
     OsrsTotalLevelTile,
     OsrsFlatButton,
@@ -53,31 +54,6 @@ export default {
     return {
       nameRegex: /^[A-Za-z0-9-_ ]{1,12}$/,
       playerName: undefined,
-      defaultSkills: {
-        attack: 99,
-        hitpoints: 99,
-        mining: 99,
-        strength: 99,
-        agility: 99,
-        smithing: 99,
-        defence: 99,
-        herblore: 99,
-        fishing: 99,
-        ranged: 99,
-        thieving: 99,
-        cooking: 99,
-        prayer: 99,
-        crafting: 99,
-        firemaking: 99,
-        magic: 99,
-        fletching: 99,
-        woodcutting: 99,
-        runecraft: 1,
-        slayer: 99,
-        farming: 99,
-        construction: 99,
-        hunter: 99,
-      },
       skills: undefined,
       hiScores: undefined,
     };
@@ -119,7 +95,7 @@ export default {
         });
         this.skills = result;
       } else {
-        this.skills = this.defaultSkills;
+        this.skills = this.loadout.skills;
       }
       this.$emit('skills-changed', this.skills);
     },
@@ -140,14 +116,13 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 100%;
 }
 
 .player-skills-grid {
   margin: 5px 0;
   display: grid;
-  grid-template-columns: 96px 96px 96px;
-  grid-auto-rows: 48px;
+  grid-template-columns: 64px 64px 64px;
+  grid-auto-rows: 32px;
   grid-template-areas:
     "attack hitpoints mining"
     "strength agility smithing"

@@ -1,14 +1,11 @@
 <template>
-  <div class="osrs-tabs-container">
-    <v-slide-group
-      mandatory
-      :value="value"
-      class="osrs-tabs-container-slide-group"
-      @change="$emit('input', $event)"
-    >
-      <slot />
-    </v-slide-group>
-  </div>
+  <v-slide-group
+    mandatory
+    :value="value"
+    @change="$emit('input', $event)"
+  >
+    <slot />
+  </v-slide-group>
 </template>
 
 <script>
@@ -38,16 +35,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.osrs-tabs-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  overflow: hidden;
-}
-
-.osrs-tabs-container-slide-group {
-  width: 100%;
-}
-</style>
