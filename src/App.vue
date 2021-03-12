@@ -8,11 +8,20 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import OsrsNavbar from './components/OsrsNavbar.vue';
 
 export default {
   name: 'App',
   components: { OsrsNavbar },
+  mounted() {
+    this.initMonsters();
+  },
+  methods: {
+    ...mapActions({
+      initMonsters: 'monsters/init',
+    }),
+  },
 };
 </script>
 

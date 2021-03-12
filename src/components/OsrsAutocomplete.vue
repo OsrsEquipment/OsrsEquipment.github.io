@@ -24,7 +24,7 @@
         <osrs-text-input
           id="osrsAutocompleteSearch"
           ref="osrsAutocompleteSearch"
-          v-model="search"
+          v-model="internalSearch"
           v-bind="attrs"
           v-on="on"
           @focus="onFocus"
@@ -99,21 +99,25 @@ export default {
   data() {
     return {
       menuActive: false,
-      search: undefined,
+      lazySearch: undefined,
       localItems: [],
-      lastItem: 20,
+      pageSize: 100,
+      lastItem: 100,
       selectedItem: this.value,
     };
   },
   computed: {
+    internalSearch: {
+      get() {
+        return this.lazySearch;
+      },
+      set(value) {
+        this.lazySearch = value;
+        this.$emit('update:search-input', value);
+      },
+    },
     computedItems() {
-      return this.localItems
-        .filter(
-          (item) => (this.search
-            ? item[this.itemValue].toLowerCase().includes(this.search.toLowerCase())
-            : true),
-        )
-        .slice(0, this.lastItem);
+      return this.localItems;
     },
   },
   watch: {
@@ -136,7 +140,7 @@ export default {
   methods: {
     activateMenu(value) {
       if (!value) {
-        this.lastItem = 20;
+        this.lastItem = this.pageSize;
         if (this.getContent()) {
           this.getContent().scrollTop = 0;
         }
@@ -144,14 +148,15 @@ export default {
           this.$refs.osrsAutocompleteSearch.blur();
         }
         if (this.selectedItem) {
-          this.search = this.selectedItem[this.itemValue];
+          this.lazySearch = this.selectedItem[this.itemValue];
         }
+        this.$emit('');
+      } else {
+        this.loadMoreItems();
       }
       this.menuActive = value;
     },
     onScroll() {
-      if (this.lastItem > this.localItems.length) return;
-
       if (!this.getContent()) return;
 
       const showMoreItems = (
@@ -161,8 +166,12 @@ export default {
       ) < 200;
 
       if (showMoreItems) {
-        this.lastItem += 20;
+        this.lastItem += this.pageSize;
+        this.loadMoreItems();
       }
+    },
+    loadMoreItems() {
+      this.$emit('load-more-items', this.lastItem);
     },
     selectItem(item) {
       this.selectedItem = item;
@@ -179,11 +188,11 @@ export default {
       return this.$refs.osrsAutocompleteMenu && this.$refs.osrsAutocompleteMenu.$refs.content;
     },
     onClickOutside() {
-      this.search = this.selectedItem ? this.selectedItem[this.itemValue] : this.search;
+      this.lazySearch = this.selectedItem ? this.selectedItem[this.itemValue] : undefined;
       this.activateMenu(false);
     },
     onFocus() {
-      this.search = undefined;
+      this.internalSearch = undefined;
       this.activateMenu(true);
     },
     include() {
