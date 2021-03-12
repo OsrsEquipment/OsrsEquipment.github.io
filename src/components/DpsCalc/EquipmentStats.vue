@@ -143,7 +143,7 @@ export default {
         return `${((bonus - 1) * 100).toFixed(2)}%`;
       }
       if (magicDamage) {
-        return `${(bonus).toFixed(1)}%`;
+        return `+${(bonus).toFixed(1)}%`;
       }
       return bonus >= 0 ? `+${bonus}` : bonus;
     },

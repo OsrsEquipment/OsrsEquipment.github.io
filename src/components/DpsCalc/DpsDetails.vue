@@ -62,7 +62,7 @@
           v-for="(boosts, index) of computedBoosts"
           :key="index"
         >
-          <span>Loadout {{ index + 1 }} ({{ boosts.length }})</span>
+          <span>Boosts {{ index + 1 }} ({{ boosts.length }})</span>
         </osrs-tab>
       </osrs-tabs>
       <osrs-tab-items

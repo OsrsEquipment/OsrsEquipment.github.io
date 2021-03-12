@@ -17,3 +17,5 @@ loadout management
 bgs vs dwh
 
 logging error messaging
+
+improve monster select, currently it lags the UI a LOT
