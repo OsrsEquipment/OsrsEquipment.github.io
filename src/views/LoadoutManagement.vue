@@ -9,10 +9,10 @@
       >
         <template v-if="addingNewLoadout">
           <osrs-text-input
-            v-model="tempLoadout.name"
+            v-model="tempLoadoutName"
           />
           <loadout-details
-            :value="tempLoadout"
+            v-model="tempLoadout"
           />
           <div class="single-loadout-container-actions">
             <osrs-flat-button
@@ -20,6 +20,12 @@
               @click="saveLoadout"
             >
               Save
+            </osrs-flat-button>
+            <osrs-flat-button
+              class="manage-loadout-buttons"
+              @click="cancelLoadout"
+            >
+              Cancel
             </osrs-flat-button>
           </div>
         </template>
@@ -37,32 +43,32 @@
         </template>
       </div>
       <div
-        v-for="loadout of computedLoadouts"
+        v-for="(loadout, index) of computedLoadouts"
         :key="loadout.name"
         class="single-loadout-container"
       >
         <osrs-text-input
-          v-model="loadout.name"
+          v-model="computedLoadouts[index].name"
         />
         <loadout-details
-          :value="loadout"
+          v-model="computedLoadouts[index]"
         />
         <div class="single-loadout-container-actions">
           <osrs-flat-button
             class="manage-loadout-buttons"
-            @click="copyLoadout(loadout)"
+            @click="copyLoadout(computedLoadouts[index])"
           >
             Copy
           </osrs-flat-button>
           <osrs-flat-button
             class="manage-loadout-buttons"
-            @click="updateLoadout(loadout)"
+            @click="updateLoadout(computedLoadouts[index])"
           >
             Update
           </osrs-flat-button>
           <osrs-flat-button
             class="manage-loadout-buttons"
-            @click="deleteLoadout(loadout)"
+            @click="deleteLoadout(computedLoadouts[index])"
           >
             Delete
           </osrs-flat-button>
@@ -86,17 +92,8 @@ export default {
   },
   data() {
     return {
-      tempLoadout: {
-        name: 'New loadout',
-        equipment: {},
-        skills: {},
-        stance: {},
-        boosts: [],
-        activePrayers: [],
-        potions: [],
-        settings: {},
-        spell: undefined,
-      },
+      tempLoadoutName: undefined,
+      tempLoadout: undefined,
       lastItem: 7,
       addingNewLoadout: false,
     };
@@ -109,8 +106,13 @@ export default {
       getByName: 'loadouts/getByName',
     }),
     computedLoadouts() {
-      return this.loadouts.slice(0, this.lastItem);
+      return [...this.loadouts]
+        .slice(0, this.lastItem);
     },
+  },
+  mounted() {
+    // check if we already need to load more
+    this.onScroll();
   },
   methods: {
     ...mapActions({
@@ -122,15 +124,20 @@ export default {
     newLoadout() {
       this.addingNewLoadout = true;
     },
+    cancelLoadout() {
+      this.addingNewLoadout = false;
+      this.tempLoadoutName = undefined;
+      this.tempLoadout = undefined;
+    },
     saveLoadout() {
       if (
         this.tempLoadout
-        && this.tempLoadout.name
-        && this.tempLoadout.name.length > 0
-        && !this.getByName(this.tempLoadout.name)
+        && this.tempLoadoutName
+        && this.tempLoadoutName.length > 0
+        && !this.getByName(this.tempLoadoutName)
       ) {
         this.addingNewLoadout = false;
-        this.add({ name: this.tempLoadout.name, loadout: { ...this.tempLoadout } });
+        this.add({ name: this.tempLoadoutName, loadout: { ...this.tempLoadout } });
         this.tempLoadout = undefined;
       } else {
         alert('Could not save, make sure you use a unique name');
@@ -153,10 +160,9 @@ export default {
         document.documentElement.scrollHeight
         - (document.documentElement.scrollTop
           + document.documentElement.clientHeight)
-      ) < 400;
+      ) < 200;
 
       if (showMoreItems) {
-        console.log('last item ', this.lastItem);
         this.lastItem += 4;
       }
     },
@@ -168,7 +174,7 @@ export default {
 
 .loadout-overview-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
 }
 

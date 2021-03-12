@@ -48,18 +48,18 @@
           Category: {{ category }}
         </span>
         <div
-          v-if="selectedSpell"
+          v-if="internalSpell"
           class="stance-selection-spell"
         >
           <span class="osrs-text-quill-8">
             Selected spell
           </span>
           <span>
-            {{ selectedSpell.name }}
+            {{ internalSpell.name }}
           </span>
           <img
-            :src="`data:image/png;base64,${selectedSpell.icon}`"
-            :alt="selectedSpell.name"
+            :src="`data:image/png;base64,${internalSpell.icon}`"
+            :alt="internalSpell.name"
           >
         </div>
       </div>
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { capitalize } from 'lodash';
+import { capitalize, isEqual } from 'lodash';
 import OsrsFlatButton from '../OsrsFlatButton.vue';
 import OsrsTooltip from '../OsrsTooltip.vue';
 import SpellSelection from './SpellSelection.vue';
@@ -81,20 +81,50 @@ import SpellSelection from './SpellSelection.vue';
 export default {
   name: 'StanceSelection',
   components: { SpellSelection, OsrsTooltip, OsrsFlatButton },
+  model: {
+    prop: 'stance',
+    event: 'change',
+  },
   props: {
     equippedWeapon: {
+      type: Object,
+      default: undefined,
+    },
+    stance: {
+      type: Object,
+      default: undefined,
+    },
+    spell: {
       type: Object,
       default: undefined,
     },
   },
   data() {
     return {
-      selectedStance: undefined,
+      lazyStance: undefined,
+      lazySpell: undefined,
       selectingSpell: false,
-      selectedSpell: undefined,
     };
   },
   computed: {
+    internalStance: {
+      get() {
+        return this.lazyStance;
+      },
+      set(value) {
+        this.lazyStance = value;
+        this.$emit('change', value);
+      },
+    },
+    internalSpell: {
+      get() {
+        return this.lazySpell;
+      },
+      set(value) {
+        this.lazySpell = value;
+        this.$emit('update:spell', value);
+      },
+    },
     weapon() {
       let weapon = this.equippedWeapon;
       if (!weapon) {
@@ -138,32 +168,45 @@ export default {
     },
   },
   watch: {
+    stance: {
+      immediate: true,
+      handler(value) {
+        this.lazyStance = value ?? this.stances[0];
+      },
+    },
+    spell: {
+      immediate: true,
+      handler(value) {
+        this.lazySpell = value;
+      },
+    },
+    // attempt to select same stance if available
     weapon: {
       immediate: true,
       handler: function weaponChanged() {
-        if (this.selectedStance) {
-          const currentStance = this.selectedStance;
-          const foundSimilarStance = this.stances
-            .find((stance) => stance.attack_style === currentStance.attack_style
-              || stance.combat_style === currentStance.combat_style);
-          if (foundSimilarStance) {
-            this.stanceSelected(foundSimilarStance);
+        if (this.internalStance) {
+          const currentStance = this.internalStance;
+          const foundSameStance = this.stances
+            .find((stance) => isEqual(currentStance, stance));
+          if (foundSameStance) {
+            this.internalStance = foundSameStance;
             return;
           }
         }
-        this.stanceSelected(this.stances[0]);
+        [this.internalStance] = this.stances;
+        this.internalSpell = undefined;
       },
     },
   },
   methods: {
     capitalize,
     stanceSelected(stance) {
-      this.selectedStance = stance;
-      this.$emit('stance-changed', stance);
+      this.internalStance = stance;
       if (stance.combat_style === 'spell') {
         this.selectingSpell = true;
-      } else if (this.selectedSpell !== undefined) {
-        this.spellSelected(undefined);
+      }
+      if (this.internalSpell) {
+        this.internalSpell = undefined;
       }
     },
     parseExperience(experience) {
@@ -171,11 +214,10 @@ export default {
     },
     spellSelected(spell) {
       this.selectingSpell = false;
-      this.selectedSpell = spell;
-      this.$emit('spell-selected', spell);
+      this.internalSpell = spell;
     },
     isSelectedStance(stance) {
-      return this.selectedStance === stance;
+      return isEqual(this.internalStance, stance);
     },
   },
 };

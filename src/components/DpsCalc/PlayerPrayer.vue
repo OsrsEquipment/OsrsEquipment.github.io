@@ -1,15 +1,15 @@
 <template>
   <div class="player-prayer-grid">
     <osrs-tooltip
-      v-for="prayer in prayers"
+      v-for="prayer in prayerObjs"
       :key="prayer.id"
       font-size="24px"
     >
       <template #activator="{ on }">
         <div
-          :class="{'active-prayer': isPrayerActive(prayer)}"
+          :class="{'active-prayer': isPrayerActive(prayer.name)}"
           class="player-prayer-icon-container"
-          @click="prayerToggle(prayer)"
+          @click="prayerToggle(prayer.name)"
           v-on="on"
         >
           <img
@@ -33,10 +33,20 @@ import OsrsTooltip from '../OsrsTooltip.vue';
 export default {
   name: 'PlayerPrayer',
   components: { OsrsTooltip },
+  model: {
+    prop: 'prayers',
+    event: 'change',
+  },
+  props: {
+    prayers: {
+      type: Array,
+      default: undefined,
+    },
+  },
   data() {
     return {
-      prayers: [],
-      activePrayers: [],
+      prayerObjs: [],
+      lazyPrayers: [],
       defencePrayers: ['Thick Skin', 'Rock Skin', 'Steel Skin', 'Chivalry', 'Piety', 'Rigour', 'Augury'],
       attackPrayers: ['Clarity of Thought', 'Improved Reflexes', 'Incredible Reflexes', 'Chivalry', 'Piety'],
       strengthPrayers: ['Burst of Strength', 'Superhuman Strength', 'Ultimate Strength', 'Chivalry', 'Piety'],
@@ -46,8 +56,22 @@ export default {
     };
   },
   computed: {
-    activePrayerNames() {
-      return this.activePrayers.map((prayer) => prayer.name);
+    internalPrayers: {
+      get() {
+        return this.lazyPrayers;
+      },
+      set(value) {
+        this.lazyPrayers = value;
+        this.$emit('change', value);
+      },
+    },
+  },
+  watch: {
+    prayers: {
+      immediate: true,
+      handler(value) {
+        this.lazyPrayers = value;
+      },
     },
   },
   created() {
@@ -55,70 +79,74 @@ export default {
   },
   methods: {
     async getPrayers() {
-      this.prayers = await PrayersManager.getAll();
+      this.prayerObjs = await PrayersManager.getAll();
     },
-    prayerToggle(prayer) {
-      if (this.isPrayerActive(prayer)) {
-        this.activePrayers = this.activePrayers.filter((i) => i.id !== prayer.id);
+    prayerToggle(prayerName) {
+      let prayers = this.internalPrayers || [];
+      if (this.isPrayerActive(prayerName)) {
+        prayers = this.internalPrayers
+          .filter((name) => name.toLowerCase() !== prayerName.toLowerCase());
       } else {
-        this.conflictingPrayers(prayer);
-        this.activePrayers.push(prayer);
+        prayers = this.checkConflictingPrayers(prayers, prayerName);
+        prayers.push(prayerName);
       }
-      this.$emit('active-prayers', this.activePrayerNames);
+      this.internalPrayers = prayers;
     },
-    isPrayerActive(prayer) {
-      return this.activePrayers.some((i) => i.id === prayer.id);
+    isPrayerActive(prayerName) {
+      return this.internalPrayers
+          && this.internalPrayers.some((name) => name.toLowerCase() === prayerName.toLowerCase());
     },
     prayerRequirement(prayer) {
       return prayer.requirements.prayer;
     },
-    conflictingPrayers(prayer) {
+    checkConflictingPrayers(prayers, prayer) {
       if (this.isDefencePrayer(prayer)) {
-        this.activePrayers = this.activePrayers.filter((i) => !this.isDefencePrayer(i));
+        prayers = prayers.filter((i) => !this.isDefencePrayer(i));
       }
       if (this.isAttackPrayer(prayer)) {
-        this.activePrayers = this.activePrayers.filter((i) => !this.isAttackPrayer(i)
+        prayers = prayers.filter((i) => !this.isAttackPrayer(i)
           && !this.isRangedPrayer(i)
           && !this.isMagicPrayer(i));
       }
       if (this.isStrengthPrayer(prayer)) {
-        this.activePrayers = this.activePrayers.filter((i) => !this.isStrengthPrayer(i)
+        prayers = prayers.filter((i) => !this.isStrengthPrayer(i)
           && !this.isRangedPrayer(i)
           && !this.isMagicPrayer(i));
       }
       if (this.isRangedPrayer(prayer)) {
-        this.activePrayers = this.activePrayers.filter((i) => !this.isRangedPrayer(i)
+        prayers = prayers.filter((i) => !this.isRangedPrayer(i)
           && !this.isStrengthPrayer(i)
           && !this.isAttackPrayer(i)
           && !this.isMagicPrayer(i));
       }
       if (this.isMagicPrayer(prayer)) {
-        this.activePrayers = this.activePrayers.filter((i) => !this.isMagicPrayer(i)
+        prayers = prayers.filter((i) => !this.isMagicPrayer(i)
           && !this.isStrengthPrayer(i)
           && !this.isAttackPrayer(i)
           && !this.isRangedPrayer(i));
       }
       if (this.isOverheadPrayer(prayer)) {
-        this.activePrayers = this.activePrayers.filter((i) => !this.isOverheadPrayer(i));
+        prayers = prayers.filter((i) => !this.isOverheadPrayer(i));
       }
+      return prayers;
     },
     isDefencePrayer(prayer) {
-      return this.defencePrayers.some((name) => prayer.name.toLowerCase() === name.toLowerCase());
+      return this.defencePrayers.some((name) => prayer.toLowerCase() === name.toLowerCase());
     },
     isAttackPrayer(prayer) {
-      return this.attackPrayers.some((name) => prayer.name.toLowerCase() === name.toLowerCase());
+      return this.attackPrayers.some((name) => prayer.toLowerCase() === name.toLowerCase());
     },
     isStrengthPrayer(prayer) {
-      return this.strengthPrayers.some((name) => prayer.name.toLowerCase() === name.toLowerCase());
+      return this.strengthPrayers.some((name) => prayer.toLowerCase() === name.toLowerCase());
     },
     isRangedPrayer(prayer) {
-      return this.rangedPrayers.some((name) => prayer.name.toLowerCase() === name.toLowerCase());
+      return this.rangedPrayers.some((name) => prayer.toLowerCase() === name.toLowerCase());
     },
     isMagicPrayer(prayer) {
-      return this.magicPrayers.some((name) => prayer.name.toLowerCase() === name.toLowerCase());
+      return this.magicPrayers.some((name) => prayer.toLowerCase() === name.toLowerCase());
     },
     isOverheadPrayer(prayer) {
-      return this.overheadPrayers.some((name) => prayer.name.toLowerCase() === name.toLowerCase());
+      return this.overheadPrayers.some((name) => prayer.toLowerCase() === name.toLowerCase());
     },
   },
 };

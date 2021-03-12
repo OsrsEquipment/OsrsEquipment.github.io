@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <div class="some-class">
-      <player-details
+      <loadout-details
         v-model="loadout1"
       />
 
@@ -10,7 +10,7 @@
         :target="target"
       />
 
-      <player-details
+      <loadout-details
         v-model="loadout2"
       />
 
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import PlayerDetails from '../components/DpsCalc/LoadoutDetails.vue';
+import LoadoutDetails from '../components/DpsCalc/LoadoutDetails.vue';
 import TargetDetails from '../components/DpsCalc/TargetDetails.vue';
 import DpsDetails from '../components/DpsCalc/DpsDetails.vue';
 
@@ -31,7 +31,7 @@ export default {
   components: {
     DpsDetails,
     TargetDetails,
-    PlayerDetails,
+    LoadoutDetails,
   },
   data() {
     return {

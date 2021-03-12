@@ -15,9 +15,8 @@
         <span>Each hit reduces defence level by 30% of current defence level</span>
       </osrs-tooltip>
       <osrs-number-input
-        v-model="settings.dwhSpecials"
+        v-model="internalSettings.dwhSpecials"
         :max="9999"
-        @input="updateSettings"
       />
       <!-- Arclight setting -->
       <osrs-tooltip>
@@ -33,9 +32,8 @@
         <span>Each hit reduces defence level by 5% (10% if demon)</span>
       </osrs-tooltip>
       <osrs-number-input
-        v-model="settings.arclightSpecials"
+        v-model="internalSettings.arclightSpecials"
         :max="9999"
-        @input="updateSettings"
       />
       <!-- Bgs setting -->
       <osrs-tooltip>
@@ -52,9 +50,8 @@
         <span>Order: Defence > Strength > Attack > Magic > Ranged</span>
       </osrs-tooltip>
       <osrs-number-input
-        v-model="settings.bgsSpecialDamage"
+        v-model="internalSettings.bgsSpecialDamage"
         :max="9999"
-        @input="updateSettings"
       />
       <!-- Slayer setting -->
       <img
@@ -64,8 +61,7 @@
       <osrs-tooltip>
         <template #activator="{ on }">
           <osrs-checkbox
-            v-model="settings.onSlayerTask"
-            @input="updateSettings"
+            v-model="internalSettings.onSlayerTask"
             v-on="on"
           />
         </template>
@@ -84,10 +80,9 @@
         <span>Used for Dharok's set effect</span>
       </osrs-tooltip>
       <osrs-number-input
-        v-model="settings.currentHitpoints"
+        v-model="internalSettings.currentHitpoints"
         :min="1"
         :max="99"
-        @input="updateSettings"
       />
       <!-- Wilderness setting -->
       <img
@@ -97,8 +92,7 @@
       <osrs-tooltip>
         <template #activator="{ on }">
           <osrs-checkbox
-            v-model="settings.inWilderness"
-            @input="updateSettings"
+            v-model="internalSettings.inWilderness"
             v-on="on"
           />
         </template>
@@ -119,6 +113,16 @@ export default {
   components: {
     OsrsTooltip, OsrsCheckbox, OsrsNumberInput,
   },
+  model: {
+    prop: 'settings',
+    event: 'change',
+  },
+  props: {
+    settings: {
+      type: Object,
+      default: undefined,
+    },
+  },
   data() {
     return {
       bgsId: 11804,
@@ -127,7 +131,7 @@ export default {
       dwhObject: undefined,
       arclightId: 19675,
       arclightObject: undefined,
-      settings: {
+      defaultSettings: {
         bgsSpecialDamage: 0,
         dwhSpecials: 0,
         arclightSpecials: 0,
@@ -135,13 +139,46 @@ export default {
         inWilderness: true,
         currentHitpoints: 1,
       },
+      lazySettings: undefined,
     };
+  },
+  computed: {
+    computedSettings: {
+      get() {
+        return this.lazySettings;
+      },
+      set(value) {
+        this.lazySettings = new Proxy(value, {
+          set: (obj, prop, val) => {
+            obj[prop] = val;
+            this.$emit('change', obj);
+            return true;
+          },
+        });
+      },
+    },
+    internalSettings: {
+      get() {
+        return this.computedSettings;
+      },
+      set(value) {
+        this.computedSettings = value;
+        this.$emit('change', value);
+      },
+    },
+  },
+  watch: {
+    settings: {
+      immediate: true,
+      handler(value) {
+        this.computedSettings = value ?? this.defaultSettings;
+      },
+    },
   },
   created() {
     this.getBgs();
     this.getDwh();
     this.getArclight();
-    this.updateSettings();
   },
   methods: {
     async getBgs() {
@@ -152,11 +189,6 @@ export default {
     },
     async getArclight() {
       this.arclightObject = await ItemsManager.getById(this.arclightId);
-    },
-    updateSettings() {
-      this.$emit('settings-changed', {
-        ...this.settings,
-      });
     },
   },
 };

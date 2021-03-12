@@ -48,40 +48,46 @@
       <osrs-tab-item>
         <stance-selector
           :equipped-weapon="weapon"
-          @stance-changed="setStance"
-          @spell-selected="spellSelected"
+          :stance="internalLoadout.stance"
+          :spell="internalLoadout.spell"
+          @change="stanceChanged"
+          @update:spell="spellChanged"
         />
       </osrs-tab-item>
       <osrs-tab-item>
         <player-skills
-          @skills-changed="setSkills"
+          :skills="internalLoadout.skills"
+          @change="skillsChanged"
         />
       </osrs-tab-item>
       <osrs-tab-item>
         <div class="loadout-details-equipment-tab">
           <player-equipment
-            :equipment="loadout.equipment"
+            :equipment="internalLoadout.equipment"
             @update:equipment="equipmentChanged"
           />
           <equipment-stats
-            :equipment="loadout.equipment"
+            :equipment="internalLoadout.equipment"
             :bonuses="bonuses"
           />
         </div>
       </osrs-tab-item>
       <osrs-tab-item>
         <player-prayer
-          @active-prayers="prayersChanged"
+          :prayers="internalLoadout.prayers"
+          @change="prayersChanged"
         />
       </osrs-tab-item>
       <osrs-tab-item>
         <player-potions
-          @potions-changed="potionsChanged"
+          :potions="internalLoadout.potions"
+          @change="potionsChanged"
         />
       </osrs-tab-item>
       <osrs-tab-item>
         <player-settings
-          @settings-changed="settingsChanged"
+          :settings="internalLoadout.settings"
+          @change="settingsChanged"
         />
       </osrs-tab-item>
     </osrs-tab-items>
@@ -123,12 +129,16 @@ export default {
       loadout: this.internalLoadout,
     };
   },
+  model: {
+    prop: 'loadout',
+    event: 'change',
+  },
   props: {
     bonuses: {
       type: Object,
       default: undefined,
     },
-    value: {
+    loadout: {
       type: Object,
       default: undefined,
     },
@@ -177,16 +187,7 @@ export default {
           experience: 'attack',
         },
       },
-      loadout: {
-        equipment: {},
-        skills: {},
-        stance: {},
-        boosts: [],
-        prayers: [],
-        potions: [],
-        settings: {},
-        spell: undefined,
-      },
+      lazyLoadout: undefined,
     };
   },
   computed: {
@@ -196,21 +197,20 @@ export default {
     },
     internalLoadout: {
       get() {
-        return this.loadout;
+        return this.lazyLoadout;
       },
       set(val) {
-        this.loadout = val;
-        this.$emit('input', val);
+        this.lazyLoadout = val;
+        this.$emit('change', val);
       },
     },
   },
   watch: {
-    value: {
+    loadout: {
       immediate: true,
       handler(value) {
-        console.log('Value update');
         if (value) {
-          this.loadout = value;
+          this.lazyLoadout = value;
         } else {
           this.internalLoadout = this.defaultLoadout;
         }
@@ -218,10 +218,10 @@ export default {
     },
   },
   methods: {
-    setStance(stance) {
+    stanceChanged(stance) {
       this.internalLoadout = { ...this.internalLoadout, stance };
     },
-    setSkills(skills) {
+    skillsChanged(skills) {
       this.internalLoadout = { ...this.internalLoadout, skills };
     },
     prayersChanged(prayers) {
@@ -233,7 +233,7 @@ export default {
     settingsChanged(settings) {
       this.internalLoadout = { ...this.internalLoadout, settings };
     },
-    spellSelected(spell) {
+    spellChanged(spell) {
       this.internalLoadout = { ...this.internalLoadout, spell };
     },
     equipmentChanged(equipment) {
@@ -270,5 +270,9 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+.loadout-details-equipment-tab:first-child {
+  margin-right: 40px;
 }
 </style>

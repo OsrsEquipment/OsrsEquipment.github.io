@@ -18,13 +18,13 @@
     </osrs-text-input>
     <div class="player-skills-grid">
       <osrs-skill-tile
-        v-for="(skill, index) in skills"
-        :key="index"
+        v-for="(skill, name) in internalSkills"
+        :key="name"
         class="player-skills-tile"
-        :skill="index"
+        :skill="name"
+        :skill-name="name"
         :level="skill"
-        :skill-name="index"
-        @update:level="updateLevel(index, $event)"
+        @update:level="updateLevel(name, $event)"
       />
       <osrs-total-level-tile
         class="player-skills-tile total-level"
@@ -43,28 +43,51 @@ import OsrsTotalLevelTile from './OsrsTotalLevelTile.vue';
 
 export default {
   name: 'PlayerSkills',
-  inject: ['loadout'],
   components: {
     OsrsTotalLevelTile,
     OsrsFlatButton,
     OsrsTextInput,
     OsrsSkillTile,
   },
+  model: {
+    prop: 'skills',
+    event: 'change',
+  },
+  props: {
+    skills: {
+      type: Object,
+      default: undefined,
+    },
+  },
   data() {
     return {
       nameRegex: /^[A-Za-z0-9-_ ]{1,12}$/,
       playerName: undefined,
-      skills: undefined,
+      lazySkills: undefined,
       hiScores: undefined,
     };
   },
   computed: {
     total() {
-      return Object.values(this.skills).reduce((acc, val) => acc + val, 0);
+      return Object.values(this.internalSkills).reduce((acc, val) => acc + val, 0);
+    },
+    internalSkills: {
+      get() {
+        return this.lazySkills;
+      },
+      set(value) {
+        this.lazySkills = value;
+        this.$emit('change', value);
+      },
     },
   },
-  created() {
-    this.setSkills();
+  watch: {
+    skills: {
+      immediate: true,
+      handler(value) {
+        this.lazySkills = value;
+      },
+    },
   },
   methods: {
     async fetchPlayer(name) {
@@ -93,18 +116,14 @@ export default {
           if (key === 'overall') return;
           result[key] = Number(skills[key].level);
         });
-        this.skills = result;
-      } else {
-        this.skills = this.loadout.skills;
+        this.internalSkills = result;
       }
-      this.$emit('skills-changed', this.skills);
     },
     updateLevel(skill, level) {
-      this.skills = {
-        ...this.skills,
+      this.internalSkills = {
+        ...this.internalSkills,
         [skill]: level,
       };
-      this.$emit('skills-changed', this.skills);
     },
   },
 };

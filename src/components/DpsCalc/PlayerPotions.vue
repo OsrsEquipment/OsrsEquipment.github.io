@@ -13,7 +13,7 @@
           <div
             class="player-potion-item"
             :class="{ 'active-potion': isSelected(category, undefined) }"
-            @click="selectionPotion(category, undefined)"
+            @click="selectPotion(category, undefined)"
             v-on="on"
           >
             <img
@@ -31,8 +31,8 @@
         <template #activator="{ on }">
           <div
             class="player-potion-item"
-            :class="{ 'active-potion': isSelected(category, potion) }"
-            @click="selectionPotion(category, potion)"
+            :class="{ 'active-potion': isSelected(category, potion.name) }"
+            @click="selectPotion(category, potion.name)"
             v-on="on"
           >
             <img
@@ -55,8 +55,19 @@ import OsrsTooltip from '../OsrsTooltip.vue';
 export default {
   name: 'PlayerPotions',
   components: { OsrsTooltip },
+  model: {
+    prop: 'potions',
+    event: 'change',
+  },
+  props: {
+    potions: {
+      type: Array,
+      default: undefined,
+    },
+  },
   data() {
     return {
+      lazyPotions: {},
       categories: [
         'strength',
         'attack',
@@ -72,29 +83,63 @@ export default {
     };
   },
   computed: {
-    potions() {
+    computedPotions() {
       return BoostManager.potions;
     },
     potionsForCategory() {
-      return (category) => [...this.potions.values()]
+      return (category) => [...this.computedPotions.values()]
         .filter((potion) => potion.categories.includes(category));
+    },
+    internalPotions: {
+      get() {
+        return this.lazyPotions;
+      },
+      set(value) {
+        this.lazyPotions = value;
+        this.$emit('change', value);
+      },
+    },
+  },
+  watch: {
+    potions: {
+      immediate: true,
+      handler(value) {
+        this.lazyPotions = value;
+        this.parseLazyPotions();
+      },
     },
   },
   methods: {
+    parseLazyPotions() {
+      if (this.lazyPotions && this.lazyPotions.length > 0) {
+        this.lazyPotions.forEach((potionName) => {
+          const potion = this.computedPotions.get(potionName);
+          const applicableCategories = potion.categories.filter((i) => this.categories.includes(i));
+          applicableCategories.forEach((category) => {
+            this.selectedPotions[category] = potionName;
+          });
+        });
+      } else {
+        this.categories.forEach((category) => {
+          this.selectedPotions[category] = undefined;
+        });
+      }
+    },
     getImageSrc(potion) {
       // eslint-disable-next-line global-require, import/no-dynamic-require
       return require(`../../assets/osrs/${potion.name}.png`);
     },
-    selectionPotion(category, potion) {
-      const oldPotion = this.selectedPotions[category];
+    selectPotion(category, potion) {
+      const oldPotion = this.computedPotions.get(this.selectedPotions[category]);
+      const newPotion = this.computedPotions.get(potion);
       let oldCategories;
       let newCategories;
 
       if (oldPotion) {
         oldCategories = oldPotion.categories;
       }
-      if (potion) {
-        newCategories = potion.categories;
+      if (newPotion) {
+        newCategories = newPotion.categories;
       }
 
       const unsetCategories = difference(oldCategories, newCategories);
@@ -113,7 +158,9 @@ export default {
     },
     capitalize,
     updatePotions() {
-      this.$emit('potions-changed', uniq(Object.values(this.selectedPotions).map((potion) => (potion ? potion.name : undefined))).filter(Boolean));
+      this.internalPotions = uniq(
+        Object.values(this.selectedPotions).map((potion) => potion),
+      ).filter(Boolean);
     },
   },
 };
