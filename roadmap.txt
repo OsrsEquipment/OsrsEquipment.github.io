@@ -18,4 +18,4 @@ bgs vs dwh
 
 logging error messaging
 
-improve monster select, currently it lags the UI a LOT
+Improve item select using new osrs-autocomplete features

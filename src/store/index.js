@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import VuexPersistence from 'vuex-persist';
 import moduleLoadouts from './modules/loadouts';
 import moduleMonsters from './modules/monsters';
+import moduleEquipment from './modules/equipment';
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ const store = new Vuex.Store({
   modules: {
     loadouts: moduleLoadouts,
     monsters: moduleMonsters,
+    equipment: moduleEquipment,
   },
   plugins: [vuexPersist.plugin],
 });

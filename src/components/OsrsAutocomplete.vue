@@ -101,8 +101,7 @@ export default {
       menuActive: false,
       lazySearch: undefined,
       localItems: [],
-      pageSize: 100,
-      lastItem: 100,
+      lastItem: 20,
       selectedItem: this.value,
     };
   },
@@ -113,11 +112,20 @@ export default {
       },
       set(value) {
         this.lazySearch = value;
+        if (this.getContent()) {
+          this.getContent().scrollTop = 0;
+        }
         this.$emit('update:search-input', value);
       },
     },
     computedItems() {
-      return this.localItems;
+      return this.localItems
+        .filter(
+          (item) => (this.internalSearch
+            ? item[this.itemValue].toLowerCase().includes(this.internalSearch.toLowerCase())
+            : true),
+        )
+        .slice(0, this.lastItem);
     },
   },
   watch: {
@@ -140,7 +148,7 @@ export default {
   methods: {
     activateMenu(value) {
       if (!value) {
-        this.lastItem = this.pageSize;
+        this.lastItem = 20;
         if (this.getContent()) {
           this.getContent().scrollTop = 0;
         }
@@ -151,12 +159,12 @@ export default {
           this.lazySearch = this.selectedItem[this.itemValue];
         }
         this.$emit('');
-      } else {
-        this.loadMoreItems();
       }
       this.menuActive = value;
     },
     onScroll() {
+      if (this.lastItem > this.localItems.length) return;
+
       if (!this.getContent()) return;
 
       const showMoreItems = (
@@ -166,12 +174,8 @@ export default {
       ) < 200;
 
       if (showMoreItems) {
-        this.lastItem += this.pageSize;
-        this.loadMoreItems();
+        this.lastItem += 20;
       }
-    },
-    loadMoreItems() {
-      this.$emit('load-more-items', this.lastItem);
     },
     selectItem(item) {
       this.selectedItem = item;

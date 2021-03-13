@@ -1,11 +1,9 @@
 <template>
   <osrs-autocomplete
     :value="value"
-    :items="lazyMonsters"
-    :search-input.sync="search"
+    :items="monsters"
     :value-comparator="comparisonFn"
     @input="$emit('input', $event)"
-    @load-more-items="loadMore"
   >
     <template #item="{ item }">
       <div class="monster-select-item">
@@ -36,7 +34,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import OsrsAutocomplete from './OsrsAutocomplete.vue';
 
 export default {
@@ -48,18 +46,9 @@ export default {
       default: undefined,
     },
   },
-  data() {
-    return {
-      search: undefined,
-      lazyMonsters: [],
-    };
-  },
   computed: {
     ...mapState({
       monsters: (state) => state.monsters.list,
-    }),
-    ...mapGetters({
-      pagedMonsters: 'monsters/paged',
     }),
     comparisonFn() {
       return function compare(monster1, monster2) {
@@ -86,18 +75,6 @@ export default {
 
         return true;
       };
-    },
-  },
-  watch: {
-    search() {
-      this.loadMore(100);
-    },
-  },
-  methods: {
-    loadMore(pageSize) {
-      if (this.lazyMonsters.length < this.monsters.length) {
-        this.lazyMonsters = this.pagedMonsters({ page: 0, limit: pageSize, name: this.search });
-      }
     },
   },
 };

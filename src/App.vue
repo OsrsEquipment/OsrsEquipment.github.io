@@ -16,10 +16,12 @@ export default {
   components: { OsrsNavbar },
   mounted() {
     this.initMonsters();
+    this.initEquipment();
   },
   methods: {
     ...mapActions({
       initMonsters: 'monsters/init',
+      initEquipment: 'equipment/init',
     }),
   },
 };

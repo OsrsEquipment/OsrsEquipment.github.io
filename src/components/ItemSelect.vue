@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import ItemsManager from '../services/managers/items.manager';
+import { mapGetters } from 'vuex';
 import OsrsAutocomplete from './OsrsAutocomplete.vue';
 
 export default {
@@ -44,6 +44,12 @@ export default {
       items: [],
     };
   },
+  computed: {
+    ...mapGetters({
+      getBySlots: 'equipment/getBySlots',
+      getDarts: 'equipment/getDarts',
+    }),
+  },
   watch: {
     itemSlots: function itemSlots() {
       this.items = [];
@@ -54,18 +60,19 @@ export default {
     this.fetchItems();
   },
   methods: {
-    async fetchItems() {
+    fetchItems() {
       let slots = [...this.itemSlots];
       let items = [];
 
       if (slots.includes('darts')) {
-        items = await ItemsManager.getDarts();
+        items = this.getDarts();
         slots = slots.filter((i) => i !== 'darts');
       }
 
       if (slots && slots.length > 0) {
-        items = [...items, ...await ItemsManager.getBySlots(slots)];
+        items = [...items, ...this.getBySlots(slots)];
       }
+
       this.items = items;
     },
   },

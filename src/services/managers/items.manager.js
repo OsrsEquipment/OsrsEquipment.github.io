@@ -14,12 +14,14 @@ class ItemsManager {
     return collection.toArray();
   }
 
-  getBySlots(slots) {
+  async getBySlots(slots) {
     let collection = DataManager.db.items;
     if (slots) {
       collection = collection.where('equipment.slot').anyOfIgnoreCase(slots);
     }
-    return collection.toArray();
+    const items = await collection.toArray();
+    items.forEach(Object.freeze);
+    return items;
   }
 
   getDarts() {
@@ -29,8 +31,10 @@ class ItemsManager {
       .toArray();
   }
 
-  getAll() {
-    return DataManager.db.items.toArray();
+  async getAll() {
+    const items = await DataManager.db.items.toArray();
+    items.forEach(Object.freeze);
+    return items;
   }
 
   getById(id) {
