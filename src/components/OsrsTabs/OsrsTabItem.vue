@@ -2,6 +2,7 @@
   <v-item
     v-slot="{ active }"
     ref="osrsTabItem"
+    class="osrs-tab-item"
   >
     <template v-if="isBooted">
       <div v-show="active">
@@ -17,10 +18,21 @@
 <script>
 export default {
   name: 'OsrsTabItem',
+  props: {
+    eager: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
-      isBooted: false,
+      booted: false,
     };
+  },
+  computed: {
+    isBooted() {
+      return this.booted || this.eager;
+    },
   },
   mounted() {
     this.checkBooted();
@@ -33,7 +45,7 @@ export default {
       if (this.isBooted) return;
       this.$nextTick(() => {
         if (this.$refs.osrsTabItem && this.$refs.osrsTabItem.isActive) {
-          this.isBooted = true;
+          this.booted = true;
         }
       });
     },
@@ -42,4 +54,8 @@ export default {
 </script>
 
 <style scoped>
+.osrs-tab-item {
+  height: inherit;
+  width: inherit;
+}
 </style>

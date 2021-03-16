@@ -156,7 +156,7 @@ export default {
 .player-prayer-grid {
   margin: 5px 0;
   display: grid;
-  grid-template-columns: 48px 48px 48px 48px 48px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-auto-rows: 48px;
   grid-template-areas:
     "thickskin burstofstrength clarityofthought sharpeye mysticwill"

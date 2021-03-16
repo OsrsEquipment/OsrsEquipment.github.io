@@ -189,12 +189,12 @@ export default {
           const foundSameStance = this.stances
             .find((stance) => isEqual(currentStance, stance));
           if (foundSameStance) {
-            this.internalStance = foundSameStance;
+            this.lazyStance = foundSameStance;
             return;
           }
         }
-        [this.internalStance] = this.stances;
-        this.internalSpell = undefined;
+        [this.lazyStance] = this.stances;
+        this.lazyStance = undefined;
       },
     },
   },

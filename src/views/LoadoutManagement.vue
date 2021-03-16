@@ -64,7 +64,7 @@
             class="manage-loadout-buttons"
             @click="updateLoadout(computedLoadouts[index])"
           >
-            Update
+            Save
           </osrs-flat-button>
           <osrs-flat-button
             class="manage-loadout-buttons"
@@ -75,6 +75,8 @@
         </div>
       </div>
     </div>
+    <message-dialog ref="messageDialog" />
+    <confirmation-dialog ref="confirmationDialog" />
   </v-container>
 </template>
 
@@ -84,11 +86,18 @@ import LoadoutDetails from '../components/DpsCalc/LoadoutDetails.vue';
 import OsrsFlatButton from '../components/OsrsFlatButton.vue';
 import OsrsTextInput from '../components/OsrsTextInput.vue';
 import OsrsContainer from '../components/OsrsContainer.vue';
+import MessageDialog from '../components/dialogs/MessageDialog.vue';
+import ConfirmationDialog from '../components/dialogs/ConfirmationDialog.vue';
 
 export default {
   name: 'LoadoutManagement',
   components: {
-    OsrsContainer, OsrsTextInput, OsrsFlatButton, LoadoutDetails,
+    ConfirmationDialog,
+    MessageDialog,
+    OsrsContainer,
+    OsrsTextInput,
+    OsrsFlatButton,
+    LoadoutDetails,
   },
   data() {
     return {
@@ -130,24 +139,24 @@ export default {
       this.tempLoadout = undefined;
     },
     saveLoadout() {
-      if (
-        this.tempLoadout
-        && this.tempLoadoutName
-        && this.tempLoadoutName.length > 0
-        && !this.getByName(this.tempLoadoutName)
-      ) {
+      if (this.tempLoadout) {
         this.addingNewLoadout = false;
         this.add({ name: this.tempLoadoutName, loadout: { ...this.tempLoadout } });
         this.tempLoadout = undefined;
-      } else {
-        alert('Could not save, make sure you use a unique name');
       }
     },
     updateLoadout(loadout) {
       this.update({ name: loadout.name, loadout });
     },
     deleteLoadout(loadout) {
-      this.remove({ loadout });
+      this.$refs
+        .confirmationDialog
+        .open({ title: 'Delete loadout', message: `You are about to delete <i>${loadout.name}</i>.<br>Are you sure?` })
+        .then((answer) => {
+          if (answer) {
+            this.remove({ loadout });
+          }
+        });
     },
     copyLoadout(loadout) {
       this.tempLoadout = { ...loadout };
@@ -207,9 +216,8 @@ export default {
 
 .new-loadout-container {
   position: relative;
-  min-width: 360px;
-  max-width: 400px;
-  min-height: 520px;
+  width: 360px;
+  height: 560px;
   display: flex;
   flex-direction: column;
   align-items: center;

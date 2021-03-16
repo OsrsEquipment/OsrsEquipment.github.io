@@ -85,7 +85,7 @@
       class="player-equipment-clear-button"
       @click="clear"
     >
-      Reset
+      Clear
     </osrs-flat-button>
   </div>
 </template>

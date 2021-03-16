@@ -13,8 +13,6 @@ class Dps {
 
   spell;
 
-  weapon;
-
   target;
 
   debuffedTarget;
@@ -50,14 +48,13 @@ class Dps {
   targetDefenceRollModifiers = new Map();
 
   constructor({
-    skills, equipment, bonuses, boosts, stance, weapon, spell, settings,
+    skills, equipment, bonuses, boosts, stance, spell, settings,
   }, target) {
     this.skills = { ...skills };
     this.equipment = { ...equipment };
     this.bonuses = { ...bonuses };
     this.boosts = [...boosts];
     this.stance = stance;
-    this.weapon = weapon;
     this.target = { ...target };
     this.debuffedTarget = { ...target };
     this.settings = { ...settings };
@@ -200,6 +197,13 @@ class Dps {
 
   get dps() {
     return this.averageDamage / this.attackSpeedInSeconds;
+  }
+
+  get weapon() {
+    if (this.equipment && this.equipment.weapon) {
+      return this.equipment.weapon.weapon;
+    }
+    return undefined;
   }
 
   get attackType() {

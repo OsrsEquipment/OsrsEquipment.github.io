@@ -67,7 +67,7 @@ class Loadout {
     this.spell = spell;
     this.prayers = prayers;
     this.potions = potions;
-    this.settings = settings;
+    this.settings = settings ?? { onSlayerTask: true, inWilderness: true, currentHitpoints: 1 };
     this.calculateBonuses();
     this.calculateBoosts();
   }

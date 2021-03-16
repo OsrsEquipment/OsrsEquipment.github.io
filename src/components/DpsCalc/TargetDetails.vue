@@ -1,11 +1,11 @@
 <template>
   <osrs-container class="target-details-container">
     <monster-select
-      v-model="target"
+      v-model="internalTarget"
     />
-    <template v-if="target">
+    <template v-if="internalTarget">
       <monster-details
-        :monster="target"
+        :monster="internalTarget"
         :debuffed-monsters="debuffedTargets"
       />
     </template>
@@ -23,24 +23,42 @@ import MonsterDetails from './MonsterDetails.vue';
 export default {
   name: 'TargetDetails',
   components: { MonsterDetails, MonsterSelect, OsrsContainer },
+  model: {
+    prop: 'target',
+    event: 'change',
+  },
   props: {
     debuffedTargets: {
       type: Array,
       default: undefined,
     },
-    value: {
+    target: {
       type: Object,
       default: undefined,
     },
   },
   data() {
     return {
-      target: undefined,
+      lazyTarget: undefined,
     };
   },
+  computed: {
+    internalTarget: {
+      get() {
+        return this.lazyTarget;
+      },
+      set(value) {
+        this.lazyTarget = value;
+        this.$emit('change', value);
+      },
+    },
+  },
   watch: {
-    target: function targetChanged(target) {
-      this.$emit('input', target);
+    target: {
+      immediate: true,
+      handler(value) {
+        this.lazyTarget = value;
+      },
     },
   },
   methods: {

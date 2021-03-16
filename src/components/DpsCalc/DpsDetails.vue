@@ -3,54 +3,54 @@
     class="calc-result-container"
   >
     <div
-      v-if="loadouts && target"
+      v-if="isReady"
     >
       <div class="calc-result-grid">
         <span class="crg-header">
           Combat
         </span>
         <span class="crg-cell">
-          {{ combatType(dpsLoadout1) }}
+          {{ combatType(dps1) }}
         </span>
         <span class="crg-cell" />
         <span class="crg-cell">
-          {{ combatType(dpsLoadout2) }}
+          {{ combatType(dps2) }}
         </span>
         <span class="crg-header">
           Max hit
         </span>
         <span class="crg-cell">
-          {{ dpsLoadout1.maxHit }}
+          {{ dps1.maxHit }}
         </span>
         <span class="crg-cell crg-cell-middle">
-          {{ valueDifference(dpsLoadout1.maxHit, dpsLoadout2.maxHit) }}
+          {{ valueDifference(dps1.maxHit, dps2.maxHit) }}
         </span>
         <span class="crg-cell">
-          {{ dpsLoadout2.maxHit }}
+          {{ dps2.maxHit }}
         </span>
         <span class="crg-header">
           Accuracy
         </span>
         <span class="crg-cell">
-          {{ formatHitChance(dpsLoadout1.hitChance) }}
+          {{ formatHitChance(dps1.hitChance) }}
         </span>
         <span class="crg-cell crg-cell-middle">
-          {{ valueDifference(dpsLoadout1.hitChance, dpsLoadout2.hitChance) }}
+          {{ valueDifference(dps1.hitChance, dps2.hitChance) }}
         </span>
         <span class="crg-cell">
-          {{ formatHitChance(dpsLoadout2.hitChance) }}
+          {{ formatHitChance(dps2.hitChance) }}
         </span>
         <span class="crg-header">
           DPS
         </span>
         <span class="crg-cell">
-          {{ formatDps(dpsLoadout1.dps) }}
+          {{ formatDps(dps1.dps) }}
         </span>
         <span class="crg-cell crg-cell-middle">
-          {{ valueDifference(dpsLoadout1.dps, dpsLoadout2.dps) }}
+          {{ valueDifference(dps1.dps, dps2.dps) }}
         </span>
         <span class="crg-cell">
-          {{ formatDps(dpsLoadout2.dps) }}
+          {{ formatDps(dps2.dps) }}
         </span>
       </div>
       <osrs-tabs
@@ -85,11 +85,13 @@
         </osrs-tab-item>
       </osrs-tab-items>
     </div>
+    <div v-else>
+      Edit your loadouts and pick a target to start seeing results
+    </div>
   </osrs-container>
 </template>
 
 <script>
-import DpsCalculator from '../../dps-calc/dps-calculator';
 import MagicDps from '../../dps-calc/magic-dps';
 import RangedDps from '../../dps-calc/ranged-dps';
 import OsrsContainer from '../OsrsContainer.vue';
@@ -104,14 +106,11 @@ export default {
     OsrsTabItem, OsrsTabItems, OsrsTab, OsrsTabs, OsrsContainer,
   },
   props: {
-    loadouts: {
-      type: Array,
-      default: () => [],
-      validator(value) {
-        return Array.isArray(value) && value.length > 0 && value.length <= 2;
-      },
+    dps1: {
+      type: Object,
+      default: undefined,
     },
-    target: {
+    dps2: {
       type: Object,
       default: undefined,
     },
@@ -122,23 +121,23 @@ export default {
     };
   },
   computed: {
-    dpsLoadout1() {
-      return this.calculate(this.loadouts[0]);
-    },
-    dpsLoadout2() {
-      return this.calculate(this.loadouts[1]);
+    isReady() {
+      return !!(this.dps1 && this.dps2);
     },
     computedBoosts() {
-      const boosts = [];
-      boosts.push(this.dpsLoadout1.boosts.filter((i) => i.show));
-      boosts.push(this.dpsLoadout2.boosts.filter((i) => i.show));
-      return boosts;
+      if (this.dps1 && this.dps2) {
+        const boosts = [];
+        boosts.push(this.dps1.boosts.filter((i) => i.show));
+        boosts.push(this.dps2.boosts.filter((i) => i.show));
+        return boosts;
+      }
+      return [];
     },
   },
+  watch: {
+
+  },
   methods: {
-    calculate(loadout) {
-      return DpsCalculator.calculate(loadout, this.target);
-    },
     valueDifference(a, b) {
       if (a === b) {
         return '-';

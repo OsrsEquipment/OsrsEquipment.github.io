@@ -2,6 +2,7 @@
   <osrs-container class="loadout-details-container">
     <osrs-tabs
       v-model="selectedTab"
+      :grow="true"
       class="loadout-tabs-container"
     >
       <osrs-tab>
@@ -40,12 +41,18 @@
           alt="Settings"
         >
       </osrs-tab>
+      <osrs-tab>
+        <img
+          src="../../assets/osrs/Loadout Management.png"
+          alt="Settings"
+        >
+      </osrs-tab>
     </osrs-tabs>
     <osrs-tab-items
       v-model="selectedTab"
       class="loadout-details-tab-items"
     >
-      <osrs-tab-item>
+      <osrs-tab-item :eager="true">
         <stance-selector
           :equipped-weapon="weapon"
           :stance="internalLoadout.stance"
@@ -90,6 +97,11 @@
           @change="settingsChanged"
         />
       </osrs-tab-item>
+      <osrs-tab-item>
+        <loadout-management
+          v-model="internalLoadout"
+        />
+      </osrs-tab-item>
     </osrs-tab-items>
   </osrs-container>
 </template>
@@ -107,10 +119,12 @@ import PlayerSkills from './PlayerSkills.vue';
 import PlayerPrayer from './PlayerPrayer.vue';
 import PlayerPotions from './PlayerPotions.vue';
 import PlayerSettings from './LoadoutSettings.vue';
+import LoadoutManagement from './LoadoutManagement.vue';
 
 export default {
   name: 'LoadoutDetails',
   components: {
+    LoadoutManagement,
     PlayerSettings,
     PlayerPotions,
     PlayerPrayer,
@@ -127,6 +141,8 @@ export default {
   provide() {
     return {
       loadout: this.internalLoadout,
+      defaultLoadout: this.defaultLoadout,
+      loadoutNumber: this.loadoutNumber,
     };
   },
   model: {
@@ -140,6 +156,10 @@ export default {
     },
     loadout: {
       type: Object,
+      default: undefined,
+    },
+    loadoutNumber: {
+      type: Number,
       default: undefined,
     },
   },
@@ -246,8 +266,8 @@ export default {
 <style scoped>
 .loadout-details-container {
   position: relative;
-  width: 320px;
-  height: 450px;
+  width: 350px;
+  min-height: 450px;
   margin: 10px 5px;
 }
 
@@ -262,7 +282,6 @@ export default {
   align-items: center;
   width: 100%;
   max-width: 100%;
-  height: calc(100% - 50px);
 }
 
 .loadout-details-equipment-tab {

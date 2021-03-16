@@ -4,19 +4,23 @@
       <osrs-navbar />
       <router-view />
     </v-main>
+    <message-dialog ref="messageDialog" />
   </v-app>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
+import ErrorHandler from './plugins/error-handler';
 import OsrsNavbar from './components/OsrsNavbar.vue';
+import MessageDialog from './components/dialogs/MessageDialog.vue';
 
 export default {
   name: 'App',
-  components: { OsrsNavbar },
+  components: { MessageDialog, OsrsNavbar },
   mounted() {
     this.initMonsters();
     this.initEquipment();
+    ErrorHandler.setDialogRef(this.$refs.messageDialog);
   },
   methods: {
     ...mapActions({

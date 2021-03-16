@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="player-potions-container">
     <div
       v-for="category in categories"
       :key="category"
@@ -111,6 +111,9 @@ export default {
   },
   methods: {
     parseLazyPotions() {
+      this.categories.forEach((category) => {
+        this.selectedPotions[category] = undefined;
+      });
       if (this.lazyPotions && this.lazyPotions.length > 0) {
         this.lazyPotions.forEach((potionName) => {
           const potion = this.computedPotions.get(potionName);
@@ -118,10 +121,6 @@ export default {
           applicableCategories.forEach((category) => {
             this.selectedPotions[category] = potionName;
           });
-        });
-      } else {
-        this.categories.forEach((category) => {
-          this.selectedPotions[category] = undefined;
         });
       }
     },
@@ -167,6 +166,11 @@ export default {
 </script>
 
 <style scoped>
+.player-potions-container {
+  display: block;
+  padding: 0 20px;
+}
+
 .potion-section-header {
   width: 100%;
 }

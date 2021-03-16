@@ -8,7 +8,7 @@
         v-for="(localMonster, index) of computedMonsters"
         :key="index"
       >
-        {{ index === 0 ? 'Regular' : `Debuffed #${index}` }}
+        {{ index === 0 ? 'Regular' : `#${index}` }}
       </osrs-tab>
     </osrs-tabs>
     <osrs-tab-items
@@ -237,7 +237,7 @@ export default {
 .monster-details-grid {
   display: grid;
   grid-template-columns: 40px 40px 40px 40px 40px 40px;
-  grid-template-rows: 1fr 60px 1fr 60px 1fr 60px 1fr 60px;
+  grid-template-rows: 1fr 50px 1fr 50px 1fr 50px 1fr 50px;
   grid-template-areas:
     "csheader csheader csheader csheader csheader csheader"
     "hp attack strength defence magic ranged"
@@ -253,7 +253,15 @@ export default {
 
 .monster-detail-header {
   display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 24px;
+}
+
+.monster-detail-header > img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
 }
 
 .monster-detail-header .v-image {
@@ -266,6 +274,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
   height: 100%;
 }
 

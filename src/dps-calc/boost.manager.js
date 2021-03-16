@@ -146,6 +146,7 @@ class BoostManager {
   }
 
   static getOtherBoosts(settings) {
+    if (!settings) return [];
     const otherBoosts = [];
     if (settings.dwhSpecials > 0) {
       otherBoosts.push(new DwhSpec(settings.dwhSpecials));

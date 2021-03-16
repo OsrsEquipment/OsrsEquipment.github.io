@@ -1,5 +1,3 @@
-loadout creation page, this page will show all saved loadouts
-
 clean up data to remove duplicate or cosmetic variations
 
 special attacks
@@ -8,14 +6,10 @@ ruby bolts support
 
 barrows set effects?
 
-remember last entered stats (store vuex)
-
 custom monster
-
-loadout management
 
 bgs vs dwh
 
-logging error messaging
+about page, contribution page, data page
 
-Improve item select using new osrs-autocomplete features
+loads of ui issues (height mostly)

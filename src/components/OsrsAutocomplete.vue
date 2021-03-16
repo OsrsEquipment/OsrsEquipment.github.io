@@ -129,6 +129,15 @@ export default {
     },
   },
   watch: {
+    value: {
+      immediate: true,
+      handler(val) {
+        this.selectedItem = val;
+        if (val) {
+          this.lazySearch = val[this.itemValue];
+        }
+      },
+    },
     items: {
       immediate: true,
       handler(val) {
@@ -184,7 +193,7 @@ export default {
     },
     isSelected(item) {
       if (this.selectedItem && item) {
-        return this.selectedItem.id === item.id;
+        return this.selectedItem[this.itemKey] === item[this.itemKey];
       }
       return false;
     },
