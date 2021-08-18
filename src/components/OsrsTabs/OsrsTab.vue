@@ -1,14 +1,15 @@
 <template>
   <v-slide-item
     v-slot="{ active, toggle }"
+    v-bind="$attrs"
     class="osrs-tab-slide-item"
   >
     <div
       class="osrs-tab-container"
-      :class="{'osrs-active-tab': active, 'osrs-stretch-tab': grow }"
+      :class="{'osrs-active-tab': active}"
       @click="toggle"
     >
-      <slot />
+      <slot/>
     </div>
   </v-slide-item>
 </template>
@@ -16,7 +17,7 @@
 <script>
 export default {
   name: 'OsrsTab',
-  inject: ['grow'],
+  inheritAttrs: false,
 };
 </script>
 

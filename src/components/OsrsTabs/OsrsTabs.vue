@@ -1,8 +1,8 @@
 <template>
   <v-slide-group
-    mandatory
     :value="value"
-    @change="$emit('input', $event)"
+    mandatory
+    v-on="listeners"
   >
     <slot />
   </v-slide-group>
@@ -11,27 +11,21 @@
 <script>
 export default {
   name: 'OsrsTabs',
-  provide() {
-    return {
-      grow: this.grow,
-    };
-  },
   props: {
     value: {
       type: undefined,
-      default: undefined,
-    },
-    grow: {
-      type: Boolean,
-      default: false,
     },
   },
-  data() {
-    return {
-      selectedTab: 0,
-    };
-  },
-  methods: {
+  computed: {
+    listeners() {
+      return {
+        ...this.$listeners,
+        input: (event) => {
+          console.log(event);
+          this.$emit('input', event.target.value);
+        },
+      };
+    },
   },
 };
 </script>

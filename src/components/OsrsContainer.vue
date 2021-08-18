@@ -14,6 +14,7 @@ export default {
 
 <style scoped>
 .osrs-container {
+  position: relative;
   display: block;
   border: 5px ridge var(--osrs-light-brown);
   background-color: var(--osrs-brown);

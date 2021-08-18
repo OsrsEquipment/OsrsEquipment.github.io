@@ -23,6 +23,7 @@ module.exports = {
   ],
   rules: {
     'vue/experimental-script-setup-vars': 0,
+    'vue/require-default-prop': 0,
     'no-plusplus': 0,
     'class-methods-use-this': 0,
     'no-param-reassign': 0,

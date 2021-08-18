@@ -1,9 +1,10 @@
 <template>
-  <v-item-group
+  <v-window
     :value="value"
+    v-on="listeners"
   >
     <slot />
-  </v-item-group>
+  </v-window>
 </template>
 
 <script>
@@ -12,7 +13,17 @@ export default {
   props: {
     value: {
       type: undefined,
-      default: undefined,
+    },
+  },
+  computed: {
+    listeners() {
+      return {
+        ...this.$listeners,
+        input: (event) => {
+          console.log(event);
+          this.$emit('input', event.target.value);
+        },
+      };
     },
   },
 };

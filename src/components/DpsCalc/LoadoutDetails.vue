@@ -1,8 +1,8 @@
 <template>
   <osrs-container class="loadout-details-container">
-    <osrs-tabs
+    <v-slide-group
       v-model="selectedTab"
-      :grow="true"
+      mandatory
       class="loadout-tabs-container"
     >
       <osrs-tab>
@@ -47,12 +47,12 @@
           alt="Settings"
         >
       </osrs-tab>
-    </osrs-tabs>
-    <osrs-tab-items
+    </v-slide-group>
+    <v-window
       v-model="selectedTab"
       class="loadout-details-tab-items"
     >
-      <osrs-tab-item :eager="true">
+      <osrs-tab-item>
         <stance-selector
           :equipped-weapon="weapon"
           :stance="internalLoadout.stance"
@@ -102,17 +102,14 @@
           v-model="internalLoadout"
         />
       </osrs-tab-item>
-    </osrs-tab-items>
+    </v-window>
   </osrs-container>
 </template>
 
 <script>
 import OsrsContainer from '../OsrsContainer.vue';
-import OsrsTabs from '../OsrsTabs/OsrsTabs.vue';
 import OsrsTab from '../OsrsTabs/OsrsTab.vue';
 import StanceSelector from './StanceSelection.vue';
-import OsrsTabItems from '../OsrsTabs/OsrsTabItems.vue';
-import OsrsTabItem from '../OsrsTabs/OsrsTabItem.vue';
 import PlayerEquipment from './PlayerEquipment.vue';
 import EquipmentStats from './EquipmentStats.vue';
 import PlayerSkills from './PlayerSkills.vue';
@@ -120,10 +117,12 @@ import PlayerPrayer from './PlayerPrayer.vue';
 import PlayerPotions from './PlayerPotions.vue';
 import PlayerSettings from './LoadoutSettings.vue';
 import LoadoutManagement from './LoadoutManagement.vue';
+import OsrsTabItem from '../OsrsTabs/OsrsTabItem.vue';
 
 export default {
   name: 'LoadoutDetails',
   components: {
+    OsrsTabItem,
     LoadoutManagement,
     PlayerSettings,
     PlayerPotions,
@@ -131,10 +130,7 @@ export default {
     PlayerSkills,
     EquipmentStats,
     PlayerEquipment,
-    OsrsTabItems,
-    OsrsTabItem,
     StanceSelector,
-    OsrsTabs,
     OsrsTab,
     OsrsContainer,
   },
@@ -221,7 +217,7 @@ export default {
       },
       set(val) {
         this.lazyLoadout = val;
-        this.$emit('change', val);
+        this.$emit('update:loadout', val);
       },
     },
   },
@@ -266,6 +262,8 @@ export default {
 <style scoped>
 .loadout-details-container {
   position: relative;
+  display: flex;
+  flex-direction: column;
   width: 350px;
   min-height: 450px;
   margin: 10px 5px;
@@ -277,11 +275,7 @@ export default {
 }
 
 .loadout-details-tab-items {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 100%;
+  flex: 1;
 }
 
 .loadout-details-equipment-tab {
