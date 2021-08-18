@@ -38,8 +38,7 @@ class DataFetcher {
   }
 
   fetchPlayerHiScores(name) {
-    return axios.post('https://europe-west1-toolscape.cloudfunctions.net/osrs-hi-score',
-      undefined,
+    return axios.get('https://api.osrs.equipment/api/hiscore',
       {
         params: {
           name,

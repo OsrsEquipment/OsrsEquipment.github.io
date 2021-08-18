@@ -121,8 +121,48 @@ class DataManager {
   async updateItems(file) {
     const { sha } = file;
     const { data: { content } } = await DataFetcher.fetchBlob(sha);
-    const processedContent = Object.values(JSON.parse(atob(content)));
+    let processedContent = Object.values(JSON.parse(atob(content)));
+    processedContent = processedContent.filter(this.keepItem);
     await this.db.items.bulkPut(processedContent);
+  }
+
+  // return false to exclude item
+  keepItem(item) {
+    if (item.duplicate) return false;
+    if (!this.itemHasStats(item)) return false;
+    if (this.isMaxCapeVaration(item)) return false;
+    return true;
+  }
+
+  itemHasStats(item) {
+    if (item && item.equipment) {
+      const statsToCheck = [
+        'attack_crush',
+        'attack_stab',
+        'attack_slash',
+        'attack_magic',
+        'attack_ranged',
+        'defence_crush',
+        'defence_stab',
+        'defence_slash',
+        'defence_magic',
+        'defence_ranged',
+        'magic_damage',
+        'melee_strength',
+        'ranged_strength',
+        'prayer',
+      ];
+      for (let i = 0; i < statsToCheck.length; i++) {
+        if (item.equipment[statsToCheck[i]] > 0) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  isMaxCapeVaration(item) {
+    return item.name.toLowerCase().includes('max cape') && item.name.toLowerCase() !== 'max cape';
   }
 }
 

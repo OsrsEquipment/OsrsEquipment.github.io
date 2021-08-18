@@ -17,10 +17,17 @@ class DpsCalculator {
         dps = new MeleeDps(new Loadout(loadout), target);
     }
     console.log('Calculating!');
-    const t0 = performance.now();
-    const result = dps.calculate();
-    const t1 = performance.now();
-    console.log(`Done in ${t1 - t0} milliseconds`);
+    let timeSpent = 0;
+    let result;
+    let counter = 0;
+    while (timeSpent < 1000) {
+      const t0 = performance.now();
+      result = dps.calculate();
+      const t1 = performance.now();
+      timeSpent += t1 - t0;
+      counter++;
+    }
+    console.log(`${counter} calculations done in ${timeSpent} milliseconds`);
     return result;
   }
 
