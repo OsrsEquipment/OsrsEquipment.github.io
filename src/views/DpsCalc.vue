@@ -1,33 +1,52 @@
 <template>
   <v-container fluid>
-    <loadout-details :loadout.sync="loadout1" />
+    <loadout-editor
+      v-for="loadout in loadouts"
+      :key="loadout.uuid"
+      :loadout-uuid="loadout.uuid"
+    />
     <osrs-container>
-      {{ loadout1 }}
+      {{ loadouts }}
     </osrs-container>
+    <osrs-flat-button @click="createLoadout">
+      New loadout
+    </osrs-flat-button>
   </v-container>
 </template>
 
 <script>
-import LoadoutDetails from '../components/DpsCalc/LoadoutDetails.vue';
+import { mapActions, mapState } from 'vuex';
 import OsrsContainer from '../components/OsrsContainer.vue';
+import LoadoutEditor from '../components/loadout/LoadoutEditor.vue';
+import OsrsFlatButton from '../components/OsrsFlatButton.vue';
 
 export default {
   name: 'DpsCalc',
   components: {
+    OsrsFlatButton,
+    LoadoutEditor,
     OsrsContainer,
-    LoadoutDetails,
-
   },
   data() {
     return {
       selectedTab: 0,
-      loadout1: undefined,
     };
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      loadouts: (state) => state.loadouts.list,
+    }),
+  },
   created() {
   },
-  methods: {},
+  methods: {
+    ...mapActions({
+      newLoadout: 'loadouts/new',
+    }),
+    createLoadout() {
+      this.newLoadout();
+    },
+  },
 };
 </script>
 

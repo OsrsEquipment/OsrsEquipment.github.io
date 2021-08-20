@@ -1,0 +1,130 @@
+<template>
+  <osrs-container class="loadout-details-container">
+    <v-slide-group
+      v-model="selectedTab"
+      mandatory
+      class="loadout-tabs-container"
+    >
+      <osrs-tab>
+        <img
+          src="../../assets/osrs/Combat icon.png"
+          alt="Combat"
+        >
+      </osrs-tab>
+      <osrs-tab>
+        <img
+          src="../../assets/osrs/Stats icon.png"
+          alt="Stats"
+        >
+      </osrs-tab>
+      <osrs-tab>
+        <img
+          src="../../assets/osrs/Worn equipment.png"
+          alt="Equipment"
+        >
+      </osrs-tab>
+      <osrs-tab>
+        <img
+          src="../../assets/osrs/Prayer tab icon.png"
+          alt="Prayers"
+        >
+      </osrs-tab>
+      <osrs-tab>
+        <img
+          src="../../assets/osrs/Vial.png"
+          alt="Potions"
+        >
+      </osrs-tab>
+      <osrs-tab>
+        <img
+          src="../../assets/osrs/Cog.png"
+          alt="Settings"
+        >
+      </osrs-tab>
+    </v-slide-group>
+    <v-window
+      v-model="selectedTab"
+      class="loadout-details-tab-items"
+    >
+      <osrs-tab-item>
+        <loadout-stance :loadout-uuid="loadoutUuid" />
+      </osrs-tab-item>
+      <osrs-tab-item>
+        stats
+      </osrs-tab-item>
+      <osrs-tab-item>
+        <div class="equipped-items-interface">
+          <loadout-equipped-items :loadout-uuid="loadoutUuid" />
+          <loadout-equipment-stats :loadout-uuid="loadoutUuid" />
+        </div>
+      </osrs-tab-item>
+      <osrs-tab-item>
+        prayers
+      </osrs-tab-item>
+      <osrs-tab-item>
+        potions
+      </osrs-tab-item>
+      <osrs-tab-item>
+        settings
+      </osrs-tab-item>
+    </v-window>
+  </osrs-container>
+</template>
+
+<script>
+import OsrsContainer from '../OsrsContainer.vue';
+import OsrsTab from '../OsrsTabs/OsrsTab.vue';
+import OsrsTabItem from '../OsrsTabs/OsrsTabItem.vue';
+import LoadoutEquippedItems from './LoadoutEquippedItems.vue';
+import LoadoutEquipmentStats from './LoadoutEquipmentStats.vue';
+import LoadoutStance from './LoadoutStance.vue';
+
+export default {
+  name: 'LoadoutEditor',
+  components: {
+    LoadoutStance,
+    LoadoutEquipmentStats,
+    LoadoutEquippedItems,
+    OsrsTabItem,
+    OsrsTab,
+    OsrsContainer,
+  },
+  props: {
+    loadoutUuid: {
+      type: String,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      selectedTab: 2,
+    };
+  },
+};
+</script>
+
+<style scoped>
+.loadout-details-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  min-height: 450px;
+  margin: 10px 5px;
+}
+
+.loadout-tabs-container {
+  margin: 5px;
+  height: 40px;
+}
+
+.loadout-details-tab-items {
+  flex: 1;
+}
+
+.equipped-items-interface {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+</style>

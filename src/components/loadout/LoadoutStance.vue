@@ -73,90 +73,50 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import { capitalize, isEqual } from 'lodash';
 import OsrsFlatButton from '../OsrsFlatButton.vue';
 import OsrsTooltip from '../OsrsTooltip.vue';
-import SpellSelection from '../loadout/SpellSelection.vue';
+import SpellSelection from './SpellSelection.vue';
 
 export default {
-  name: 'StanceSelection',
+  name: 'LoadoutStance',
   components: { SpellSelection, OsrsTooltip, OsrsFlatButton },
-  model: {
-    prop: 'stance',
-    event: 'change',
-  },
   props: {
-    equippedWeapon: {
-      type: Object,
-      default: undefined,
-    },
-    stance: {
-      type: Object,
-      default: undefined,
-    },
-    spell: {
-      type: Object,
-      default: undefined,
+    loadoutUuid: {
+      type: String,
+      required: true,
     },
   },
   data() {
     return {
-      lazyStance: undefined,
-      lazySpell: undefined,
       selectingSpell: false,
     };
   },
   computed: {
+    ...mapGetters({
+      getEquippedWeaponByUuid: 'equippedItems/getEquippedWeaponByUuid',
+      getStanceByUuid: 'stance/getStanceByUuid',
+      getSpellByUuid: 'spell/getSpellByUuid',
+    }),
     internalStance: {
       get() {
-        return this.lazyStance;
+        return this.getStanceByUuid(this.loadoutUuid);
       },
       set(value) {
-        this.lazyStance = value;
-        this.$emit('change', value);
+        this.setStance({ uuid: this.loadoutUuid, stance: value });
       },
     },
     internalSpell: {
       get() {
-        return this.lazySpell;
+        return this.getSpellByUuid(this.loadoutUuid);
       },
       set(value) {
-        this.lazySpell = value;
-        this.$emit('update:spell', value);
+        this.setSpell({ uuid: this.loadoutUuid, spell: value });
       },
     },
     weapon() {
-      let weapon = this.equippedWeapon;
-      if (!weapon) {
-        weapon = {
-          name: 'Unarmed',
-          weapon: {
-            attack_speed: 4,
-            stances: [
-              {
-                attack_style: 'accurate',
-                attack_type: 'crush',
-                combat_style: 'punch',
-                experience: 'attack',
-              },
-              {
-                attack_style: 'aggressive',
-                attack_type: 'crush',
-                combat_style: 'kick',
-                experience: 'strength',
-              },
-              {
-                attack_style: 'defensive',
-                attack_type: 'crush',
-                combat_style: 'block',
-                experience: 'defence',
-              },
-            ],
-            weapon_type: 'unarmed',
-          },
-        };
-      }
-      return weapon;
+      return this.getEquippedWeaponByUuid(this.loadoutUuid);
     },
     stances() {
       return this.weapon.weapon.stances.filter((i) => i.combat_style.indexOf('(defensive)') === -1);
@@ -167,38 +127,11 @@ export default {
       return capitalize(category);
     },
   },
-  watch: {
-    stance: {
-      immediate: true,
-      handler(value) {
-        this.lazyStance = value ?? this.stances[0];
-      },
-    },
-    spell: {
-      immediate: true,
-      handler(value) {
-        this.lazySpell = value;
-      },
-    },
-    // attempt to select same stance if available
-    weapon: {
-      immediate: true,
-      handler: function weaponChanged() {
-        if (this.internalStance) {
-          const currentStance = this.internalStance;
-          const foundSameStance = this.stances
-            .find((stance) => isEqual(currentStance, stance));
-          if (foundSameStance) {
-            this.lazyStance = foundSameStance;
-            return;
-          }
-        }
-        [this.lazyStance] = this.stances;
-        this.lazyStance = undefined;
-      },
-    },
-  },
   methods: {
+    ...mapActions({
+      setStance: 'stance/addOrUpdate',
+      setSpell: 'spell/addOrUpdate',
+    }),
     capitalize,
     stanceSelected(stance) {
       this.internalStance = stance;

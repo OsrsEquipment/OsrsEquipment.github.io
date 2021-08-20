@@ -33,6 +33,7 @@ export default {
   justify-content: center;
   align-items: center;
   margin: 0 2px;
+  flex: 1;
 }
 
 .osrs-tab-container:first-child {
@@ -46,9 +47,5 @@ export default {
 .osrs-tab-container.osrs-active-tab {
   background: var(--osrs-brown);
   border-bottom: 2px solid transparent;
-}
-
-.osrs-tab-container.osrs-stretch-tab {
-  flex: 1;
 }
 </style>

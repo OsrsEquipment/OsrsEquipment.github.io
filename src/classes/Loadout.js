@@ -1,6 +1,16 @@
 import Settings from './Settings';
 
 export default class Loadout {
+  uuid;
+
+  name;
+
+  description;
+
+  dateAdded;
+
+  dateUpdated;
+
   constructor({
     skills, equipment, stance, spell, prayers, potions, settings,
   }) {

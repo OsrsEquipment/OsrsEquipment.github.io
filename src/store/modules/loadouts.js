@@ -1,61 +1,66 @@
 import { v4 as uuidv4 } from 'uuid';
+import Vue from 'vue';
+import { isEqual } from 'lodash';
 
-function isDuplicateName(state, name, loadout) {
-  if (loadout) {
-    const foundExistingLoadout = state.list.find((i) => i.name === name);
-    if (foundExistingLoadout) {
-      return foundExistingLoadout.uuid !== loadout.uuid;
-    }
-    return false;
-  }
-  return state.list.some((i) => i.name.toLowerCase() === name.toLowerCase());
+function nameExists(list, name) {
+  return Object.values(list).some((loadout) => loadout.name === name);
+}
+
+function stanceIsSpellRelated(stance) {
+  return stance.combat_style === 'spell' && stance.attack_type === 'spellcasting';
 }
 
 const moduleLoadouts = {
   namespaced: true,
   state: () => ({
-    list: [],
+    list: {},
   }),
   mutations: {
-    SET(state, value) {
-      state.list = value;
+    add(state, { uuid, loadout }) {
+      Vue.set(state.list, uuid, loadout);
     },
   },
   actions: {
-    add({ commit, state }, { name, loadout }) {
-      if (!loadout || !name) return undefined;
-      if (isDuplicateName(state, name)) throw new Error('Duplicate loadout name');
-      const localLoadout = { ...loadout };
-      localLoadout.uuid = uuidv4();
-      localLoadout.name = name;
-      commit('SET', [...state.list, localLoadout]);
-      return localLoadout;
+    new({ commit, state }) {
+      const uuid = uuidv4();
+      let number = 1;
+      let generatedName;
+      do {
+        generatedName = `Loadout ${number++}`;
+      } while (nameExists(state.list, generatedName));
+
+      const loadout = {
+        uuid,
+        loadout: {
+          uuid,
+          dateAdded: new Date(),
+          name: generatedName,
+        },
+      };
+
+      commit('add', loadout);
+      return loadout;
     },
-    remove({ commit, state }, { loadout }) {
-      if (!loadout) return;
-      commit('SET', state.list.filter((i) => i.uuid !== loadout.uuid));
-    },
-    update({ commit, state }, { name, loadout }) {
-      if (!loadout || !name) return;
-      if (isDuplicateName(state, name, loadout)) throw new Error('Duplicate loadout name');
-      if (!loadout.uuid) throw new Error('Loadout has no uuid');
-      loadout.name = name;
-      commit('SET', [...state.list.filter((i) => i.uuid !== loadout.uuid), loadout]);
-    },
-    clear({ commit }) {
-      commit('SET', []);
+    checkStance({ rootGetters, dispatch }, uuid) {
+      const weapon = rootGetters['equippedItems/getEquippedWeaponByUuid'](uuid);
+      const currentStance = rootGetters['stance/getStanceByUuid'](uuid);
+      if (weapon) {
+        const possibleStances = weapon.weapon.stances;
+        const matchingStance = possibleStances.some((stance) => isEqual(stance, currentStance));
+        if (!matchingStance) {
+          const newStance = possibleStances[0];
+          if (stanceIsSpellRelated(currentStance) && !stanceIsSpellRelated(newStance)) {
+            dispatch('spell/delete', uuid, { root: true });
+          }
+          dispatch('stance/addOrUpdate', { uuid, stance: newStance }, { root: true });
+        }
+      } else {
+        throw new Error('You somehow have no weapon equipped, even though the default is unarmed...');
+      }
     },
   },
   getters: {
-    getNames(state) {
-      return state.list.map((loadout) => loadout.name);
-    },
-    getByName(state) {
-      return (name) => state.list.find((loadout) => loadout.name === name);
-    },
-    getByUuid(state) {
-      return (uuid) => state.list.find((loadout) => loadout.uuid === uuid);
-    },
+    getLoadoutByUuid: (state) => (uuid) => state.list[uuid],
   },
 };
 
