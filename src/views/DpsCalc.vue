@@ -1,10 +1,12 @@
 <template>
   <v-container fluid>
-    <loadout-editor
-      v-for="loadout in loadouts"
-      :key="loadout.uuid"
-      :loadout-uuid="loadout.uuid"
-    />
+    <v-row>
+      <v-col v-for="loadout in loadouts" :key="loadout.uuid">
+        <loadout-editor
+          :loadout-uuid="loadout.uuid"
+        />
+      </v-col>
+    </v-row>
     <osrs-container>
       {{ loadouts }}
     </osrs-container>

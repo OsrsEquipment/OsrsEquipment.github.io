@@ -19,6 +19,9 @@ const moduleLoadouts = {
     add(state, { uuid, loadout }) {
       Vue.set(state.list, uuid, loadout);
     },
+    delete(state, uuid) {
+      Vue.delete(state.list, uuid);
+    },
   },
   actions: {
     new({ commit, state }) {
@@ -40,6 +43,13 @@ const moduleLoadouts = {
 
       commit('add', loadout);
       return loadout;
+    },
+    delete({ commit, dispatch }, uuid) {
+      dispatch('equippedItems/delete', uuid, { root: true });
+      dispatch('skills/delete', uuid, { root: true });
+      dispatch('stance/delete', uuid, { root: true });
+      dispatch('spell/delete', uuid, { root: true });
+      commit('delete', uuid);
     },
     checkStance({ rootGetters, dispatch }, uuid) {
       const weapon = rootGetters['equippedItems/getEquippedWeaponByUuid'](uuid);

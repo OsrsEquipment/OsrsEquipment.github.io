@@ -5,9 +5,8 @@ let dialogRef;
 function showMessage({ title, message }, err) {
   if (dialogRef) {
     dialogRef.open({ title, message });
-  } else {
-    console.error(err);
   }
+  console.error(err);
 }
 
 function setDialogRef(ref) {

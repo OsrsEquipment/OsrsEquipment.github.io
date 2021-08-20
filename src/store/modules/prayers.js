@@ -1,34 +1,34 @@
 import Vue from 'vue';
 
-const moduleSpell = {
+const modulePrayers = {
   namespaced: true,
   state: () => ({
     /**
      * A key:value list
      * Key = loadout uuid
-     * Value = selected spell
+     * Value = prayers
      */
     list: {},
   }),
   mutations: {
-    addOrUpdate(state, { uuid, spell }) {
-      Vue.set(state.list, uuid, spell);
+    addOrUpdate(state, { uuid, prayers }) {
+      Vue.set(state.list, uuid, prayers);
     },
     delete(state, uuid) {
       Vue.delete(state.list, uuid);
     },
   },
   actions: {
-    addOrUpdate({ commit }, { uuid, spell }) {
-      commit('addOrUpdate', { uuid, spell });
+    addOrUpdate({ commit }, { uuid, prayers }) {
+      commit('addOrUpdate', { uuid, prayers });
     },
     delete({ commit }, uuid) {
       commit('delete', uuid);
     },
   },
   getters: {
-    getSpellByUuid: (state) => (uuid) => state.list[uuid],
+    getPrayersByUuid: (state) => (uuid) => state.list[uuid],
   },
 };
 
-export default moduleSpell;
+export default modulePrayers;

@@ -1,5 +1,15 @@
 import Vue from 'vue';
 
+/**
+ * Unarmed accurate is default
+ */
+const defaultStance = {
+  attack_style: 'accurate',
+  attack_type: 'crush',
+  combat_style: 'punch',
+  experience: 'attack',
+};
+
 const moduleStance = {
   namespaced: true,
   state: () => ({
@@ -9,15 +19,6 @@ const moduleStance = {
      * Value = selected stance
      */
     list: {},
-    /**
-     * Unarmed accurate is default
-     */
-    default: {
-      attack_style: 'accurate',
-      attack_type: 'crush',
-      combat_style: 'punch',
-      experience: 'attack',
-    },
   }),
   mutations: {
     addOrUpdate(state, { uuid, stance }) {
@@ -36,7 +37,7 @@ const moduleStance = {
     },
   },
   getters: {
-    getStanceByUuid: (state) => (uuid) => state.list[uuid] || { ...state.default },
+    getStanceByUuid: (state) => (uuid) => state.list[uuid] || { ...defaultStance },
   },
 };
 

@@ -1,5 +1,20 @@
 import Vue from 'vue';
 
+const defaultEquippedItems = {
+  head: undefined,
+  cape: undefined,
+  neck: undefined,
+  ammo: undefined,
+  weapon: undefined,
+  body: undefined,
+  shield: undefined,
+  legs: undefined,
+  hands: undefined,
+  feet: undefined,
+  ring: undefined,
+  darts: undefined,
+};
+
 const moduleEquippedItems = {
   namespaced: true,
   state: () => ({
@@ -9,20 +24,6 @@ const moduleEquippedItems = {
      * Value = object containing equipped items
      */
     list: {},
-    default: {
-      head: undefined,
-      cape: undefined,
-      neck: undefined,
-      ammo: undefined,
-      weapon: undefined,
-      body: undefined,
-      shield: undefined,
-      legs: undefined,
-      hands: undefined,
-      feet: undefined,
-      ring: undefined,
-      darts: undefined,
-    },
   }),
   mutations: {
     addOrUpdate(state, { uuid, items }) {
@@ -43,7 +44,7 @@ const moduleEquippedItems = {
     },
   },
   getters: {
-    getEquippedItemsByUuid: (state) => (uuid) => state.list[uuid] || { ...state.default },
+    getEquippedItemsByUuid: (state) => (uuid) => state.list[uuid] || { ...defaultEquippedItems },
     getEquippedWeaponByUuid: (state) => (uuid) => {
       const equippedItems = state.list[uuid];
       if (equippedItems && equippedItems.weapon) {

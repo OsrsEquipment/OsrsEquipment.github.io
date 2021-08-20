@@ -8,12 +8,14 @@ import moduleDpsCalc from './modules/dps-calc';
 import moduleEquippedItems from './modules/equippedItems';
 import moduleStance from './modules/stance';
 import moduleSpell from './modules/spell';
+import moduleSkills from './modules/skills';
+import modulePrayers from './modules/prayers';
 
 Vue.use(Vuex);
 
 const vuexPersist = new VuexPersistence({
   key: 'OsrsEquipmentData',
-  modules: ['loadouts', 'equippedItems', 'stance', 'spell'],
+  modules: ['loadouts', 'equippedItems', 'stance', 'spell', 'skills', 'prayers'],
 });
 
 const store = new Vuex.Store({
@@ -25,6 +27,8 @@ const store = new Vuex.Store({
     equippedItems: moduleEquippedItems,
     stance: moduleStance,
     spell: moduleSpell,
+    skills: moduleSkills,
+    prayers: modulePrayers,
   },
   plugins: [vuexPersist.plugin],
 });

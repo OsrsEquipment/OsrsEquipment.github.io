@@ -50,7 +50,7 @@
         <loadout-stance :loadout-uuid="loadoutUuid" />
       </osrs-tab-item>
       <osrs-tab-item>
-        stats
+        <loadout-skills :loadout-uuid="loadoutUuid" />
       </osrs-tab-item>
       <osrs-tab-item>
         <div class="equipped-items-interface">
@@ -59,7 +59,7 @@
         </div>
       </osrs-tab-item>
       <osrs-tab-item>
-        prayers
+        <loadout-prayers :loadout-uuid="loadoutUuid" />
       </osrs-tab-item>
       <osrs-tab-item>
         potions
@@ -78,10 +78,14 @@ import OsrsTabItem from '../OsrsTabs/OsrsTabItem.vue';
 import LoadoutEquippedItems from './LoadoutEquippedItems.vue';
 import LoadoutEquipmentStats from './LoadoutEquipmentStats.vue';
 import LoadoutStance from './LoadoutStance.vue';
+import LoadoutSkills from './LoadoutSkills.vue';
+import LoadoutPrayers from './LoadoutPrayers.vue';
 
 export default {
   name: 'LoadoutEditor',
   components: {
+    LoadoutPrayers,
+    LoadoutSkills,
     LoadoutStance,
     LoadoutEquipmentStats,
     LoadoutEquippedItems,
