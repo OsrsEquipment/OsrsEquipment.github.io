@@ -101,10 +101,10 @@ export default {
   computed: {
     ...mapGetters({
       getEquippedItemsByUuid: 'equippedItems/getEquippedItemsByUuid',
+      getCalculation: 'calculations/getCalculationByUuid',
     }),
     computedBonuses() {
-      const skipBonuses = ['requirements', 'slot'];
-      const bonuses = {
+      let bonuses = {
         attack_stab: 0,
         attack_slash: 0,
         attack_crush: 0,
@@ -122,22 +122,33 @@ export default {
         slayer: 1,
         undead: 1,
       };
-      Object.values(this.getEquippedItemsByUuid(this.loadoutUuid))
-        .filter(Boolean)
-        .forEach((item) => {
-          const equipBonuses = item.equipment;
-          Object.keys(equipBonuses)
-            .filter((bonus) => skipBonuses.indexOf(bonus) === -1)
-            .forEach((bonus) => {
-              const bonusValue = equipBonuses[bonus];
-              bonuses[bonus] += bonusValue;
-            });
-        });
+
+      // TODO: Hardcode slayer and salve
+
+      const calc = this.getCalculation(this.loadoutUuid);
+      if (calc) {
+        bonuses = calc.bonuses;
+      } else {
+        Object.values(this.getEquippedItemsByUuid(this.loadoutUuid))
+          .filter(Boolean)
+          .forEach((item) => {
+            const equipBonuses = item.equipment;
+            Object.keys(equipBonuses)
+              .forEach((bonus) => {
+                const bonusValue = equipBonuses[bonus];
+                bonuses[bonus] += bonusValue;
+              });
+          });
+      }
+
       return bonuses;
     },
   },
   methods: {
-    parseBonus(bonus = {}, { targetSpecific, magicDamage } = {}) {
+    parseBonus(bonus = {}, {
+      targetSpecific,
+      magicDamage,
+    } = {}) {
       if (targetSpecific) {
         return `${((bonus - 1) * 100).toFixed(2)}%`;
       }
