@@ -107,6 +107,7 @@ export default {
   },
   data() {
     return {
+      lazyEquipment: undefined,
       equipSelectDialog: {
         show: false,
         itemSlots: ['weapon', '2h'],
@@ -124,12 +125,16 @@ export default {
     },
     internalEquipment: {
       get() {
-        return this.getEquippedItemsByUuid(this.loadoutUuid);
+        return this.lazyEquipment;
       },
       set(val) {
+        this.lazyEquipment = val;
         this.addOrUpdate({ uuid: this.loadoutUuid, items: val });
       },
     },
+  },
+  beforeMount() {
+    this.lazyEquipment = this.getEquippedItemsByUuid(this.loadoutUuid);
   },
   methods: {
     ...mapActions({
@@ -145,6 +150,9 @@ export default {
       const localEquipment = { ...this.internalEquipment };
       if (item) {
         let { slot } = item.equipment;
+        if (!this.showDartsSlot) {
+          localEquipment.darts = undefined;
+        }
         if (/^\w+\sdart$/.test(item.name)) {
           slot = 'darts';
         }
@@ -168,6 +176,7 @@ export default {
     },
     clear() {
       this.delete(this.loadoutUuid);
+      this.lazyEquipment = this.getEquippedItemsByUuid(this.loadoutUuid);
     },
   },
 };

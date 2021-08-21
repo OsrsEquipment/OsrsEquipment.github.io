@@ -5,7 +5,7 @@
   >
     <img
       class="player-equip-slot-bg"
-      :src="slotBg"
+      :class="{'empty': hasItemEquipped, [equipSlot]: !hasItemEquipped}"
       alt="slot"
     >
     <img
@@ -46,8 +46,7 @@ export default {
       return this.equippedItem != null;
     },
     slotBg() {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      return require(`../../assets/osrs/${this.hasItemEquipped ? 'empty' : this.equipSlot}_slot.png`);
+      return '../../static/osrs/empty_slot.png';
     },
   },
 };
@@ -55,12 +54,57 @@ export default {
 
 <style scoped>
 .player-equip-slot-container {
-  display: inline-block;
+  display: flex;
   position: relative;
   cursor: pointer;
 }
 
-.player-equip-slot-bg {
+.player-equip-slot-bg.empty {
+  content: url('../../static/osrs/empty_slot.png');
+}
+
+.player-equip-slot-bg.head {
+  content: url('../../static/osrs/head_slot.png');
+}
+
+.player-equip-slot-bg.ammo {
+  content: url('../../static/osrs/ammo_slot.png');
+}
+
+.player-equip-slot-bg.cape {
+  content: url('../../static/osrs/cape_slot.png');
+}
+
+.player-equip-slot-bg.neck {
+  content: url('../../static/osrs/neck_slot.png');
+}
+
+.player-equip-slot-bg.weapon {
+  content: url('../../static/osrs/weapon_slot.png');
+}
+
+.player-equip-slot-bg.body {
+  content: url('../../static/osrs/body_slot.png');
+}
+
+.player-equip-slot-bg.shield {
+  content: url('../../static/osrs/shield_slot.png');
+}
+
+.player-equip-slot-bg.legs {
+  content: url('../../static/osrs/legs_slot.png');
+}
+
+.player-equip-slot-bg.hands {
+  content: url('../../static/osrs/hands_slot.png');
+}
+
+.player-equip-slot-bg.feet {
+  content: url('../../static/osrs/feet_slot.png');
+}
+
+.player-equip-slot-bg.ring {
+  content: url('../../static/osrs/ring_slot.png');
 }
 
 .player-equip-slot-equipped-item {
