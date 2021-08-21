@@ -280,7 +280,8 @@ export default class Calculation {
   }
 
   get effects() {
-    const result = [PassiveEffect, StancePassive];
+    const result = [];
+    result.push(...[PassiveEffect, StancePassive]);
 
     if (this.loadout.potions) {
       result.push(

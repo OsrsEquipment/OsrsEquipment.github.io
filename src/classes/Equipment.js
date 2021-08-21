@@ -14,6 +14,7 @@ export default class Equipment {
     hands: undefined,
     feet: undefined,
     ring: undefined,
+    darts: undefined,
   }) {
     this.head = new EquipmentItem('head', items.head);
     this.cape = new EquipmentItem('cape', items.cape);
@@ -26,6 +27,7 @@ export default class Equipment {
     this.hands = new EquipmentItem('hands', items.hands);
     this.feet = new EquipmentItem('feet', items.feet);
     this.ring = new EquipmentItem('ring', items.ring);
+    this.darts = new EquipmentItem('darts', items.darts);
   }
 
   get bonuses() {
@@ -59,6 +61,7 @@ export default class Equipment {
       hands: this.hands,
       feet: this.feet,
       ring: this.ring,
+      darts: this.darts,
     };
     Object.values(items)
       .filter(Boolean)

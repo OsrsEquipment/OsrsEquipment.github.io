@@ -127,9 +127,9 @@ export default {
         return 0;
       }
       if (a > b) {
-        return ((a - b) / a * 100).toFixed(2);
+        return ((a / b - 1) * 100).toFixed(2);
       }
-      return -((b - a) / b * 100).toFixed(2);
+      return -((b / a - 1) * 100).toFixed(2);
     },
   },
 };
