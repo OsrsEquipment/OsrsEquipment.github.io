@@ -33,7 +33,7 @@ export default class EquipmentItem {
     ];
     const result = {};
 
-    relevantBonuses.forEach((bonus) => { result[bonus] = this.item[bonus]; });
+    relevantBonuses.forEach((bonus) => { result[bonus] = this.item.equipment[bonus]; });
 
     return result;
   }

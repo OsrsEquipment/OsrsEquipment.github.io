@@ -1,17 +1,17 @@
-import Boost from '../Boost';
+import Effect from '../Effect';
 
-export default class StanceBoost extends Boost {
+export default class StancePassive extends Effect {
   static priority = 800;
 
   static show = false;
 
-  static name = 'Stance boost';
+  static name = 'Stance passive';
 
   static description = 'Stance applies invisible bonuses';
 
   static apply(calculation) {
     switch (calculation.dpsType) {
-      case 'meleeDps':
+      case 'melee':
         switch (calculation.loadout.stance.attack_style) {
           case 'aggressive':
             calculation.effectiveStrengthBonus += 3;
@@ -25,7 +25,7 @@ export default class StanceBoost extends Boost {
             break;
         }
         break;
-      case 'rangedDps':
+      case 'ranged':
         switch (calculation.loadout.stance.combat_style) {
           case 'accurate':
             calculation.effectiveStrengthBonus += 3;
@@ -37,7 +37,7 @@ export default class StanceBoost extends Boost {
             break;
         }
         break;
-      case 'magicDps':
+      case 'magic':
         switch (calculation.loadout.stance.combat_style) {
           case 'accurate':
             calculation.effectiveAttackBonus += 3;

@@ -3,11 +3,9 @@ export default class Calculation {
 
   /**
    * What type of dps is being calculated
-   * @type 'meleeDps' | 'rangedDps' | 'magicDps'
+   * @type 'melee' | 'ranged' | 'magic'
    */
-  dpsType = 'meleeDps';
-
-  loadout;
+  dpsType = 'melee';
 
   bonuses;
 
@@ -51,14 +49,25 @@ export default class Calculation {
    */
   targetDefenceModifiers = new Map();
 
-  calculate() {
+  constructor(loadout, target) {
+    this.loadout = loadout;
+    this.target = target;
+  }
+
+  init() {
+    this.effectiveStrengthBonus = 0;
+    this.effectiveAttackBonus = 0;
+    this.damageModifiers = new Map();
+    this.averageDamageModifiers = new Map();
+    this.accuracyModifiers = new Map();
+    this.targetDefenceModifiers = new Map();
     this.bonuses = { ...this.loadout.bonuses };
     this.skills = { ...this.loadout.skills };
     this.target = { ...this.target };
-    this.loadout.boosts
+    this.loadout.effects
       .sort((a, b) => b.priority - a.priority)
-      .forEach((boost) => {
-        boost.active = boost.apply(this);
+      .forEach((effect) => {
+        effect.active = effect.apply(this);
       });
   }
 
@@ -98,11 +107,11 @@ export default class Calculation {
   }
 
   get hitChance() {
-    const { attackRoll, defenceRoll } = this;
-    if (attackRoll > defenceRoll) {
-      return 1 - ((defenceRoll + 2) / (2 * attackRoll + 1));
+    const { attackRoll, targetDefenceRoll } = this;
+    if (attackRoll > targetDefenceRoll) {
+      return 1 - ((targetDefenceRoll + 2) / (2 * attackRoll + 1));
     }
-    return attackRoll / (2 * defenceRoll + 1);
+    return attackRoll / (2 * targetDefenceRoll + 1);
   }
 
   get averageDamage() {
@@ -168,13 +177,13 @@ export default class Calculation {
   get effectiveStrength() {
     let result;
     switch (this.dpsType) {
-      case 'meleeDps':
+      case 'melee':
         result = this.loadout.skills.strength;
         break;
-      case 'rangedDps':
+      case 'ranged':
         result = this.loadout.skills.ranged;
         break;
-      case 'magicDps':
+      case 'magic':
         result = this.loadout.skills.magic;
         break;
     }
@@ -183,9 +192,9 @@ export default class Calculation {
 
   get strengthBonus() {
     switch (this.dpsType) {
-      case 'meleeDps': return this.loadout.bonuses.melee_strength;
-      case 'rangedDps': return this.loadout.bonuses.ranged_strength;
-      case 'magicDps': return this.loadout.bonuses.magic_damage;
+      case 'melee': return this.loadout.bonuses.melee_strength;
+      case 'ranged': return this.loadout.bonuses.ranged_strength;
+      case 'magic': return this.loadout.bonuses.magic_damage;
     }
     return undefined;
   }
@@ -193,13 +202,13 @@ export default class Calculation {
   get effectiveAttack() {
     let result;
     switch (this.dpsType) {
-      case 'meleeDps':
+      case 'melee':
         result = this.loadout.skills.attack;
         break;
-      case 'rangedDps':
+      case 'ranged':
         result = this.loadout.skills.ranged;
         break;
-      case 'magicDps':
+      case 'magic':
         result = this.loadout.skills.magic;
         break;
     }
@@ -208,27 +217,27 @@ export default class Calculation {
 
   get attackBonus() {
     switch (this.dpsType) {
-      case 'meleeDps': return this.loadout.bonuses[`attack_${this.attackType}`];
-      case 'rangedDps': return this.loadout.bonuses.attack_ranged;
-      case 'magicDps': return this.loadout.bonuses.attack_magic;
+      case 'melee': return this.loadout.bonuses[`attack_${this.attackType}`];
+      case 'ranged': return this.loadout.bonuses.attack_ranged;
+      case 'magic': return this.loadout.bonuses.attack_magic;
     }
     return undefined;
   }
 
   get targetDefence() {
     switch (this.dpsType) {
-      case 'meleeDps': return this.target.defence_level;
-      case 'rangedDps': return this.target.defence_level;
-      case 'magicDps': return this.target.magic_level;
+      case 'melee': return this.target.defence_level;
+      case 'ranged': return this.target.defence_level;
+      case 'magic': return this.target.magic_level;
     }
     return undefined;
   }
 
   get targetDefenceBonus() {
     switch (this.dpsType) {
-      case 'meleeDps': return this.target[`defence_${this.attackType}`];
-      case 'rangedDps': return this.target.defence_ranged;
-      case 'magicDps': return this.target.defence_magic;
+      case 'melee': return this.target[`defence_${this.attackType}`];
+      case 'ranged': return this.target.defence_ranged;
+      case 'magic': return this.target.defence_magic;
     }
     return undefined;
   }

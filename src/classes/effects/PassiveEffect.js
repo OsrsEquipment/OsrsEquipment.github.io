@@ -1,22 +1,22 @@
-import Boost from '../Boost';
+import Effect from '../Effect';
 
-export default class PassiveBoost extends Boost {
+export default class PassiveEffect extends Effect {
   static priority = 800;
 
   static show = false;
 
-  static name = 'Passive boost';
+  static name = 'Passive effect';
 
-  static description = 'A passive boost required for accurate results';
+  static description = 'A passive effect required for accurate results';
 
   static apply(calculation) {
     switch (calculation.dpsType) {
-      case 'meleeDps':
-      case 'rangedDps':
+      case 'melee':
+      case 'ranged':
         calculation.effectiveStrengthBonus += 8;
         calculation.effectiveAttackBonus += 8;
         break;
-      case 'magicDps':
+      case 'magic':
         calculation.effectiveAttackBonus += 8;
         break;
     }

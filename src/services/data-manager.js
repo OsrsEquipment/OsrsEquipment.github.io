@@ -122,7 +122,7 @@ class DataManager {
     const { sha } = file;
     const { data: { content } } = await DataFetcher.fetchBlob(sha);
     let processedContent = Object.values(JSON.parse(atob(content)));
-    processedContent = processedContent.filter(this.keepItem);
+    processedContent = processedContent.filter(this.keepItem.bind(this));
     await this.db.items.bulkPut(processedContent);
   }
 

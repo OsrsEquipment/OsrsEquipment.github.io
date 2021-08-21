@@ -62,7 +62,7 @@
         <loadout-prayers :loadout-uuid="loadoutUuid" />
       </osrs-tab-item>
       <osrs-tab-item>
-        potions
+        <loadout-potions :loadout-uuid="loadoutUuid" />
       </osrs-tab-item>
       <osrs-tab-item>
         settings
@@ -80,10 +80,12 @@ import LoadoutEquipmentStats from './LoadoutEquipmentStats.vue';
 import LoadoutStance from './LoadoutStance.vue';
 import LoadoutSkills from './LoadoutSkills.vue';
 import LoadoutPrayers from './LoadoutPrayers.vue';
+import LoadoutPotions from './LoadoutPotions.vue';
 
 export default {
   name: 'LoadoutEditor',
   components: {
+    LoadoutPotions,
     LoadoutPrayers,
     LoadoutSkills,
     LoadoutStance,

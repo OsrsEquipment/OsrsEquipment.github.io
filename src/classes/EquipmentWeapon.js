@@ -1,6 +1,6 @@
-import Equipment from './Equipment';
+import EquipmentItem from './EquipmentItem';
 
-export default class Weapon extends Equipment {
+export default class EquipmentWeapon extends EquipmentItem {
   constructor(slot, item = {
     equipment: undefined,
     id: undefined,

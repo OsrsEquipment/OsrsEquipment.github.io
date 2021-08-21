@@ -49,6 +49,9 @@ const moduleLoadouts = {
       dispatch('skills/delete', uuid, { root: true });
       dispatch('stance/delete', uuid, { root: true });
       dispatch('spell/delete', uuid, { root: true });
+      dispatch('prayers/delete', uuid, { root: true });
+      dispatch('potions/delete', uuid, { root: true });
+      dispatch('calculations/delete', uuid, { root: true });
       commit('delete', uuid);
     },
     checkStance({ rootGetters, dispatch }, uuid) {
