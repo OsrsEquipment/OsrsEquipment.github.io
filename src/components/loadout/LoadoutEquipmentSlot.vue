@@ -4,13 +4,13 @@
     @click="$emit('slot-click')"
   >
     <img
-      class="player-equip-slot-bg"
+      class="player-equip-slot player-equip-slot-bg"
       :class="{'empty': hasItemEquipped, [equipSlot]: !hasItemEquipped}"
       alt="slot"
     >
     <img
       v-if="hasItemEquipped"
-      class="player-equip-slot-equipped-item"
+      class="player-equip-slot player-equip-slot-equipped-item"
       :src="`data:image/png;base64,${equippedItem.icon}`"
       :alt="equippedItem.name"
     >
@@ -29,14 +29,6 @@ export default {
       type: Object,
       default: undefined,
     },
-    width: {
-      type: Number,
-      default: 36,
-    },
-    height: {
-      type: Number,
-      default: 36,
-    },
   },
   data() {
     return {};
@@ -44,9 +36,6 @@ export default {
   computed: {
     hasItemEquipped() {
       return this.equippedItem != null;
-    },
-    slotBg() {
-      return '../../static/osrs/empty_slot.png';
     },
   },
 };
@@ -57,6 +46,17 @@ export default {
   display: flex;
   position: relative;
   cursor: pointer;
+}
+
+.player-equip-slot {
+  max-width: 36px;
+  max-height: 36px;
+}
+
+.player-equip-slot-equipped-item {
+  position: absolute;
+  top: 2px;
+  left: 2px;
 }
 
 .player-equip-slot-bg.empty {
@@ -105,11 +105,5 @@ export default {
 
 .player-equip-slot-bg.ring {
   content: url('../../static/osrs/ring_slot.png');
-}
-
-.player-equip-slot-equipped-item {
-  position: absolute;
-  top: 2px;
-  left: 2px;
 }
 </style>
