@@ -15,15 +15,17 @@ export default class Equipment {
     feet: undefined,
     ring: undefined,
   }) {
-    const mappedItems = {};
-    // eslint-disable-next-line guard-for-in,no-restricted-syntax
-    for (const slot in items) {
-      const item = items[slot];
-      // eslint-disable-next-line no-continue
-      if (!item) continue;
-      mappedItems[slot] = slot === 'weapon' ? new EquipmentWeapon(slot, item) : new EquipmentItem(slot, item);
-    }
-    this.items = mappedItems;
+    this.head = new EquipmentItem('head', items.head);
+    this.cape = new EquipmentItem('cape', items.cape);
+    this.neck = new EquipmentItem('neck', items.neck);
+    this.ammo = new EquipmentItem('ammo', items.ammo);
+    this.weapon = new EquipmentWeapon('weapon', items.weapon);
+    this.shield = new EquipmentItem('shield', items.shield);
+    this.body = new EquipmentItem('body', items.body);
+    this.legs = new EquipmentItem('legs', items.legs);
+    this.hands = new EquipmentItem('hands', items.hands);
+    this.feet = new EquipmentItem('feet', items.feet);
+    this.ring = new EquipmentItem('ring', items.ring);
   }
 
   get bonuses() {
@@ -45,14 +47,25 @@ export default class Equipment {
       slayer: 1,
       undead: 1,
     };
-    const skipBonuses = ['requirements', 'slot'];
-    Object.values(this.items)
+    const items = {
+      head: this.head,
+      cape: this.cape,
+      neck: this.neck,
+      ammo: this.ammo,
+      weapon: this.weapon,
+      shield: this.shield,
+      body: this.body,
+      legs: this.legs,
+      hands: this.hands,
+      feet: this.feet,
+      ring: this.ring,
+    };
+    Object.values(items)
       .filter(Boolean)
       .forEach((item) => {
         const equipBonuses = item.bonuses;
         if (equipBonuses) {
           Object.keys(equipBonuses)
-            .filter((bonus) => skipBonuses.indexOf(bonus) === -1)
             .forEach((bonus) => {
               const bonusValue = equipBonuses[bonus];
               result[bonus] += bonusValue;
@@ -60,9 +73,5 @@ export default class Equipment {
         }
       });
     return result;
-  }
-
-  get weapon() {
-    return this.items.weapon;
   }
 }

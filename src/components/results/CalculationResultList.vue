@@ -50,6 +50,7 @@ export default {
       getWeapon: 'equippedItems/getEquippedWeaponByUuid',
       getPrayers: 'prayers/getPrayersByUuid',
       getPotions: 'potions/getPotionsByUuid',
+      getSettings: 'settings/getSettingsByUuid',
     }),
   },
   beforeMount() {
@@ -99,7 +100,7 @@ export default {
         spell: this.getSpell(uuid),
         prayers: this.getPrayers(uuid),
         potions: this.getPotions(uuid),
-        settings: undefined,
+        settings: this.getSettings(uuid),
       };
       const calculation = CalculationFactory.generate(loadout, this.target);
       this.setCalculation({

@@ -105,10 +105,10 @@ export default {
       return this.calculation?.hitChance;
     },
     effects() {
-      return this.calculation?.effects;
+      return this.calculation?.visibleEffects;
     },
     effectCount() {
-      return this.calculation?.effects.size;
+      return this.calculation?.visibleEffects.size;
     },
     comparisons() {
       if (this.bestDps) {

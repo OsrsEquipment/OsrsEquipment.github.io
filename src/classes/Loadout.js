@@ -1,8 +1,4 @@
-import Settings from './Settings';
-import PassiveEffect from './effects/PassiveEffect';
-import StancePassive from './effects/StancePassive';
 import Equipment from './Equipment';
-import EffectDirectory from './EffectDirectory';
 
 export default class Loadout {
   uuid;
@@ -40,32 +36,11 @@ export default class Loadout {
     this.spell = spell;
     this.prayers = prayers;
     this.potions = potions;
-    this.settings = settings ?? new Settings();
+    this.settings = settings;
   }
 
   get bonuses() {
     return this.equipment.bonuses;
-  }
-
-  get effects() {
-    const result = [PassiveEffect, StancePassive];
-
-    if (this.potions) {
-      result.push(
-        ...this.potions
-          .map((potion) => EffectDirectory.potions.get(potion)),
-      );
-    }
-
-    if (this.prayers) {
-      result.push(
-        ...this.prayers
-          .filter((prayer) => EffectDirectory.prayers.get(prayer))
-          .map((prayer) => EffectDirectory.prayers.get(prayer)),
-      );
-    }
-
-    return result;
   }
 
   get weapon() {

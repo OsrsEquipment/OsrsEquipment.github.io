@@ -1,3 +1,7 @@
+import PassiveEffect from './effects/PassiveEffect';
+import StancePassive from './effects/StancePassive';
+import EffectDirectory from './EffectDirectory';
+
 export default class Calculation {
   tickSpeed = 0.6;
 
@@ -49,7 +53,7 @@ export default class Calculation {
    */
   targetDefenceModifiers = new Map();
 
-  effects = new Map();
+  visibleEffects = new Map();
 
   constructor(loadout, target) {
     this.loadout = loadout;
@@ -63,16 +67,16 @@ export default class Calculation {
     this.averageDamageModifiers = new Map();
     this.accuracyModifiers = new Map();
     this.targetDefenceModifiers = new Map();
-    this.effects = new Map();
+    this.visibleEffects = new Map();
     this.bonuses = { ...this.loadout.bonuses };
     this.skills = { ...this.loadout.skills };
     this.target = { ...this.target };
-    this.loadout.effects
+    this.effects
       .sort((a, b) => b.priority - a.priority)
       .forEach((effect) => {
         const activated = effect.apply(this);
         if (effect.show) {
-          this.effects.set(effect.name, activated);
+          this.visibleEffects.set(effect.name, activated);
         }
       });
   }
@@ -113,7 +117,10 @@ export default class Calculation {
   }
 
   get hitChance() {
-    const { attackRoll, targetDefenceRoll } = this;
+    const {
+      attackRoll,
+      targetDefenceRoll,
+    } = this;
     if (attackRoll > targetDefenceRoll) {
       return 1 - ((targetDefenceRoll + 2) / (2 * attackRoll + 1));
     }
@@ -198,9 +205,12 @@ export default class Calculation {
 
   get strengthBonus() {
     switch (this.dpsType) {
-      case 'melee': return this.loadout.bonuses.melee_strength;
-      case 'ranged': return this.loadout.bonuses.ranged_strength;
-      case 'magic': return this.loadout.bonuses.magic_damage;
+      case 'melee':
+        return this.loadout.bonuses.melee_strength;
+      case 'ranged':
+        return this.loadout.bonuses.ranged_strength;
+      case 'magic':
+        return this.loadout.bonuses.magic_damage;
     }
     return undefined;
   }
@@ -223,27 +233,36 @@ export default class Calculation {
 
   get attackBonus() {
     switch (this.dpsType) {
-      case 'melee': return this.loadout.bonuses[`attack_${this.attackType}`];
-      case 'ranged': return this.loadout.bonuses.attack_ranged;
-      case 'magic': return this.loadout.bonuses.attack_magic;
+      case 'melee':
+        return this.loadout.bonuses[`attack_${this.attackType}`];
+      case 'ranged':
+        return this.loadout.bonuses.attack_ranged;
+      case 'magic':
+        return this.loadout.bonuses.attack_magic;
     }
     return undefined;
   }
 
   get targetDefence() {
     switch (this.dpsType) {
-      case 'melee': return this.target.defence_level;
-      case 'ranged': return this.target.defence_level;
-      case 'magic': return this.target.magic_level;
+      case 'melee':
+        return this.target.defence_level;
+      case 'ranged':
+        return this.target.defence_level;
+      case 'magic':
+        return this.target.magic_level;
     }
     return undefined;
   }
 
   get targetDefenceBonus() {
     switch (this.dpsType) {
-      case 'melee': return this.target[`defence_${this.attackType}`];
-      case 'ranged': return this.target.defence_ranged;
-      case 'magic': return this.target.defence_magic;
+      case 'melee':
+        return this.target[`defence_${this.attackType}`];
+      case 'ranged':
+        return this.target.defence_ranged;
+      case 'magic':
+        return this.target.defence_magic;
     }
     return undefined;
   }
@@ -258,5 +277,33 @@ export default class Calculation {
 
   get attackSpeedInSeconds() {
     return this.attackSpeed * this.tickSpeed;
+  }
+
+  get effects() {
+    const result = [PassiveEffect, StancePassive];
+
+    if (this.loadout.potions) {
+      result.push(
+        ...this.loadout.potions
+          .map((potion) => EffectDirectory.potions.get(potion)),
+      );
+    }
+
+    if (this.loadout.prayers) {
+      result.push(
+        ...this.loadout.prayers
+          .filter((prayer) => EffectDirectory.prayers.get(prayer))
+          .map((prayer) => EffectDirectory.prayers.get(prayer)),
+      );
+    }
+
+    if (this.loadout.equipment) {
+      result.push(
+        ...[...EffectDirectory.items.values()]
+          .filter((itemEffect) => itemEffect.check(this)),
+      );
+    }
+
+    return result;
   }
 }

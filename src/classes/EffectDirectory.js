@@ -30,6 +30,7 @@ import {
   SuperhumanStrength,
   UltimateStrength,
 } from './effects/prayers';
+import { BlackMask, BlackMaskImbued } from './effects/items';
 
 export default class EffectDirectory {
   static potions = new Map([
@@ -63,5 +64,10 @@ export default class EffectDirectory {
     [SharpEye.name, SharpEye],
     [SuperhumanStrength.name, SuperhumanStrength],
     [UltimateStrength.name, UltimateStrength],
+  ]);
+
+  static items = new Map([
+    [BlackMask.name, BlackMask],
+    [BlackMaskImbued.name, BlackMaskImbued],
   ]);
 }

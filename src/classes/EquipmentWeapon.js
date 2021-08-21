@@ -13,20 +13,21 @@ export default class EquipmentWeapon extends EquipmentItem {
     examine: undefined,
   }) {
     super(slot, item);
+    this.weapon = item.weapon;
   }
 
   get stances() {
-    if (!this.item || !this.item.weapon) return undefined;
-    return this.item.weapon.stances;
+    if (!this.weapon) return undefined;
+    return this.weapon.stances;
   }
 
   get attackSpeed() {
-    if (!this.item || !this.item.weapon) return undefined;
-    return this.item.weapon.attack_speed;
+    if (!this.weapon) return undefined;
+    return this.weapon.attack_speed;
   }
 
   get type() {
-    if (!this.item || !this.item.weapon) return undefined;
-    return this.item.weapon.weapon_type;
+    if (!this.weapon) return undefined;
+    return this.weapon.weapon_type;
   }
 }
