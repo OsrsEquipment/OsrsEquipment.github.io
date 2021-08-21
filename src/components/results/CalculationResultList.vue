@@ -1,28 +1,38 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col
-        v-for="loadout in loadouts"
-        :key="loadout.uuid"
-      >
-        <calculation-result
+  <div class="calculation-result-list">
+    <div
+      v-for="loadout in loadouts"
+      :key="loadout.uuid"
+    >
+      <div class="calculation-result-container">
+        <span class="loadout-title osrs-text-quill-8">{{ loadout.name }}</span>
+        <loadout-editor
           :loadout-uuid="loadout.uuid"
         />
-      </v-col>
-    </v-row>
-  </v-container>
+        <result-controls :loadout-uuid="loadout.uuid" />
+        <calculation-result :loadout-uuid="loadout.uuid" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
 import CalculationResult from './CalculationResult.vue';
 import CalculationFactory from '../../classes/CalculationFactory';
+import LoadoutEditor from '../loadout/LoadoutEditor.vue';
+import ResultControls from './ResultControls.vue';
 
 export default {
   name: 'CalculationResultList',
-  components: { CalculationResult },
+  components: {
+    ResultControls,
+    LoadoutEditor,
+    CalculationResult,
+  },
   data() {
     return {
+      slide: undefined,
       storeUnsubscribe: undefined,
     };
   },
@@ -32,6 +42,7 @@ export default {
       target: (state) => state.target.target,
     }),
     ...mapGetters({
+      getLoadout: 'loadouts/getLoadoutByUuid',
       getStance: 'stance/getStanceByUuid',
       getSpell: 'spell/getSpellByUuid',
       getSkills: 'skills/getSkillsByUuid',
@@ -61,7 +72,8 @@ export default {
   },
   mounted() {
     if (this.loadouts) {
-      Object.keys(this.loadouts).forEach(this.update);
+      Object.keys(this.loadouts)
+        .forEach(this.update);
     }
   },
   destroyed() {
@@ -75,6 +87,7 @@ export default {
     }),
     update(uuid) {
       const loadout = {
+        ...this.getLoadout(uuid),
         skills: this.getSkills(uuid),
         equipment: {
           ...this.getEquippedItems(uuid),
@@ -87,13 +100,28 @@ export default {
         settings: undefined,
       };
       const calculation = CalculationFactory.generate(loadout, this.target);
-      this.setCalculation({ uuid, calculation });
-      console.log(calculation, calculation.dps);
+      this.setCalculation({
+        uuid,
+        calculation,
+      });
     },
   },
 };
 </script>
 
 <style scoped>
+.calculation-result-list {
+  display: flex;
+  flex-wrap: wrap;
+}
 
+.calculation-result-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.loadout-title {
+  text-align: center;
+}
 </style>

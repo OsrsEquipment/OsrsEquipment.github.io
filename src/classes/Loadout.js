@@ -16,6 +16,11 @@ export default class Loadout {
   dateUpdated;
 
   constructor({
+    uuid,
+    name,
+    description,
+    dateAdded,
+    dateUpdated,
     skills,
     equipment,
     stance,
@@ -24,6 +29,11 @@ export default class Loadout {
     potions,
     settings,
   }) {
+    this.uuid = uuid;
+    this.name = name;
+    this.description = description;
+    this.dateAdded = dateAdded;
+    this.dateUpdated = dateUpdated;
     this.skills = skills;
     this.equipment = new Equipment(equipment);
     this.stance = stance;

@@ -1,16 +1,10 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col
-        v-for="loadout in loadouts"
-        :key="loadout.uuid"
-      >
-        <loadout-editor
-          :loadout-uuid="loadout.uuid"
-        />
+      <v-col>
+        <calculation-result-list />
       </v-col>
     </v-row>
-    <calculation-result-list />
     <osrs-container>
       {{ loadouts }}
     </osrs-container>
@@ -23,7 +17,6 @@
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
 import OsrsContainer from '../components/OsrsContainer.vue';
-import LoadoutEditor from '../components/loadout/LoadoutEditor.vue';
 import OsrsFlatButton from '../components/OsrsFlatButton.vue';
 import CalculationResultList from '../components/results/CalculationResultList.vue';
 
@@ -32,7 +25,6 @@ export default {
   components: {
     CalculationResultList,
     OsrsFlatButton,
-    LoadoutEditor,
     OsrsContainer,
   },
   data() {

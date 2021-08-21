@@ -11,7 +11,10 @@ const moduleCalculations = {
     list: {},
   }),
   mutations: {
-    addOrUpdate(state, { uuid, calculation }) {
+    addOrUpdate(state, {
+      uuid,
+      calculation,
+    }) {
       Vue.set(state.list, uuid, calculation);
     },
     delete(state, uuid) {
@@ -19,8 +22,14 @@ const moduleCalculations = {
     },
   },
   actions: {
-    addOrUpdate({ commit }, { uuid, calculation }) {
-      commit('addOrUpdate', { uuid, calculation });
+    addOrUpdate({ commit }, {
+      uuid,
+      calculation,
+    }) {
+      commit('addOrUpdate', {
+        uuid,
+        calculation,
+      });
     },
     delete({ commit }, uuid) {
       commit('delete', uuid);
@@ -28,6 +37,15 @@ const moduleCalculations = {
   },
   getters: {
     getCalculationByUuid: (state) => (uuid) => state.list[uuid],
+    bestDps(state) {
+      if (state.list) {
+        const calcs = Object.values(state.list);
+        if (calcs.length > 0) {
+          return calcs.sort((a, b) => b.dps - a.dps)[0];
+        }
+      }
+      return undefined;
+    },
   },
 };
 

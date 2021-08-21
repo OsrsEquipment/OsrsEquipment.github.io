@@ -49,6 +49,8 @@ export default class Calculation {
    */
   targetDefenceModifiers = new Map();
 
+  effects = new Map();
+
   constructor(loadout, target) {
     this.loadout = loadout;
     this.target = target;
@@ -61,13 +63,17 @@ export default class Calculation {
     this.averageDamageModifiers = new Map();
     this.accuracyModifiers = new Map();
     this.targetDefenceModifiers = new Map();
+    this.effects = new Map();
     this.bonuses = { ...this.loadout.bonuses };
     this.skills = { ...this.loadout.skills };
     this.target = { ...this.target };
     this.loadout.effects
       .sort((a, b) => b.priority - a.priority)
       .forEach((effect) => {
-        effect.active = effect.apply(this);
+        const activated = effect.apply(this);
+        if (effect.show) {
+          this.effects.set(effect.name, activated);
+        }
       });
   }
 
