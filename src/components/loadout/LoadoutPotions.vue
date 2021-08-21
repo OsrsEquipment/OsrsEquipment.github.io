@@ -36,7 +36,7 @@
             v-on="on"
           >
             <img
-              :src="getImageSrc(potion)"
+              :class="kebabCase(potion.name)"
               :alt="potion.name"
             >
           </div>
@@ -49,7 +49,9 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { capitalize, difference, uniq } from 'lodash';
+import {
+  capitalize, difference, uniq, kebabCase,
+} from 'lodash';
 import OsrsTooltip from '../OsrsTooltip.vue';
 import EffectDirectory from '../../classes/EffectDirectory';
 
@@ -116,10 +118,6 @@ export default {
     ...mapActions({
       setPotions: 'potions/addOrUpdate',
     }),
-    getImageSrc(potion) {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      return require(`../../assets/osrs/${potion.name}.png`);
-    },
     selectPotion(category, potion) {
       const oldPotion = this.potionsDirectory.get(this.selectedPotions[category]);
       const newPotion = this.potionsDirectory.get(potion);
@@ -148,6 +146,7 @@ export default {
       return this.selectedPotions[category] === potion;
     },
     capitalize,
+    kebabCase,
     updatePotions() {
       this.internalPotions = uniq(
         Object.values(this.selectedPotions).map((potion) => potion),
@@ -190,5 +189,49 @@ export default {
 
 .potion-section-selection .player-potion-item:last-child {
   margin-right: 0;
+}
+
+.strength-potion {
+  content: url('../../static/osrs/Strength potion.png');
+}
+
+.super-strength-potion {
+  content: url('../../static/osrs/Super strength potion.png');
+}
+
+.overload {
+  content: url('../../static/osrs/Overload (+).png');
+}
+
+.attack-potion {
+  content: url('../../static/osrs/Attack potion.png');
+}
+
+.super-attack-potion {
+  content: url('../../static/osrs/Super attack potion.png');
+}
+
+.zamorak-brew {
+  content: url('../../static/osrs/Zamorak brew.png');
+}
+
+.ranging-potion {
+  content: url('../../static/osrs/Ranging potion.png');
+}
+
+.super-ranging-potion {
+  content: url('../../static/osrs/Super ranging potion.png');
+}
+
+.magic-potion {
+  content: url('../../static/osrs/Magic potion.png');
+}
+
+.super-magic-potion {
+  content: url('../../static/osrs/Super magic potion.png');
+}
+
+.imbued-heart {
+  content: url('../../static/osrs/Imbued heart.png');
 }
 </style>

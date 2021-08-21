@@ -5,7 +5,7 @@ class SuperRangingPotion extends Effect {
 
   static categories = ['potion', 'ranged'];
 
-  static name = 'Ranging potion';
+  static name = 'Super ranging potion';
 
   static apply(calculation) {
     if (calculation.dpsType === 'ranged') {
