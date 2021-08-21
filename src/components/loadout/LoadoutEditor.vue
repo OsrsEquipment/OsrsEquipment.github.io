@@ -7,37 +7,37 @@
     >
       <osrs-tab>
         <img
-          src="../../assets/osrs/Combat icon.png"
+          src="../../static/osrs/Combat icon.png"
           alt="Combat"
         >
       </osrs-tab>
       <osrs-tab>
         <img
-          src="../../assets/osrs/Stats icon.png"
+          src="../../static/osrs/Stats icon.png"
           alt="Stats"
         >
       </osrs-tab>
       <osrs-tab>
         <img
-          src="../../assets/osrs/Worn equipment.png"
+          src="../../static/osrs/Worn equipment.png"
           alt="Equipment"
         >
       </osrs-tab>
       <osrs-tab>
         <img
-          src="../../assets/osrs/Prayer tab icon.png"
+          src="../../static/osrs/Prayer tab icon.png"
           alt="Prayers"
         >
       </osrs-tab>
       <osrs-tab>
         <img
-          src="../../assets/osrs/Vial.png"
+          src="../../static/osrs/Vial.png"
           alt="Potions"
         >
       </osrs-tab>
       <osrs-tab>
         <img
-          src="../../assets/osrs/Cog.png"
+          src="../../static/osrs/Cog.png"
           alt="Settings"
         >
       </osrs-tab>

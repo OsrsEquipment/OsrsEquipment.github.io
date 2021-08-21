@@ -98,6 +98,10 @@ const moduleLoadouts = {
         copyUuid,
         newUuid,
       }, { root: true });
+      dispatch('settings/copy', {
+        copyUuid,
+        newUuid,
+      }, { root: true });
     },
     delete({
       commit,
@@ -110,6 +114,7 @@ const moduleLoadouts = {
       dispatch('spell/delete', uuid, { root: true });
       dispatch('prayers/delete', uuid, { root: true });
       dispatch('potions/delete', uuid, { root: true });
+      dispatch('settings/delete', uuid, { root: true });
       dispatch('calculations/delete', uuid, { root: true });
     },
     checkStance({

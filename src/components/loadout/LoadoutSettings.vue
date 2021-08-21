@@ -55,7 +55,7 @@
       />
       <!-- Slayer setting -->
       <img
-        src="../../assets/osrs/Slayer icon.png"
+        src="../../static/osrs/Slayer icon.png"
         alt="Slayer"
       >
       <osrs-tooltip>
@@ -71,7 +71,7 @@
       <osrs-tooltip>
         <template #activator="{ on }">
           <img
-            src="../../assets/osrs/Hitpoints icon.png"
+            src="../../static/osrs/Hitpoints icon.png"
             alt="Hitpoints"
             v-on="on"
           >
@@ -86,7 +86,7 @@
       />
       <!-- Wilderness setting -->
       <img
-        src="../../assets/osrs/Skull icon.png"
+        src="../../static/osrs/Skull icon.png"
         alt="Skull"
       >
       <osrs-tooltip>

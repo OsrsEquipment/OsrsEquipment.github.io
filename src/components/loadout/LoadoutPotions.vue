@@ -17,7 +17,7 @@
             v-on="on"
           >
             <img
-              src="../../assets/osrs/Vial.png"
+              src="../../static/osrs/Vial.png"
               alt="None"
             >
           </div>

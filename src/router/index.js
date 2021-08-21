@@ -3,7 +3,6 @@ import VueRouter from 'vue-router';
 import DpsCalc from '../views/DpsCalc.vue';
 import About from '../views/About.vue';
 import DataManagement from '../views/DataManagement.vue';
-import LoadoutManagement from '../views/LoadoutManagement.vue';
 
 Vue.use(VueRouter);
 
@@ -22,11 +21,6 @@ const routes = [
     path: '/data',
     name: 'DataManagement',
     component: DataManagement,
-  },
-  {
-    path: '/loadouts',
-    name: 'LoadoutManagement',
-    component: LoadoutManagement,
   },
 ];
 

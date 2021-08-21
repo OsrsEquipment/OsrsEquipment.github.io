@@ -6,7 +6,7 @@
     >
       <template #prepend>
         <img
-          src="../../assets/osrs/HiScores icon.png"
+          src="../../static/osrs/HiScores icon.png"
           alt="Hi scores"
         >
       </template>

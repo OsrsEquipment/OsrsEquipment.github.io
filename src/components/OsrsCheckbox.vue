@@ -68,6 +68,6 @@ export default {
 }
 
 .osrs-checkbox:checked:after {
-  content: url('../assets/osrs/osrs-check.png');
+  content: url('../static/osrs/osrs-check.png');
 }
 </style>

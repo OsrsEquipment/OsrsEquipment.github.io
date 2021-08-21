@@ -2,7 +2,7 @@
   <div class="osrs-navbar-container">
     <div class="osrs-navbar-app-icon">
       <img
-        src="../assets/osrs/Worn equipment.png"
+        src="../static/osrs/Worn equipment.png"
         alt="app icon"
       >
     </div>
@@ -13,14 +13,6 @@
       exact
     >
       DPS Calculator
-    </router-link>
-    <router-link
-      class="osrs-navbar-link"
-      :to="{ name: 'LoadoutManagement' }"
-      active-class="osrs-navbar-active-link"
-      exact
-    >
-      Loadouts
     </router-link>
     <router-link
       class="osrs-navbar-link"
