@@ -17,7 +17,7 @@ class Utils {
     const equipIdsArray = Object
       .values(equipment)
       .filter(Boolean)
-      .map((equip) => equip.item.id);
+      .map((equip) => equip.id);
     return difference(ids, equipIdsArray).length === 0;
   }
 

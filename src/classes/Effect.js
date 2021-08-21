@@ -43,6 +43,7 @@ export default class Effect {
   /**
    * Apply the current effect to the calculation
    * @param calculation
+   * @returns true if it was applied | an object with name or description overwrite
    */
   static apply(calculation) {
     throw new Error('Method "Apply" must be implemented.');

@@ -303,6 +303,10 @@ export default class Calculation {
         ...[...EffectDirectory.items.values()]
           .filter((itemEffect) => itemEffect.check(this)),
       );
+      result.push(
+        ...[...EffectDirectory.sets.values()]
+          .filter((itemEffect) => itemEffect.check(this)),
+      );
     }
 
     return result;

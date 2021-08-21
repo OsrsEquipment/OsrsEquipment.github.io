@@ -54,7 +54,7 @@
         class="effect-line osrs-text-quill-8"
         :class="{'effect-inactive': !active}"
       >
-        {{ effectName }}
+        {{ parseEffect(effectName, active) }}
       </div>
     </div>
   </osrs-container>
@@ -130,6 +130,12 @@ export default {
         return ((a / b - 1) * 100).toFixed(2);
       }
       return -((b / a - 1) * 100).toFixed(2);
+    },
+    parseEffect(effectName, active) {
+      if (typeof active === 'object') {
+        if (active.name) return active.name;
+      }
+      return effectName;
     },
   },
 };

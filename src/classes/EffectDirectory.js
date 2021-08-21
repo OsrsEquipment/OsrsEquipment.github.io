@@ -30,7 +30,8 @@ import {
   SuperhumanStrength,
   UltimateStrength,
 } from './effects/prayers';
-import { BlackMask, BlackMaskImbued } from './effects/items';
+import { BlackMask } from './effects/items';
+import { VoidSet } from './effects/sets';
 
 export default class EffectDirectory {
   static potions = new Map([
@@ -68,6 +69,9 @@ export default class EffectDirectory {
 
   static items = new Map([
     [BlackMask.name, BlackMask],
-    [BlackMaskImbued.name, BlackMaskImbued],
+  ]);
+
+  static sets = new Map([
+    [VoidSet.name, VoidSet],
   ]);
 }
