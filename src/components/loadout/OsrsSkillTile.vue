@@ -75,13 +75,18 @@
             class="osrs-flat-button-inner"
           />
           <g>
-            <image
-              :href="getImageSrc"
+            <foreignObject
+              x="10"
+              y="8"
               height="48px"
               width="48px"
-              x="10"
-              y="10"
-            />
+            >
+              <img
+                :class="skill"
+                height="48px"
+                width="48px"
+              />
+            </foreignObject>
           </g>
           <g v-show="!editing">
             <text
@@ -138,7 +143,6 @@
 </template>
 
 <script>
-import { capitalize } from 'lodash';
 import OsrsTooltip from '../OsrsTooltip.vue';
 
 export default {
@@ -163,11 +167,10 @@ export default {
     };
   },
   computed: {
-    getImageSrc() {
-      const capitalizedName = capitalize(this.skill);
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      return require(`../../assets/osrs/${capitalizedName} icon.png`);
-    },
+    // getImageSrc() {
+    //   const capitalizedName = capitalize(this.skill);
+    //   return require(`../../assets/osrs/${capitalizedName} icon.png`);
+    // },
   },
   methods: {
     editSkill() {
@@ -218,6 +221,110 @@ export default {
   width: 64px;
   height: 64px;
   text-align: center;
+}
+
+img.attack {
+  content: url('../../static/osrs/Attack icon.png');
+}
+
+img.strength {
+  content: url('../../static/osrs/Strength icon.png');
+}
+
+img.defence {
+  content: url('../../static/osrs/Defence icon.png');
+}
+
+img.ranged {
+  content: url('../../static/osrs/Ranged icon.png');
+}
+
+img.prayer {
+  content: url('../../static/osrs/Prayer icon.png');
+}
+
+img.magic {
+  content: url('../../static/osrs/Magic icon.png');
+}
+
+img.runecraft {
+  content: url('../../static/osrs/Runecraft icon.png');
+}
+
+img.construction {
+  content: url('../../static/osrs/Construction icon.png');
+}
+
+img.hitpoints {
+  content: url('../../static/osrs/Hitpoints icon.png');
+}
+
+img.agility {
+  content: url('../../static/osrs/Agility icon.png');
+}
+
+img.herblore {
+  content: url('../../static/osrs/Herblore icon.png');
+}
+
+img.thieving {
+  content: url('../../static/osrs/Thieving icon.png');
+}
+
+img.crafting {
+  content: url('../../static/osrs/Crafting icon.png');
+}
+
+img.fletching {
+  content: url('../../static/osrs/Fletching icon.png');
+}
+
+img.slayer {
+  content: url('../../static/osrs/Slayer icon.png');
+}
+
+img.hunter {
+  content: url('../../static/osrs/Hunter icon.png');
+}
+
+img.mining {
+  content: url('../../static/osrs/Mining icon.png');
+}
+
+img.smithing {
+  content: url('../../static/osrs/Smithing icon.png');
+}
+
+img.fishing {
+  content: url('../../static/osrs/Fishing icon.png');
+}
+
+img.cooking {
+  content: url('../../static/osrs/Cooking icon.png');
+}
+
+img.firemaking {
+  content: url('../../static/osrs/Firemaking icon.png');
+}
+
+img.woodcutting {
+  content: url('../../static/osrs/Woodcutting icon.png');
+}
+
+img.farming {
+  content: url('../../static/osrs/Farming icon.png');
+}
+
+img.strength {
+  content: url('../../static/osrs/Strength icon.png');
+}
+
+img.strength {
+  content: url('../../static/osrs/Strength icon.png');
+}
+
+img.strength {
+  content: url('../../static/osrs/Strength icon.png');
 }
 
 </style>
