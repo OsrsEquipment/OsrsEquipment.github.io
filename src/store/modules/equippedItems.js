@@ -42,6 +42,9 @@ const moduleEquippedItems = {
       commit('delete', uuid);
       dispatch('loadouts/checkStance', uuid, { root: true });
     },
+    copy({ commit, getters }, { copyUuid, newUuid }) {
+      commit('addOrUpdate', { uuid: newUuid, items: { ...getters.getEquippedItemsByUuid(copyUuid) } });
+    },
   },
   getters: {
     getEquippedItemsByUuid: (state) => (uuid) => state.list[uuid] || { ...defaultEquippedItems },

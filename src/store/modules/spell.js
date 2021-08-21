@@ -25,6 +25,12 @@ const moduleSpell = {
     delete({ commit }, uuid) {
       commit('delete', uuid);
     },
+    copy({ commit, getters }, { copyUuid, newUuid }) {
+      const existingSpell = getters.getSpellByUuid(copyUuid);
+      if (existingSpell) {
+        commit('addOrUpdate', { uuid: newUuid, spell: { ...getters.getSpellByUuid(copyUuid) } });
+      }
+    },
   },
   getters: {
     getSpellByUuid: (state) => (uuid) => state.list[uuid],

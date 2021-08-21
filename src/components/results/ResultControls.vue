@@ -3,6 +3,7 @@
     <v-btn
       color="var(--osrs-orange)"
       icon
+      @click="copyLoadout(loadoutUuid)"
     >
       <v-icon>mdi-content-copy</v-icon>
     </v-btn>
@@ -32,6 +33,7 @@ export default {
   methods: {
     ...mapActions({
       deleteLoadout: 'loadouts/delete',
+      copyLoadout: 'loadouts/copy',
     }),
   },
 };

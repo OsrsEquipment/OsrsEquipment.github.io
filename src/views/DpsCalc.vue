@@ -5,9 +5,6 @@
         <calculation-result-list />
       </v-col>
     </v-row>
-    <osrs-container>
-      {{ loadouts }}
-    </osrs-container>
     <osrs-flat-button @click="createLoadout">
       New loadout
     </osrs-flat-button>
@@ -16,7 +13,6 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
-import OsrsContainer from '../components/OsrsContainer.vue';
 import OsrsFlatButton from '../components/OsrsFlatButton.vue';
 import CalculationResultList from '../components/results/CalculationResultList.vue';
 
@@ -25,7 +21,6 @@ export default {
   components: {
     CalculationResultList,
     OsrsFlatButton,
-    OsrsContainer,
   },
   data() {
     return {

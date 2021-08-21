@@ -35,6 +35,9 @@ const moduleStance = {
     delete({ commit }, uuid) {
       commit('delete', uuid);
     },
+    copy({ commit, getters }, { copyUuid, newUuid }) {
+      commit('addOrUpdate', { uuid: newUuid, stance: { ...getters.getStanceByUuid(copyUuid) } });
+    },
   },
   getters: {
     getStanceByUuid: (state) => (uuid) => state.list[uuid] || { ...defaultStance },

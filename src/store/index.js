@@ -22,6 +22,7 @@ const vuexPersist = new VuexPersistence({
 });
 
 const store = new Vuex.Store({
+  strict: false,
   modules: {
     loadouts: moduleLoadouts,
     dpsCalc: moduleDpsCalc,

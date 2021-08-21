@@ -51,6 +51,9 @@ const moduleSkills = {
     delete({ commit }, uuid) {
       commit('delete', uuid);
     },
+    copy({ commit, getters }, { copyUuid, newUuid }) {
+      commit('addOrUpdate', { uuid: newUuid, skills: { ...getters.getSkillsByUuid(copyUuid) } });
+    },
   },
   getters: {
     getSkillsByUuid: (state) => (uuid) => state.list[uuid] || { ...defaultSkills },

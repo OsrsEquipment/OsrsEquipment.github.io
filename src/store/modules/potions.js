@@ -25,9 +25,12 @@ const modulePotions = {
     delete({ commit }, uuid) {
       commit('delete', uuid);
     },
+    copy({ commit, getters }, { copyUuid, newUuid }) {
+      commit('addOrUpdate', { uuid: newUuid, potions: [...getters.getPotionsByUuid(copyUuid)] });
+    },
   },
   getters: {
-    getPotionsByUuid: (state) => (uuid) => state.list[uuid],
+    getPotionsByUuid: (state) => (uuid) => state.list[uuid] || [],
   },
 };
 

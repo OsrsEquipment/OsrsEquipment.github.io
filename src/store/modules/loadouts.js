@@ -3,7 +3,8 @@ import Vue from 'vue';
 import { isEqual } from 'lodash';
 
 function nameExists(list, name) {
-  return Object.values(list).some((loadout) => loadout.name === name);
+  return Object.values(list)
+    .some((loadout) => loadout.name === name);
 }
 
 function stanceIsSpellRelated(stance) {
@@ -16,7 +17,10 @@ const moduleLoadouts = {
     list: {},
   }),
   mutations: {
-    add(state, { uuid, loadout }) {
+    add(state, {
+      uuid,
+      loadout,
+    }) {
       Vue.set(state.list, uuid, loadout);
     },
     delete(state, uuid) {
@@ -24,7 +28,10 @@ const moduleLoadouts = {
     },
   },
   actions: {
-    new({ commit, state }) {
+    new({
+      commit,
+      state,
+    }) {
       const uuid = uuidv4();
       let number = 1;
       let generatedName;
@@ -34,17 +41,69 @@ const moduleLoadouts = {
 
       const loadout = {
         uuid,
-        loadout: {
-          uuid,
-          dateAdded: new Date(),
-          name: generatedName,
-        },
+        dateAdded: new Date(),
+        name: generatedName,
       };
 
-      commit('add', loadout);
-      return loadout;
+      commit('add', {
+        uuid,
+        loadout,
+      });
     },
-    delete({ commit, dispatch }, uuid) {
+    copy({
+      commit,
+      dispatch,
+      state,
+      getters,
+    }, copyUuid) {
+      const existingLoadout = getters.getLoadoutByUuid(copyUuid);
+      const newUuid = uuidv4();
+      let number = 1;
+      let generatedName = `Copy of ${existingLoadout.name}`;
+      while (nameExists(state.list, generatedName)) {
+        generatedName = `Copy of ${existingLoadout.name} (${number++})`;
+      }
+
+      const loadout = {
+        uuid: newUuid,
+        dateAdded: new Date(),
+        name: generatedName,
+      };
+
+      commit('add', {
+        uuid: newUuid,
+        loadout,
+      });
+      dispatch('equippedItems/copy', {
+        copyUuid,
+        newUuid,
+      }, { root: true });
+      dispatch('stance/copy', {
+        copyUuid,
+        newUuid,
+      }, { root: true });
+      dispatch('spell/copy', {
+        copyUuid,
+        newUuid,
+      }, { root: true });
+      dispatch('skills/copy', {
+        copyUuid,
+        newUuid,
+      }, { root: true });
+      dispatch('prayers/copy', {
+        copyUuid,
+        newUuid,
+      }, { root: true });
+      dispatch('potions/copy', {
+        copyUuid,
+        newUuid,
+      }, { root: true });
+    },
+    delete({
+      commit,
+      dispatch,
+    }, uuid) {
+      commit('delete', uuid);
       dispatch('equippedItems/delete', uuid, { root: true });
       dispatch('skills/delete', uuid, { root: true });
       dispatch('stance/delete', uuid, { root: true });
@@ -52,9 +111,11 @@ const moduleLoadouts = {
       dispatch('prayers/delete', uuid, { root: true });
       dispatch('potions/delete', uuid, { root: true });
       dispatch('calculations/delete', uuid, { root: true });
-      commit('delete', uuid);
     },
-    checkStance({ rootGetters, dispatch }, uuid) {
+    checkStance({
+      rootGetters,
+      dispatch,
+    }, uuid) {
       const weapon = rootGetters['equippedItems/getEquippedWeaponByUuid'](uuid);
       const currentStance = rootGetters['stance/getStanceByUuid'](uuid);
       if (weapon) {
@@ -65,7 +126,10 @@ const moduleLoadouts = {
           if (stanceIsSpellRelated(currentStance) && !stanceIsSpellRelated(newStance)) {
             dispatch('spell/delete', uuid, { root: true });
           }
-          dispatch('stance/addOrUpdate', { uuid, stance: newStance }, { root: true });
+          dispatch('stance/addOrUpdate', {
+            uuid,
+            stance: newStance,
+          }, { root: true });
         }
       } else {
         throw new Error('You somehow have no weapon equipped, even though the default is unarmed...');

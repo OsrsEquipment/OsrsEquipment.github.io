@@ -25,9 +25,12 @@ const modulePrayers = {
     delete({ commit }, uuid) {
       commit('delete', uuid);
     },
+    copy({ commit, getters }, { copyUuid, newUuid }) {
+      commit('addOrUpdate', { uuid: newUuid, prayers: [...getters.getPrayersByUuid(copyUuid)] });
+    },
   },
   getters: {
-    getPrayersByUuid: (state) => (uuid) => state.list[uuid],
+    getPrayersByUuid: (state) => (uuid) => state.list[uuid] || [],
   },
 };
 

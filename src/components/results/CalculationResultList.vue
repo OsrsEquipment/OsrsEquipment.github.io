@@ -53,13 +53,13 @@ export default {
     }),
   },
   beforeMount() {
-    const listenForChangesTo = ['equippedItems', 'stance', 'spell', 'skills', 'prayers', 'potions', 'settings'];
+    const listenForChangesTo = ['loadouts', 'equippedItems', 'stance', 'spell', 'skills', 'prayers', 'potions', 'settings'];
     this.storeUnsubscribe = this.$store.subscribe((mutation) => {
       const [mutationStore, mutationName] = mutation.type.split('/');
       if (mutationStore && mutationName) {
         if (listenForChangesTo.indexOf(mutationStore) !== -1) {
           let uuid;
-          if (mutationName === 'addOrUpdate') {
+          if (mutationName === 'addOrUpdate' || mutationName === 'add') {
             uuid = mutation.payload.uuid;
           }
           if (mutationName === 'delete') {
@@ -86,8 +86,10 @@ export default {
       setCalculation: 'calculations/addOrUpdate',
     }),
     update(uuid) {
+      const existingLoadout = this.getLoadout(uuid);
+      if (!existingLoadout) return;
       const loadout = {
-        ...this.getLoadout(uuid),
+        ...existingLoadout,
         skills: this.getSkills(uuid),
         equipment: {
           ...this.getEquippedItems(uuid),
