@@ -1,9 +1,5 @@
 export default class Settings {
-  constructor(settings = {
-    onSlayerTask: true,
-    inWilderness: true,
-    currentHitpoints: 1,
-  }) {
+  constructor(settings) {
     this.settings = settings;
   }
 }

@@ -13,12 +13,13 @@ import modulePrayers from './modules/prayers';
 import modulePotions from './modules/potions';
 import moduleCalculations from './modules/calculations';
 import moduleTarget from './modules/target';
+import moduleSettings from './modules/settings';
 
 Vue.use(Vuex);
 
 const vuexPersist = new VuexPersistence({
   key: 'OsrsEquipmentData',
-  modules: ['loadouts', 'equippedItems', 'stance', 'spell', 'skills', 'prayers', 'potions', 'target'],
+  modules: ['loadouts', 'equippedItems', 'stance', 'spell', 'skills', 'prayers', 'potions', 'settings', 'target'],
 });
 
 const store = new Vuex.Store({
@@ -34,6 +35,7 @@ const store = new Vuex.Store({
     skills: moduleSkills,
     prayers: modulePrayers,
     potions: modulePotions,
+    settings: moduleSettings,
     calculations: moduleCalculations,
     target: moduleTarget,
   },
