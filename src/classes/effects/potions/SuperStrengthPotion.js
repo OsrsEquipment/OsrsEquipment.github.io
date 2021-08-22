@@ -10,7 +10,7 @@ class SuperStrengthPotion extends Effect {
   static apply(calculation) {
     if (calculation.dpsType === 'melee') {
       const { effectiveStrength } = calculation;
-      calculation.effectiveStrengthBonus += Math.floor(effectiveStrength * 0.15) + 5;
+      calculation.visibleStrengthBonus += Math.floor(effectiveStrength * 0.15) + 5;
       return true;
     }
     return false;

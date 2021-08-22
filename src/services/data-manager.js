@@ -22,7 +22,7 @@ class DataManager {
   ];
 
   constructor() {
-    this.db = new Dexie('toolscapedb');
+    this.db = new Dexie('osrsequipmentdb');
     this.db.version(1).stores({
       files: 'name',
       items: 'id,name,equipment.slot',

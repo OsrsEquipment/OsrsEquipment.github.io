@@ -10,7 +10,7 @@ class SuperAttackPotion extends Effect {
   static apply(calculation) {
     if (calculation.dpsType === 'melee') {
       const { effectiveAttack } = calculation;
-      calculation.effectiveAttackBonus += Math.floor(effectiveAttack * 0.15) + 5;
+      calculation.visibleAttackBonus += Math.floor(effectiveAttack * 0.15) + 5;
       return true;
     }
     return false;

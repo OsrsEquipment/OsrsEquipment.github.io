@@ -10,8 +10,8 @@ class SuperMagicPotion extends Effect {
   static apply(calculation) {
     if (calculation.dpsType === 'magic') {
       const { effectiveAttack, effectiveStrength } = calculation;
-      calculation.effectiveAttackBonus += Math.floor(effectiveAttack * 0.15) + 5;
-      calculation.effectiveStrengthBonus += Math.floor(effectiveStrength * 0.15) + 5;
+      calculation.visibleAttackBonus += Math.floor(effectiveAttack * 0.15) + 5;
+      calculation.visibleStrengthBonus += Math.floor(effectiveStrength * 0.15) + 5;
       return true;
     }
     return false;

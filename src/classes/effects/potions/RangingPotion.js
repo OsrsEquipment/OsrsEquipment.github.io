@@ -10,8 +10,8 @@ class RangingPotion extends Effect {
   static apply(calculation) {
     if (calculation.dpsType === 'ranged') {
       const { effectiveStrength, effectiveAttack } = calculation;
-      calculation.effectiveStrengthBonus += Math.floor(effectiveStrength * 0.1) + 4;
-      calculation.effectiveAttackBonus += Math.floor(effectiveAttack * 0.1) + 4;
+      calculation.visibleStrengthBonus += Math.floor(effectiveStrength * 0.1) + 4;
+      calculation.visibleAttackBonus += Math.floor(effectiveAttack * 0.1) + 4;
       return true;
     }
     return false;

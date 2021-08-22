@@ -10,7 +10,7 @@ class AttackPotion extends Effect {
   static apply(calculation) {
     if (calculation.dpsType === 'melee') {
       const { effectiveAttack } = calculation;
-      calculation.effectiveAttackBonus += Math.floor(effectiveAttack * 0.1) + 3;
+      calculation.visibleAttackBonus += Math.floor(effectiveAttack * 0.1) + 3;
       return true;
     }
     return false;

@@ -10,8 +10,8 @@ class ImbuedHeart extends Effect {
   static apply(calculation) {
     if (calculation.dpsType === 'magic') {
       const { effectiveAttack, effectiveStrength } = calculation;
-      calculation.effectiveAttackBonus += Math.floor(effectiveAttack * 0.1) + 1;
-      calculation.effectiveStrengthBonus += Math.floor(effectiveStrength * 0.1) + 1;
+      calculation.visibleAttackBonus += Math.floor(effectiveAttack * 0.1) + 1;
+      calculation.visibleStrengthBonus += Math.floor(effectiveStrength * 0.1) + 1;
       return true;
     }
     return false;

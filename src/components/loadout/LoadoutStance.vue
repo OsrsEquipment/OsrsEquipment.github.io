@@ -91,8 +91,6 @@ export default {
   data() {
     return {
       selectingSpell: false,
-      lazyStance: undefined,
-      lazySpell: undefined,
     };
   },
   computed: {
@@ -103,19 +101,17 @@ export default {
     }),
     internalStance: {
       get() {
-        return this.lazyStance;
+        return this.getStanceByUuid(this.loadoutUuid);
       },
       set(value) {
-        this.lazyStance = value;
         this.setStance({ uuid: this.loadoutUuid, stance: value });
       },
     },
     internalSpell: {
       get() {
-        return this.lazySpell;
+        return this.getSpellByUuid(this.loadoutUuid);
       },
       set(value) {
-        this.lazySpell = value;
         this.setSpell({ uuid: this.loadoutUuid, spell: value });
       },
     },
@@ -130,10 +126,6 @@ export default {
       category = category.replace('_', ' ');
       return capitalize(category);
     },
-  },
-  beforeMount() {
-    this.lazyStance = this.getStanceByUuid(this.loadoutUuid);
-    this.lazySpell = this.getSpellByUuid(this.loadoutUuid);
   },
   methods: {
     ...mapActions({

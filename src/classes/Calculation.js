@@ -21,6 +21,10 @@ export default class Calculation {
 
   effectiveAttackBonus = 0;
 
+  visibleStrengthBonus = 0;
+
+  visibleAttackBonus = 0;
+
   /**
    * Key = name of the boost
    * Value = float to modify damage by
@@ -53,6 +57,20 @@ export default class Calculation {
    */
   targetDefenceModifiers = new Map();
 
+  /**
+   * Reduces attack speed by a constant value
+   * e.g. Rapid -1 tick, Harm staff -1 tick
+   * @type {Map<string, number>}
+   */
+  attackSpeedReductions = new Map();
+
+  /**
+   * Reduces attack speed by a percent
+   * e.g. Leagues relic halves attack speed
+   * @type {Map<any, any>}
+   */
+  attackSpeedModifiers = new Map();
+
   visibleEffects = new Map();
 
   constructor(loadout, target) {
@@ -63,6 +81,8 @@ export default class Calculation {
   init() {
     this.effectiveStrengthBonus = 0;
     this.effectiveAttackBonus = 0;
+    this.visibleStrengthBonus = 0;
+    this.visibleAttackBonus = 0;
     this.damageModifiers = new Map();
     this.averageDamageModifiers = new Map();
     this.accuracyModifiers = new Map();
@@ -187,6 +207,22 @@ export default class Calculation {
     }
   }
 
+  addAttackSpeedReduction(name, modifier) {
+    if (this.attackSpeedReductions.has(name)) {
+      throw new Error(`Attempting to add ${name} attack speed reduction to the list twice`);
+    } else {
+      this.attackSpeedReductions.set(name, modifier);
+    }
+  }
+
+  addAttackSpeedModifier(name, modifier) {
+    if (this.attackSpeedModifiers.has(name)) {
+      throw new Error(`Attempting to add ${name} attack speed modifier to the list twice`);
+    } else {
+      this.attackSpeedModifiers.set(name, modifier);
+    }
+  }
+
   get effectiveStrength() {
     let result;
     switch (this.dpsType) {
@@ -200,7 +236,7 @@ export default class Calculation {
         result = this.loadout.skills.magic;
         break;
     }
-    return result + this.effectiveStrengthBonus;
+    return result + this.effectiveStrengthBonus + this.visibleStrengthBonus;
   }
 
   get strengthBonus() {
@@ -228,7 +264,39 @@ export default class Calculation {
         result = this.loadout.skills.magic;
         break;
     }
-    return result + this.effectiveAttackBonus;
+    return result + this.effectiveAttackBonus + this.visibleAttackBonus;
+  }
+
+  get effectiveAttackLevel() {
+    let result;
+    switch (this.dpsType) {
+      case 'melee':
+        result = this.loadout.skills.attack;
+        break;
+      case 'ranged':
+        result = this.loadout.skills.ranged;
+        break;
+      case 'magic':
+        result = this.loadout.skills.magic;
+        break;
+    }
+    return result + this.visibleAttackBonus;
+  }
+
+  get effectiveStrengthLevel() {
+    let result;
+    switch (this.dpsType) {
+      case 'melee':
+        result = this.loadout.skills.strength;
+        break;
+      case 'ranged':
+        result = this.loadout.skills.ranged;
+        break;
+      case 'magic':
+        result = this.loadout.skills.magic;
+        break;
+    }
+    return result + this.visibleStrengthBonus;
   }
 
   get attackBonus() {
@@ -272,11 +340,22 @@ export default class Calculation {
   }
 
   get attackSpeed() {
-    return this.loadout.weapon.attackSpeed;
+    let baseAttackSpeed = this.loadout.weapon.attackSpeed;
+    for (const value of this.attackSpeedReductions.values()) {
+      baseAttackSpeed -= value;
+    }
+    for (const value of this.attackSpeedModifiers.values()) {
+      baseAttackSpeed = Math.ceil(baseAttackSpeed * value);
+    }
+    return baseAttackSpeed;
   }
 
   get attackSpeedInSeconds() {
     return this.attackSpeed * this.tickSpeed;
+  }
+
+  get spell() {
+    return this.loadout.spell;
   }
 
   get effects() {

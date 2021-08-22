@@ -9,8 +9,8 @@ class MagicPotion extends Effect {
 
   static apply(calculation) {
     if (calculation.dpsType === 'magic') {
-      calculation.effectiveAttackBonus += 4;
-      calculation.effectiveStrengthBonus += 4;
+      calculation.visibleAttackBonus += 4;
+      calculation.visibleStrengthBonus += 4;
       return true;
     }
     return false;

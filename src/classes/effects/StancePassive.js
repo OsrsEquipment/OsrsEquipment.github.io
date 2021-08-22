@@ -33,7 +33,7 @@ export default class StancePassive extends Effect {
             break;
           case 'rapid':
           case 'flare':
-            calculation.isRapid = true;
+            calculation.addAttackSpeedReduction('rapid', 1);
             break;
         }
         break;
