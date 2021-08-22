@@ -8,10 +8,11 @@
         <div
           class="stance-selection-stances"
         >
-          <osrs-tooltip
+          <v-tooltip
             v-for="(stance, index) in stances"
             :key="index"
-            font-size="24px"
+            bottom
+            content-class="osrs-tooltip"
           >
             <template #activator="{ on }">
               <osrs-flat-button
@@ -42,7 +43,7 @@
                 </span>
               </template>
             </span>
-          </osrs-tooltip>
+          </v-tooltip>
         </div>
         <span class="osrs-text-quill-8 stance-selection-footer">
           Category: {{ category }}
@@ -76,12 +77,11 @@
 import { mapActions, mapGetters } from 'vuex';
 import { capitalize, isEqual } from 'lodash';
 import OsrsFlatButton from '../OsrsFlatButton.vue';
-import OsrsTooltip from '../OsrsTooltip.vue';
 import SpellSelection from './SpellSelection.vue';
 
 export default {
   name: 'LoadoutStance',
-  components: { SpellSelection, OsrsTooltip, OsrsFlatButton },
+  components: { SpellSelection, OsrsFlatButton },
   props: {
     loadoutUuid: {
       type: String,

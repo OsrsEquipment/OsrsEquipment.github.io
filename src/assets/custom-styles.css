@@ -31,3 +31,17 @@ html { overflow-y: auto }
     color: #ff9c1f;
     fill: #ff9c1f;
 }
+
+.osrs-tooltip {
+    opacity: 1!important;
+    background: #ffffa0!important;
+    border: 1px solid black;
+    color: black!important;
+    font-family: "runescape_plain_11regular", "Roboto", sans-serif;
+    font-size: 24px!important;
+    fill: #ff9c1f;
+    border-radius: 0!important;
+    padding: 4px!important;
+    max-width: 315px;
+    transition: none!important;
+}

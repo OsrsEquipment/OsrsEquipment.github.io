@@ -18,9 +18,11 @@
     <v-window v-model="selectedTab">
       <osrs-tab-item>
         <div class="standard-spellbook-grid">
-          <osrs-tooltip
+          <v-tooltip
             v-for="spell of elementalSpells"
             :key="spell.name"
+            bottom
+            content-class="osrs-tooltip"
             class="spell-slot"
             font-size="32px"
             @click="selectSpell(spell)"
@@ -33,14 +35,16 @@
               >
             </template>
             <span>{{ spell.name }}</span>
-          </osrs-tooltip>
+          </v-tooltip>
         </div>
       </osrs-tab-item>
       <osrs-tab-item>
         <div class="ancient-spellbook-grid">
-          <osrs-tooltip
+          <v-tooltip
             v-for="spell of ancientSpells"
             :key="spell.name"
+            bottom
+            content-class="osrs-tooltip"
             font-size="32px"
             @click="selectSpell(spell)"
           >
@@ -52,14 +56,16 @@
               >
             </template>
             <span>{{ spell.name }}</span>
-          </osrs-tooltip>
+          </v-tooltip>
         </div>
       </osrs-tab-item>
       <osrs-tab-item>
         <div class="other-spellbook-grid">
-          <osrs-tooltip
+          <v-tooltip
             v-for="spell of otherSpells"
             :key="spell.name"
+            bottom
+            content-class="osrs-tooltip"
             font-size="32px"
             @click="selectSpell(spell)"
           >
@@ -71,7 +77,7 @@
               >
             </template>
             <span>{{ spell.name }}</span>
-          </osrs-tooltip>
+          </v-tooltip>
         </div>
       </osrs-tab-item>
     </v-window>
@@ -82,12 +88,10 @@
 import SpellsManager from '../../services/managers/spells.manager';
 import OsrsTab from '../OsrsTabs/OsrsTab.vue';
 import OsrsTabItem from '../OsrsTabs/OsrsTabItem.vue';
-import OsrsTooltip from '../OsrsTooltip.vue';
 
 export default {
   name: 'SpellSelection',
   components: {
-    OsrsTooltip,
     OsrsTabItem,
     OsrsTab,
   },

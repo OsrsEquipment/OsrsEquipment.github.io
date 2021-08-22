@@ -1,8 +1,10 @@
 <template>
   <div class="player-prayer-grid">
-    <osrs-tooltip
+    <v-tooltip
       v-for="prayer in prayerObjs"
       :key="prayer.id"
+      bottom
+      content-class="osrs-tooltip"
       font-size="24px"
     >
       <template #activator="{ on }">
@@ -22,18 +24,16 @@
         Level {{ prayerRequirement(prayer) }} <br>
         {{ prayer.name }}
       </div>
-    </osrs-tooltip>
+    </v-tooltip>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import PrayersManager from '../../services/managers/prayers.manager';
-import OsrsTooltip from '../OsrsTooltip.vue';
 
 export default {
   name: 'LoadoutPrayers',
-  components: { OsrsTooltip },
   props: {
     loadoutUuid: {
       type: String,

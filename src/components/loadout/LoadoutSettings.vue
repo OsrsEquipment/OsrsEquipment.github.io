@@ -2,73 +2,84 @@
   <div class="loadout-settings-container">
     <div class="loadout-settings-grid">
       <!-- Dwh setting -->
-      <osrs-tooltip>
+      <v-tooltip
+        bottom
+        content-class="osrs-tooltip"
+      >
         <template #activator="{ on }">
           <img
-            v-if="dwhObject"
-            :src="`data:image/png;base64,${dwhObject.icon}`"
+            src="../../static/osrs/Dragon warhammer.png"
             alt="Dragon warhammer"
             v-on="on"
           >
         </template>
-        <span>Dragon warhammer specials that hit and deal more than 0 damage</span> <br>
-        <span>Each hit reduces defence level by 30% of current defence level</span>
-      </osrs-tooltip>
+        <span>Dragon warhammer specials that hit and deal more than 0 damage
+          reduce the target's defence by 30%</span>
+      </v-tooltip>
       <osrs-number-input
         v-model="internalSettings.dwhSpecials"
         :max="9999"
       />
       <!-- Arclight setting -->
-      <osrs-tooltip>
+      <v-tooltip
+        bottom
+        content-class="osrs-tooltip"
+      >
         <template #activator="{ on }">
           <img
-            v-if="arclightObject"
-            :src="`data:image/png;base64,${arclightObject.icon}`"
+            src="../../static/osrs/Arclight.png"
             alt="Arclight"
             v-on="on"
           >
         </template>
-        <span>Arclight/Darklight specials hit</span> <br>
-        <span>Each hit reduces defence level by 5% (10% if demon)</span>
-      </osrs-tooltip>
+        <span>Arclight/Darklight specials that hit
+          reduce the target's defence level by 5% (10% if demon)</span>
+      </v-tooltip>
       <osrs-number-input
         v-model="internalSettings.arclightSpecials"
         :max="9999"
       />
       <!-- Bgs setting -->
-      <osrs-tooltip>
+      <v-tooltip
+        bottom
+        content-class="osrs-tooltip"
+      >
         <template #activator="{ on }">
           <img
-            v-if="bgsObject"
-            :src="`data:image/png;base64,${bgsObject.icon}`"
+            src="../../static/osrs/Bandos godsword.png"
             alt="Bandos godsword"
             v-on="on"
           >
         </template>
-        <span>Bandos godsword specials damage</span> <br>
-        <span>Reduces defence (and other stats) by this amount</span> <br>
-        <span>Order: Defence > Strength > Attack > Magic > Ranged</span>
-      </osrs-tooltip>
+        <span>Bandos godsword specials  drains the target's combat levels equivalent to the
+          damage hit in the following order: Defence, Strength, Prayer, Attack, Magic, Ranged</span>
+      </v-tooltip>
       <osrs-number-input
         v-model="internalSettings.bgsSpecialDamage"
         :max="9999"
       />
       <!-- Slayer setting -->
-      <img
-        src="../../static/osrs/Slayer icon.png"
-        alt="Slayer"
+      <v-tooltip
+        bottom
+        content-class="osrs-tooltip"
       >
-      <osrs-tooltip>
         <template #activator="{ on }">
-          <osrs-checkbox
-            v-model="internalSettings.onSlayerTask"
+          <img
+            src="../../static/osrs/Slayer icon.png"
+            alt="Slayer"
             v-on="on"
-          />
+          >
         </template>
         <span>Are you on a slayer task?</span>
-      </osrs-tooltip>
+      </v-tooltip>
+      <osrs-checkbox
+        v-model="internalSettings.onSlayerTask"
+      />
       <!-- Hitpoints setting -->
-      <osrs-tooltip>
+      <v-tooltip
+        bottom
+        content-class="osrs-tooltip"
+      >
         <template #activator="{ on }">
           <img
             src="../../static/osrs/Hitpoints icon.png"
@@ -78,26 +89,29 @@
         </template>
         <span>Your current hitpoints</span> <br>
         <span>Used for Dharok's set effect</span>
-      </osrs-tooltip>
+      </v-tooltip>
       <osrs-number-input
         v-model="internalSettings.currentHitpoints"
         :min="1"
         :max="99"
       />
       <!-- Wilderness setting -->
-      <img
-        src="../../static/osrs/Skull icon.png"
-        alt="Skull"
+      <v-tooltip
+        bottom
+        content-class="osrs-tooltip"
       >
-      <osrs-tooltip>
         <template #activator="{ on }">
-          <osrs-checkbox
-            v-model="internalSettings.inWilderness"
+          <img
+            src="../../static/osrs/Skull icon.png"
+            alt="Skull"
             v-on="on"
-          />
+          >
         </template>
         <span>Is target in wilderness?</span>
-      </osrs-tooltip>
+      </v-tooltip>
+      <osrs-checkbox
+        v-model="internalSettings.inWilderness"
+      />
     </div>
   </div>
 </template>
@@ -107,12 +121,11 @@ import { mapActions, mapGetters } from 'vuex';
 import ItemsManager from '../../services/managers/items.manager';
 import OsrsNumberInput from '../OsrsNumberInput.vue';
 import OsrsCheckbox from '../OsrsCheckbox.vue';
-import OsrsTooltip from '../OsrsTooltip.vue';
 
 export default {
   name: 'LoadoutSettings',
   components: {
-    OsrsTooltip, OsrsCheckbox, OsrsNumberInput,
+    OsrsCheckbox, OsrsNumberInput,
   },
   props: {
     loadoutUuid: {

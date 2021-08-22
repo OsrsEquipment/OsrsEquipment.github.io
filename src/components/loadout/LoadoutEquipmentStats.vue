@@ -53,7 +53,10 @@
     </ul>
     <span class="equipment-stats-list-header osrs-text-bold-12">Target-specific</span>
     <ul class="equipment-stats-list">
-      <osrs-tooltip>
+      <v-tooltip
+        top
+        content-class="osrs-tooltip"
+      >
         <template #activator="{ on }">
           <li
             class="equipment-stats-list-item"
@@ -63,11 +66,15 @@
           </li>
         </template>
         <span>
-          Increases your damage against undead creatures <br>
-          Does not stack with slayer bonus
+          Increases your effective accuracy and damage against undead creatures.
+          For multi-target Ranged and Magic attacks, this only applies to the primary target.
+          It does not stack with the slayer multiplier.
         </span>
-      </osrs-tooltip>
-      <osrs-tooltip>
+      </v-tooltip>
+      <v-tooltip
+        top
+        content-class="osrs-tooltip"
+      >
         <template #activator="{ on }">
           <li
             class="equipment-stats-list-item"
@@ -80,18 +87,17 @@
           Increases your damage against your slayer target <br>
           Does not stack with undead bonus
         </span>
-      </osrs-tooltip>
+      </v-tooltip>
     </ul>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import OsrsTooltip from '../OsrsTooltip.vue';
 
 export default {
   name: 'LoadoutEquipmentStats',
-  components: { OsrsTooltip },
+  components: {},
   props: {
     loadoutUuid: {
       type: String,

@@ -2,6 +2,7 @@
   <button
     class="osrs-flat-button-container"
     @click="$emit('click', $event)"
+    v-on="$listeners"
   >
     <svg
       viewBox="0 0 128 64"

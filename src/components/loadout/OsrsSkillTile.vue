@@ -1,14 +1,16 @@
 <template>
   <div>
-    <osrs-tooltip
+    <v-tooltip
+      bottom
+      content-class="osrs-tooltip"
       font-size="24px"
-      @click="editSkill"
     >
       <template #activator="{ on }">
         <svg
           viewBox="0 0 128 64"
           preserveAspectRatio="xMinYMin meet"
           class="osrs-skill-tile"
+          @click="editSkill"
           v-on="on"
         >
           <clipPath :id="`boundingBoxClip-${uniqueId}`">
@@ -138,16 +140,14 @@
         </svg>
       </template>
       <span>Click to edit</span>
-    </osrs-tooltip>
+    </v-tooltip>
   </div>
 </template>
 
 <script>
-import OsrsTooltip from '../OsrsTooltip.vue';
 
 export default {
   name: 'OsrsSkillTile',
-  components: { OsrsTooltip },
   props: {
     skill: {
       type: String,
@@ -204,6 +204,7 @@ export default {
 
 <style scoped>
 .osrs-skill-tile {
+  outline: none;
   cursor: pointer;
   user-select: none;
 }

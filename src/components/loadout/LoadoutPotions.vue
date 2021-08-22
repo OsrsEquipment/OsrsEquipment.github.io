@@ -8,7 +8,10 @@
       <span class="potion-section-header">
         {{ capitalize(category) }}
       </span>
-      <osrs-tooltip>
+      <v-tooltip
+        bottom
+        content-class="osrs-tooltip"
+      >
         <template #activator="{ on }">
           <div
             class="player-potion-item"
@@ -23,10 +26,12 @@
           </div>
         </template>
         <span>Nothing</span>
-      </osrs-tooltip>
-      <osrs-tooltip
+      </v-tooltip>
+      <v-tooltip
         v-for="potion in potionsForCategory(category)"
         :key="potion.name"
+        bottom
+        content-class="osrs-tooltip"
       >
         <template #activator="{ on }">
           <div
@@ -42,7 +47,7 @@
           </div>
         </template>
         <span>{{ potion.name }}</span>
-      </osrs-tooltip>
+      </v-tooltip>
     </div>
   </div>
 </template>
@@ -52,12 +57,10 @@ import { mapActions, mapGetters } from 'vuex';
 import {
   capitalize, difference, uniq, kebabCase,
 } from 'lodash';
-import OsrsTooltip from '../OsrsTooltip.vue';
 import EffectDirectory from '../../classes/EffectDirectory';
 
 export default {
   name: 'LoadoutPotions',
-  components: { OsrsTooltip },
   props: {
     loadoutUuid: {
       type: String,
