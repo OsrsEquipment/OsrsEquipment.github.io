@@ -15,10 +15,6 @@ export default class PassiveEffect extends Effect {
       case 'ranged':
         calculation.effectiveStrengthBonus += 8;
         calculation.effectiveAttackBonus += 8;
-        break;
-      case 'magic':
-        calculation.effectiveAttackBonus += 8;
-        break;
     }
     return true;
   }

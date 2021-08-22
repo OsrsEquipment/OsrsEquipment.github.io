@@ -30,7 +30,9 @@ import {
   SuperhumanStrength,
   UltimateStrength,
 } from './effects/prayers';
-import { BlackMask, HarmonisedNightmareStaff, TomeOfFire } from './effects/items';
+import {
+  Arclight, BlackMask, HarmonisedNightmareStaff, TomeOfFire,
+} from './effects/items';
 import { VoidSet } from './effects/sets';
 
 export default class EffectDirectory {
@@ -71,6 +73,7 @@ export default class EffectDirectory {
     [BlackMask.name, BlackMask],
     [HarmonisedNightmareStaff.name, HarmonisedNightmareStaff],
     [TomeOfFire.name, TomeOfFire],
+    [Arclight.name, Arclight],
   ]);
 
   static sets = new Map([

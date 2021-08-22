@@ -1,21 +1,21 @@
 <template>
   <div>
-    <osrs-tabs v-model="selectedTab">
+    <v-slide-group v-model="selectedTab">
       <osrs-tab>
         <img
-          src="src/assets/osrs/Spellbook.png"
+          src="../../static/osrs/Spellbook.png"
           alt="Standard spellbook"
         >
       </osrs-tab>
       <osrs-tab>
         <img
-          src="src/assets/osrs/Ancient_spellbook.png"
+          src="../../static/osrs/Ancient_spellbook.png"
           alt="Ancient spellbook"
         >
       </osrs-tab>
       <osrs-tab>Other</osrs-tab>
-    </osrs-tabs>
-    <osrs-tab-items v-model="selectedTab">
+    </v-slide-group>
+    <v-window v-model="selectedTab">
       <osrs-tab-item>
         <div class="standard-spellbook-grid">
           <osrs-tooltip
@@ -74,15 +74,13 @@
           </osrs-tooltip>
         </div>
       </osrs-tab-item>
-    </osrs-tab-items>
+    </v-window>
   </div>
 </template>
 
 <script>
 import SpellsManager from '../../services/managers/spells.manager';
-import OsrsTabs from '../OsrsTabs/OsrsTabs.vue';
 import OsrsTab from '../OsrsTabs/OsrsTab.vue';
-import OsrsTabItems from '../OsrsTabs/OsrsTabItems.vue';
 import OsrsTabItem from '../OsrsTabs/OsrsTabItem.vue';
 import OsrsTooltip from '../OsrsTooltip.vue';
 
@@ -91,9 +89,7 @@ export default {
   components: {
     OsrsTooltip,
     OsrsTabItem,
-    OsrsTabItems,
     OsrsTab,
-    OsrsTabs,
   },
   data() {
     return {

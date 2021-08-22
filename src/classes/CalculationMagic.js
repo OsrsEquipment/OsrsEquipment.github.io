@@ -64,7 +64,6 @@ export default class CalculationMagic extends Calculation {
         bonus = 92;
         break;
     }
-    console.log(this.effectiveAttackLevel);
     return Math.floor(0.5 + this.effectiveAttackLevel * (64 + bonus) / 640);
   }
 
@@ -124,6 +123,7 @@ export default class CalculationMagic extends Calculation {
   }
 
   get targetSpecificBonus() {
-    return Math.max(this.bonuses.undead, this.bonuses.slayer) - 1;
+    // !IMPORTANT! toFixed(2) is needed because apparently 1.15 - 1 === 0.1499999...
+    return (Math.max(this.bonuses.undead, this.bonuses.slayer) - 1).toFixed(2);
   }
 }

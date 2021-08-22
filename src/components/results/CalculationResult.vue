@@ -1,5 +1,5 @@
 <template>
-  <osrs-container class="calculation-result-container">
+  <osrs-container class="calculation-result-container" @click.native="debug">
     <div class="result-list">
       <div class="result-line">
         <div class="result-line-title osrs-text-quill-8">
@@ -136,6 +136,9 @@ export default {
         if (active.name) return active.name;
       }
       return effectName;
+    },
+    debug() {
+      console.log(this.calculation);
     },
   },
 };

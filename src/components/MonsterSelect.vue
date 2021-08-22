@@ -11,13 +11,13 @@
         <v-spacer />
         <img
           class="mx-2"
-          src="../assets/osrs/Combat icon.png"
+          src="../static/osrs/Combat icon.png"
           alt="Combat level"
         >
         {{ item.combat_level }}
         <img
           class="mx-2"
-          src="../assets/osrs/Hitpoints icon.png"
+          src="../static/osrs/Hitpoints icon.png"
           alt="Hitpoints"
         >
         {{ item.hitpoints }}
@@ -26,7 +26,7 @@
     <template #prepend>
       <img
         class="me-2"
-        src="../assets/osrs/Monster Examine.png"
+        src="../static/osrs/Monster Examine.png"
         alt="Monster"
       >
     </template>

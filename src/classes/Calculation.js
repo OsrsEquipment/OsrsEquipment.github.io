@@ -1,6 +1,7 @@
 import PassiveEffect from './effects/PassiveEffect';
 import StancePassive from './effects/StancePassive';
 import EffectDirectory from './EffectDirectory';
+import PassiveEffectMagic from './effects/PassiveEffectMagic';
 
 export default class Calculation {
   tickSpeed = 0.6;
@@ -360,7 +361,7 @@ export default class Calculation {
 
   get effects() {
     const result = [];
-    result.push(...[PassiveEffect, StancePassive]);
+    result.push(...[PassiveEffect, StancePassive, PassiveEffectMagic]);
 
     if (this.loadout.potions) {
       result.push(

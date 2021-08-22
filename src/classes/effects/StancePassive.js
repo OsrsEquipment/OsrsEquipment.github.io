@@ -40,10 +40,7 @@ export default class StancePassive extends Effect {
       case 'magic':
         switch (calculation.loadout.stance.combat_style) {
           case 'accurate':
-            calculation.effectiveAttackBonus += 3;
-            break;
-          case 'longrange':
-            calculation.effectiveAttackBonus += 1;
+            calculation.effectiveAttackBonus += 2;
             break;
         }
         break;

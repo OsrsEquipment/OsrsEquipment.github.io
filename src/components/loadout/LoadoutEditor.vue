@@ -117,7 +117,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 350px;
-  height: 420px;
+  height: 440px;
   margin: 10px 5px;
 }
 
