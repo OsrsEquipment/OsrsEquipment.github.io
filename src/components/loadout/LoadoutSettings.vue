@@ -88,7 +88,7 @@
           >
         </template>
         <span>Your current hitpoints</span> <br>
-        <span>Used for Dharok's set effect</span>
+        <span>Certain effects need this information (e.g. Dharok's set effect)</span>
       </v-tooltip>
       <osrs-number-input
         v-model="internalSettings.currentHitpoints"
