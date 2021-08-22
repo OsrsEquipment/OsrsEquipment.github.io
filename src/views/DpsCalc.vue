@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col>
-        <calculation-result-list />
+        <calculation-result-list :loadouts="loadouts" />
       </v-col>
     </v-row>
     <osrs-flat-button @click="createLoadout">

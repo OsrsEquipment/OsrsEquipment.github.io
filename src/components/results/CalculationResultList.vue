@@ -30,6 +30,12 @@ export default {
     LoadoutEditor,
     CalculationResult,
   },
+  props: {
+    loadouts: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       slide: undefined,
@@ -38,7 +44,7 @@ export default {
   },
   computed: {
     ...mapState({
-      loadouts: (state) => state.loadouts.list,
+      allLoadouts: (state) => state.loadouts.list,
       target: (state) => state.target.target,
     }),
     ...mapGetters({
@@ -56,6 +62,10 @@ export default {
   beforeMount() {
     const listenForChangesTo = ['loadouts', 'equippedItems', 'stance', 'spell', 'skills', 'prayers', 'potions', 'settings'];
     this.storeUnsubscribe = this.$store.subscribe((mutation) => {
+      if (mutation.type === 'target/setTarget') {
+        Object.keys(this.allLoadouts).forEach(this.update);
+        return;
+      }
       const [mutationStore, mutationName] = mutation.type.split('/');
       if (mutationStore && mutationName) {
         if (listenForChangesTo.indexOf(mutationStore) !== -1) {
