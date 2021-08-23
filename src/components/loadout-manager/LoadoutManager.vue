@@ -18,10 +18,10 @@
         :headers="headers"
         :items="calculations"
         item-key="loadout.uuid"
-        :items-per-page="10"
+        :items-per-page="5"
         :search="search"
         :footer-props="footerProps"
-        height="250"
+        height="200"
         show-group-by
         fixed-header
         single-select

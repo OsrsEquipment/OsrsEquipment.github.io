@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import VuexPersistence from 'vuex-persist';
+import createPersistedState from 'vuex-persistedstate';
 import moduleLoadouts from './modules/loadouts';
 import moduleMonsters from './modules/monsters';
 import moduleEquipment from './modules/equipment';
@@ -16,11 +16,6 @@ import moduleTarget from './modules/target';
 import moduleSettings from './modules/settings';
 
 Vue.use(Vuex);
-
-const vuexPersist = new VuexPersistence({
-  key: 'OsrsEquipmentData',
-  modules: ['loadouts', 'equippedItems', 'stance', 'spell', 'skills', 'prayers', 'potions', 'settings', 'target'],
-});
 
 const store = new Vuex.Store({
   strict: false,
@@ -39,7 +34,11 @@ const store = new Vuex.Store({
     calculations: moduleCalculations,
     target: moduleTarget,
   },
-  plugins: [vuexPersist.plugin],
+  plugins: [
+    createPersistedState({
+      paths: ['loadouts', 'equippedItems', 'stance', 'spell', 'skills', 'prayers', 'potions', 'settings', 'target'],
+    }),
+  ],
 });
 
 export default store;
