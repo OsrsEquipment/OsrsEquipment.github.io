@@ -25,12 +25,12 @@
             content-class="osrs-tooltip"
             class="spell-slot"
             font-size="32px"
-            @click="selectSpell(spell)"
           >
             <template #activator="{ on }">
               <img
                 :src="`data:image/png;base64,${spell.icon}`"
                 :alt="spell.name"
+                @click="selectSpell(spell)"
                 v-on="on"
               >
             </template>

@@ -1,4 +1,24 @@
 import Vue from 'vue';
+import CalculationFactory from '../../classes/CalculationFactory';
+
+function performCalculation({ rootGetters, rootState }, uuid) {
+  const existingLoadout = rootGetters['loadouts/getLoadoutByUuid'](uuid);
+  if (!existingLoadout) return undefined;
+  const loadout = {
+    ...existingLoadout,
+    skills: rootGetters['skills/getSkillsByUuid'](uuid),
+    equipment: {
+      ...rootGetters['equippedItems/getEquippedItemsByUuid'](uuid),
+      weapon: rootGetters['equippedItems/getEquippedWeaponByUuid'](uuid),
+    },
+    stance: rootGetters['stance/getStanceByUuid'](uuid),
+    spell: rootGetters['spell/getSpellByUuid'](uuid),
+    prayers: rootGetters['prayers/getPrayersByUuid'](uuid),
+    potions: rootGetters['potions/getPotionsByUuid'](uuid),
+    settings: rootGetters['settings/getSettingsByUuid'](uuid),
+  };
+  return CalculationFactory.generate(loadout, rootState.target.target);
+}
 
 const moduleCalculations = {
   namespaced: true,
@@ -11,6 +31,9 @@ const moduleCalculations = {
     list: {},
   }),
   mutations: {
+    setList(state, list) {
+      state.list = list;
+    },
     addOrUpdate(state, {
       uuid,
       calculation,
@@ -33,6 +56,22 @@ const moduleCalculations = {
     },
     delete({ commit }, uuid) {
       commit('delete', uuid);
+    },
+    calculate({ commit, rootGetters, rootState }, uuid) {
+      const calculation = performCalculation({ rootGetters, rootState }, uuid);
+      commit('addOrUpdate', {
+        uuid,
+        calculation,
+      });
+    },
+    bulkCalculate({
+      commit, rootGetters, rootState, state,
+    }, uuids) {
+      const calculations = {};
+      uuids.forEach((uuid) => {
+        calculations[uuid] = performCalculation({ rootGetters, rootState }, uuid);
+      });
+      commit('setList', { ...state.list, ...calculations });
     },
   },
   getters: {

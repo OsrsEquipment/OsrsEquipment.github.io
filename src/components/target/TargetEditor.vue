@@ -42,6 +42,5 @@ export default {
   flex-direction: column;
   width: 350px;
   min-height: 420px;
-  margin: 10px 5px;
 }
 </style>

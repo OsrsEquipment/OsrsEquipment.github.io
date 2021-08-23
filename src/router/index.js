@@ -4,6 +4,7 @@ import DpsCalc from '../views/DpsCalc.vue';
 import About from '../views/About.vue';
 import DataManagement from '../views/DataManagement.vue';
 import Target from '../views/Target.vue';
+import Loadouts from '../views/Loadouts.vue';
 
 Vue.use(VueRouter);
 
@@ -17,6 +18,11 @@ const routes = [
     path: '/target',
     name: 'Target',
     component: Target,
+  },
+  {
+    path: '/loadouts',
+    name: 'Loadouts',
+    component: Loadouts,
   },
   {
     path: '/about',

@@ -138,9 +138,6 @@ export default {
       if (stance.combat_style === 'spell') {
         this.selectingSpell = true;
       }
-      if (this.internalSpell) {
-        this.internalSpell = undefined;
-      }
     },
     parseExperience(experience) {
       return experience.split(' and ');

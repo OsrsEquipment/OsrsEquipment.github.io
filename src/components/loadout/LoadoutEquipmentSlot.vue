@@ -13,10 +13,10 @@
       alt="slot"
     >
     <img
-      v-if="props.equippedItem != null"
+      v-show="props.equippedItem != null"
       class="player-equip-slot player-equip-slot-equipped-item"
-      :src="`data:image/png;base64,${props.equippedItem.icon}`"
-      :alt="props.equippedItem.name"
+      :src="`data:image/png;base64,${props.equippedItem ? props.equippedItem.icon : ''}`"
+      :alt="props.equippedItem ? props.equippedItem.icon : ''"
     >
   </div>
 </template>

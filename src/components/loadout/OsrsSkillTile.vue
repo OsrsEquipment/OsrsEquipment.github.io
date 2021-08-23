@@ -166,12 +166,6 @@ export default {
       newLevel: 1,
     };
   },
-  computed: {
-    // getImageSrc() {
-    //   const capitalizedName = capitalize(this.skill);
-    //   return require(`../../assets/osrs/${capitalizedName} icon.png`);
-    // },
-  },
   methods: {
     editSkill() {
       if (!this.editing) {

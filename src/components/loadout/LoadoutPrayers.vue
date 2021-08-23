@@ -42,7 +42,6 @@ export default {
   },
   data() {
     return {
-      lazyPrayers: undefined,
       prayerObjs: [],
       defencePrayers: ['Thick Skin', 'Rock Skin', 'Steel Skin', 'Chivalry', 'Piety', 'Rigour', 'Augury'],
       attackPrayers: ['Clarity of Thought', 'Improved Reflexes', 'Incredible Reflexes', 'Chivalry', 'Piety'],
@@ -58,19 +57,15 @@ export default {
     }),
     internalPrayers: {
       get() {
-        return this.lazyPrayers;
+        return this.getPrayersByUuid(this.loadoutUuid);
       },
       set(value) {
-        this.lazyPrayers = value;
         this.setPrayers({ uuid: this.loadoutUuid, prayers: value });
       },
     },
   },
   created() {
     this.getPrayers();
-  },
-  beforeMount() {
-    this.lazyPrayers = this.getPrayersByUuid(this.loadoutUuid);
   },
   methods: {
     ...mapActions({

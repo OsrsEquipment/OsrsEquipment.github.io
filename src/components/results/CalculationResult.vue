@@ -1,5 +1,8 @@
 <template>
-  <osrs-container class="calculation-result-container" @click.native="debug">
+  <osrs-container
+    class="calculation-result-container"
+    @click.native="debug"
+  >
     <div class="result-list">
       <div class="result-line">
         <div class="result-line-title osrs-text-quill-8">
@@ -61,7 +64,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import OsrsContainer from '../OsrsContainer.vue';
 
 export default {
@@ -84,7 +87,15 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      storeUnsubscribe: undefined,
+    };
+  },
   computed: {
+    ...mapState({
+      target: (state) => state.target.target,
+    }),
     ...mapGetters({
       getCalculationByUuid: 'calculations/getCalculationByUuid',
       bestDps: 'calculations/bestDps',
@@ -121,7 +132,50 @@ export default {
       return {};
     },
   },
+  watch: {
+    loadoutUuid() {
+      this.update();
+    },
+  },
+  beforeMount() {
+    const listenForChangesTo = ['loadouts', 'equippedItems', 'stance', 'spell', 'skills', 'prayers', 'potions', 'settings'];
+    this.storeUnsubscribe = this.$store.subscribe((mutation) => {
+      if (mutation.type === 'target/setTarget') {
+        this.update();
+        return;
+      }
+      const [mutationStore, mutationName] = mutation.type.split('/');
+      if (mutationStore && mutationName) {
+        if (listenForChangesTo.indexOf(mutationStore) !== -1) {
+          let uuid;
+          if (mutationName === 'addOrUpdate' || mutationName === 'add') {
+            uuid = mutation.payload.uuid;
+          }
+          if (mutationName === 'delete') {
+            uuid = mutation.payload;
+          }
+          if (this.loadoutUuid === uuid) {
+            this.update();
+          }
+        }
+      }
+    });
+  },
+  mounted() {
+    this.update();
+  },
+  destroyed() {
+    if (this.storeUnsubscribe) {
+      this.storeUnsubscribe();
+    }
+  },
   methods: {
+    ...mapActions({
+      calculate: 'calculations/calculate',
+    }),
+    update() {
+      this.calculate(this.loadoutUuid);
+    },
     compare(a, b) {
       if (a === b) {
         return 0;
@@ -146,8 +200,10 @@ export default {
 
 <style scoped>
 .calculation-result-container {
+  display: flex;
+  flex-direction: column;
   width: 350px;
-  margin: 10px 5px;
+  max-height: 100%;
 }
 
 .result-list {
@@ -177,8 +233,9 @@ export default {
 
 .result-comparison {
   position: absolute;
-  right: 15px;
+  right: 5px;
   display: none;
+  font-size: 24px;
 }
 
 .result-comparison:after {
@@ -197,6 +254,10 @@ export default {
 .result-comparison.negative {
   display: block;
   color: var(--osrs-red);
+}
+
+.effect-list {
+  overflow: auto;
 }
 
 .effect-line {

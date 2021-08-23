@@ -61,7 +61,6 @@ export default {
       nameRegex: /^[A-Za-z0-9-_ ]{1,12}$/,
       playerName: undefined,
       hiScores: undefined,
-      lazySkills: undefined,
     };
   },
   computed: {
@@ -73,16 +72,12 @@ export default {
     },
     internalSkills: {
       get() {
-        return this.lazySkills;
+        return this.getSkillsByUuid(this.loadoutUuid);
       },
       set(value) {
-        this.lazySkills = value;
         this.setSkills({ uuid: this.loadoutUuid, skills: value });
       },
     },
-  },
-  beforeMount() {
-    this.lazySkills = this.getSkillsByUuid(this.loadoutUuid);
   },
   methods: {
     ...mapActions({

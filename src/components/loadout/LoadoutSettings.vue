@@ -118,7 +118,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import ItemsManager from '../../services/managers/items.manager';
 import OsrsNumberInput from '../OsrsNumberInput.vue';
 import OsrsCheckbox from '../OsrsCheckbox.vue';
 
@@ -135,12 +134,6 @@ export default {
   },
   data() {
     return {
-      bgsId: 11804,
-      bgsObject: undefined,
-      dwhId: 13576,
-      dwhObject: undefined,
-      arclightId: 19675,
-      arclightObject: undefined,
       lazySettings: undefined,
     };
   },
@@ -172,10 +165,10 @@ export default {
       },
     },
   },
-  created() {
-    this.getBgs();
-    this.getDwh();
-    this.getArclight();
+  watch: {
+    loadoutUuid() {
+      this.computedSettings = this.getSettingsByUuid(this.loadoutUuid);
+    },
   },
   beforeMount() {
     this.computedSettings = this.getSettingsByUuid(this.loadoutUuid);
@@ -184,15 +177,6 @@ export default {
     ...mapActions({
       setSettings: 'settings/addOrUpdate',
     }),
-    async getBgs() {
-      this.bgsObject = await ItemsManager.getById(this.bgsId);
-    },
-    async getDwh() {
-      this.dwhObject = await ItemsManager.getById(this.dwhId);
-    },
-    async getArclight() {
-      this.arclightObject = await ItemsManager.getById(this.arclightId);
-    },
   },
 };
 </script>

@@ -117,8 +117,6 @@ export default {
   display: flex;
   flex-direction: column;
   width: 350px;
-  height: 440px;
-  margin: 10px 5px;
 }
 
 .loadout-tabs-container {

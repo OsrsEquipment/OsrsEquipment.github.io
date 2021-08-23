@@ -16,6 +16,14 @@
     </router-link>
     <router-link
       class="osrs-navbar-link"
+      :to="{ name: 'Loadouts' }"
+      active-class="osrs-navbar-active-link"
+      exact
+    >
+      Loadouts
+    </router-link>
+    <router-link
+      class="osrs-navbar-link"
       :to="{ name: 'Target' }"
       active-class="osrs-navbar-active-link"
       exact

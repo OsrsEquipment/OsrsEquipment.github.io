@@ -69,7 +69,6 @@ export default {
   },
   data() {
     return {
-      lazyPotions: undefined,
       categories: [
         'strength',
         'attack',
@@ -91,10 +90,9 @@ export default {
     },
     internalPotions: {
       get() {
-        return this.lazyPotions;
+        return this.getPotionsByUuid(this.loadoutUuid);
       },
       set(value) {
-        this.lazyPotions = value;
         this.setPotions({ uuid: this.loadoutUuid, potions: value });
       },
     },
@@ -113,9 +111,6 @@ export default {
 
       return result;
     },
-  },
-  beforeMount() {
-    this.lazyPotions = this.getPotionsByUuid(this.loadoutUuid);
   },
   methods: {
     ...mapActions({
