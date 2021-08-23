@@ -11,68 +11,68 @@
         class="player-equip-cape"
         equip-slot="cape"
         :equipped-item="internalEquipment.cape"
-        @slot-click="selectItem(['cape'], internalEquipment.cape)"
+        @click="selectItem(['cape'], internalEquipment.cape)"
       />
       <loadout-equipment-slot
         class="player-equip-neck"
         equip-slot="neck"
         :equipped-item="internalEquipment.neck"
-        @slot-click="selectItem(['neck'], internalEquipment.neck)"
+        @click="selectItem(['neck'], internalEquipment.neck)"
       />
       <loadout-equipment-slot
         class="player-equip-ammo"
         equip-slot="ammo"
         :equipped-item="internalEquipment.ammo"
-        @slot-click="selectItem(['ammo'], internalEquipment.ammo)"
+        @click="selectItem(['ammo'], internalEquipment.ammo)"
       />
       <loadout-equipment-slot
         class="player-equip-weapon"
         equip-slot="weapon"
         :equipped-item="internalEquipment.weapon"
-        @slot-click="selectItem(['weapon', '2h'], internalEquipment.weapon)"
+        @click="selectItem(['weapon', '2h'], internalEquipment.weapon)"
       />
       <loadout-equipment-slot
         class="player-equip-body"
         equip-slot="body"
         :equipped-item="internalEquipment.body"
-        @slot-click="selectItem(['body'], internalEquipment.body)"
+        @click="selectItem(['body'], internalEquipment.body)"
       />
       <loadout-equipment-slot
         class="player-equip-shield"
         equip-slot="shield"
         :equipped-item="internalEquipment.shield"
-        @slot-click="selectItem(['shield'], internalEquipment.shield)"
+        @click="selectItem(['shield'], internalEquipment.shield)"
       />
       <loadout-equipment-slot
         v-if="showDartsSlot"
         class="player-equip-darts"
         equip-slot="ammo"
         :equipped-item="internalEquipment.darts"
-        @slot-click="selectItem(['darts'], internalEquipment.darts)"
+        @click="selectItem(['darts'], internalEquipment.darts)"
       />
       <loadout-equipment-slot
         class="player-equip-legs"
         equip-slot="legs"
         :equipped-item="internalEquipment.legs"
-        @slot-click="selectItem(['legs'], internalEquipment.legs)"
+        @click="selectItem(['legs'], internalEquipment.legs)"
       />
       <loadout-equipment-slot
         class="player-equip-hands"
         equip-slot="hands"
         :equipped-item="internalEquipment.hands"
-        @slot-click="selectItem(['hands'], internalEquipment.hands)"
+        @click="selectItem(['hands'], internalEquipment.hands)"
       />
       <loadout-equipment-slot
         class="player-equip-feet"
         equip-slot="feet"
         :equipped-item="internalEquipment.feet"
-        @slot-click="selectItem(['feet'], internalEquipment.feet)"
+        @click="selectItem(['feet'], internalEquipment.feet)"
       />
       <loadout-equipment-slot
         class="player-equip-ring"
         equip-slot="ring"
         :equipped-item="internalEquipment.ring"
-        @slot-click="selectItem(['ring'], internalEquipment.ring)"
+        @click="selectItem(['ring'], internalEquipment.ring)"
       />
       <equip-select-dialog
         :dialog.sync="equipSelectDialog.show"
