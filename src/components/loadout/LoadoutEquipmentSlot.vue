@@ -1,18 +1,22 @@
-<template>
+<template functional>
   <div
     class="player-equip-slot-container"
-    @click="$emit('slot-click')"
+    :class="[
+      data.class,
+      data.staticClass
+    ]"
+    v-on="listeners"
   >
     <img
       class="player-equip-slot player-equip-slot-bg"
-      :class="{'empty': hasItemEquipped, [equipSlot]: !hasItemEquipped}"
+      :class="{'empty': props.equippedItem != null, [props.equipSlot]: props.equippedItem == null}"
       alt="slot"
     >
     <img
-      v-if="hasItemEquipped"
+      v-if="props.equippedItem != null"
       class="player-equip-slot player-equip-slot-equipped-item"
-      :src="`data:image/png;base64,${equippedItem.icon}`"
-      :alt="equippedItem.name"
+      :src="`data:image/png;base64,${props.equippedItem.icon}`"
+      :alt="props.equippedItem.name"
     >
   </div>
 </template>
@@ -32,11 +36,6 @@ export default {
   },
   data() {
     return {};
-  },
-  computed: {
-    hasItemEquipped() {
-      return this.equippedItem != null;
-    },
   },
 };
 </script>
@@ -105,5 +104,53 @@ export default {
 
 .player-equip-slot-bg.ring {
   content: url('../../static/osrs/ring_slot.png');
+}
+
+.player-equip-head {
+  grid-area: head;
+}
+
+.player-equip-cape {
+  grid-area: cape;
+}
+
+.player-equip-neck {
+  grid-area: neck;
+}
+
+.player-equip-ammo {
+  grid-area: ammo;
+}
+
+.player-equip-weapon {
+  grid-area: weapon;
+}
+
+.player-equip-body {
+  grid-area: body;
+}
+
+.player-equip-shield {
+  grid-area: shield;
+}
+
+.player-equip-legs {
+  grid-area: legs;
+}
+
+.player-equip-hands {
+  grid-area: hands;
+}
+
+.player-equip-feet {
+  grid-area: feet;
+}
+
+.player-equip-ring {
+  grid-area: ring;
+}
+
+.player-equip-darts {
+  grid-area: darts;
 }
 </style>

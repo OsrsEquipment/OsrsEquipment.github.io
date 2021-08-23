@@ -5,7 +5,7 @@
         class="player-equip-head"
         equip-slot="head"
         :equipped-item="internalEquipment.head"
-        @slot-click="selectItem(['head'], internalEquipment.head)"
+        @click="selectItem(['head'], internalEquipment.head)"
       />
       <loadout-equipment-slot
         class="player-equip-cape"
@@ -206,53 +206,5 @@ export default {
     "darts legs ."
     "hands feet ring";
   place-items: center;
-}
-
-.player-equip-head {
-  grid-area: head;
-}
-
-.player-equip-cape {
-  grid-area: cape;
-}
-
-.player-equip-neck {
-  grid-area: neck;
-}
-
-.player-equip-ammo {
-  grid-area: ammo;
-}
-
-.player-equip-weapon {
-  grid-area: weapon;
-}
-
-.player-equip-body {
-  grid-area: body;
-}
-
-.player-equip-shield {
-  grid-area: shield;
-}
-
-.player-equip-legs {
-  grid-area: legs;
-}
-
-.player-equip-hands {
-  grid-area: hands;
-}
-
-.player-equip-feet {
-  grid-area: feet;
-}
-
-.player-equip-ring {
-  grid-area: ring;
-}
-
-.player-equip-darts {
-  grid-area: darts;
 }
 </style>
