@@ -7,3 +7,8 @@ export { default as PoweredStaves } from './PoweredStaves';
 export { default as BerserkerNecklace } from './BerserkerNecklace';
 export { default as BrimstoneRing } from './BrimstoneRing';
 export { default as ChaosGauntlets } from './ChaosGauntlets';
+export { default as CrawsBow } from './CrawsBow';
+export { default as DragonHunterCrossbow } from './DragonHunterCrossbow';
+export { default as DragonHunterLance } from './DragonHunterLance';
+export { default as Keris } from './Keris';
+export { default as LeafBladedBattleaxe } from './LeafBladedBattleaxe';

@@ -33,13 +33,15 @@ import {
 import {
   Arclight,
   BerserkerNecklace,
-  BlackMask, BrimstoneRing, ChaosGauntlets,
-  HarmonisedNightmareStaff,
+  BlackMask, BrimstoneRing, ChaosGauntlets, CrawsBow, DragonHunterCrossbow, DragonHunterLance,
+  HarmonisedNightmareStaff, Keris, LeafBladedBattleaxe,
   PoweredStaves,
   TomeOfFire,
   TwistedBow,
 } from './effects/items';
-import { VoidSet } from './effects/sets';
+import {
+  DharoksSet, InquisitorsArmour, ObsidianArmour, VoidSet,
+} from './effects/sets';
 
 export default class EffectDirectory {
   static potions = new Map([
@@ -85,9 +87,17 @@ export default class EffectDirectory {
     [BerserkerNecklace.name, BerserkerNecklace],
     [BrimstoneRing.name, BrimstoneRing],
     [ChaosGauntlets.name, ChaosGauntlets],
+    [CrawsBow.name, CrawsBow],
+    [DragonHunterCrossbow.name, DragonHunterCrossbow],
+    [DragonHunterLance.name, DragonHunterLance],
+    [Keris.name, Keris],
+    [LeafBladedBattleaxe.name, LeafBladedBattleaxe],
   ]);
 
   static sets = new Map([
     [VoidSet.name, VoidSet],
+    [DharoksSet.name, DharoksSet],
+    [InquisitorsArmour.name, InquisitorsArmour],
+    [ObsidianArmour.name, ObsidianArmour],
   ]);
 }
