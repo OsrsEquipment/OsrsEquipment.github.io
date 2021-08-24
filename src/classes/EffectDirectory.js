@@ -31,7 +31,7 @@ import {
   UltimateStrength,
 } from './effects/prayers';
 import {
-  Arclight, BlackMask, HarmonisedNightmareStaff, TomeOfFire, TwistedBow,
+  Arclight, BlackMask, HarmonisedNightmareStaff, PoweredStaves, TomeOfFire, TwistedBow,
 } from './effects/items';
 import { VoidSet } from './effects/sets';
 
@@ -75,6 +75,7 @@ export default class EffectDirectory {
     [TomeOfFire.name, TomeOfFire],
     [Arclight.name, Arclight],
     [TwistedBow.name, TwistedBow],
+    [PoweredStaves.name, PoweredStaves],
   ]);
 
   static sets = new Map([

@@ -93,10 +93,15 @@ export default {
       if (this.calculation.dpsType === 'ranged') {
         return this.calculation.loadout.stance.combat_style;
       }
-      return this.calculation.loadout.stance.attack_type;
+      if (this.calculation.dpsType === 'magic') {
+        if (this.calculation.isPowered()) {
+          return this.calculation.loadout.stance.combat_style;
+        }
+      }
+      return 'Unknown';
     },
     spellIcon() {
-      if (this.calculation.dpsType === 'magic' && this.calculation.loadout.spell) {
+      if (this.calculation.dpsType === 'magic' && !this.calculation.isPowered() && this.calculation.loadout.spell) {
         return this.calculation.loadout.spell.icon;
       }
       return undefined;

@@ -44,6 +44,9 @@ export default class CalculationMagic extends Calculation {
         max = this.spell.baseMaxHit;
         max += Math.max(0, (this.effectiveStrength - 75) / 3);
       }
+    } else if (this.isPowered()) {
+      max = this.spell.baseMaxHit;
+      max += Math.max(0, Math.floor((this.effectiveAttackLevel - 75) / 3));
     }
     return max;
   }
