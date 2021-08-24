@@ -12,39 +12,10 @@
       </div>
     </template>
     <div class="data-table-section">
-      <osrs-text-input v-model="search" />
-      <v-data-table
+      <calculation-iterator
         v-model="selectedRow"
-        :headers="headers"
-        :items="calculations"
-        item-key="loadout.uuid"
-        :items-per-page="5"
-        :search="search"
-        :footer-props="footerProps"
-        height="200"
-        show-group-by
-        fixed-header
-        single-select
-        multi-sort
-        dense
-        @click:row="select"
-      >
-        <template #item.actions="{ item }">
-          <v-icon
-            small
-            class="mr-2"
-            @click.stop="copyItem(item)"
-          >
-            mdi-content-copy
-          </v-icon>
-          <v-icon
-            small
-            @click.stop="deleteItem(item)"
-          >
-            mdi-delete
-          </v-icon>
-        </template>
-      </v-data-table>
+        :calculations="calculations"
+      />
     </div>
   </div>
 </template>
@@ -54,12 +25,12 @@ import { mapActions, mapGetters, mapState } from 'vuex';
 import LoadoutEditor from '../loadout/LoadoutEditor.vue';
 import CalculationResult from '../results/CalculationResult.vue';
 import TargetEditor from '../target/TargetEditor.vue';
-import OsrsTextInput from '../OsrsTextInput.vue';
+import CalculationIterator from './CalculationIterator.vue';
 
 export default {
   name: 'LoadoutManager',
   components: {
-    OsrsTextInput,
+    CalculationIterator,
     TargetEditor,
     CalculationResult,
     LoadoutEditor,
@@ -67,39 +38,7 @@ export default {
   data() {
     return {
       selectedRow: undefined,
-      search: undefined,
       storeUnsubscribe: undefined,
-      headers: [
-        {
-          text: 'Name',
-          align: 'start',
-          value: 'loadout.name',
-          groupable: false,
-        },
-        {
-          text: 'Combat',
-          value: 'dpsType',
-        },
-        {
-          text: 'Max hit',
-          value: 'maxHit',
-          groupable: false,
-        },
-        {
-          text: 'DPS',
-          value: 'dps',
-          groupable: false,
-        },
-        {
-          text: '',
-          value: 'actions',
-          sortable: false,
-          groupable: false,
-        },
-      ],
-      footerProps: {
-        itemsPerPageOptions: [5, 10, 20, -1],
-      },
     };
   },
   computed: {
@@ -143,12 +82,6 @@ export default {
     }),
     select(item, row) {
       row.select(true);
-    },
-    copyItem(item) {
-      this.copyLoadout(item.loadout.uuid);
-    },
-    deleteItem(item) {
-      this.deleteLoadout(item.loadout.uuid);
     },
   },
 };

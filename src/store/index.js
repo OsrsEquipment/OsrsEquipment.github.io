@@ -4,7 +4,6 @@ import createPersistedState from 'vuex-persistedstate';
 import moduleLoadouts from './modules/loadouts';
 import moduleMonsters from './modules/monsters';
 import moduleEquipment from './modules/equipment';
-import moduleDpsCalc from './modules/dps-calc';
 import moduleEquippedItems from './modules/equippedItems';
 import moduleStance from './modules/stance';
 import moduleSpell from './modules/spell';
@@ -21,7 +20,6 @@ const store = new Vuex.Store({
   strict: false,
   modules: {
     loadouts: moduleLoadouts,
-    dpsCalc: moduleDpsCalc,
     monsters: moduleMonsters,
     equipment: moduleEquipment,
     equippedItems: moduleEquippedItems,

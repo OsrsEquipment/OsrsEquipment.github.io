@@ -17,9 +17,6 @@
             <target-editor />
           </div>
           <template v-if="bestDps">
-            <calculation-result-list
-              :loadouts="{ [bestDps.loadout.uuid]: bestDps.loadout }"
-            />
           </template>
         </div>
       </v-col>
@@ -30,11 +27,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import TargetEditor from '../components/target/TargetEditor.vue';
-import CalculationResultList from '../components/results/CalculationResultList.vue';
 import OsrsContainer from '../components/OsrsContainer.vue';
 
 export default {
-  components: { OsrsContainer, CalculationResultList, TargetEditor },
+  components: { OsrsContainer, TargetEditor },
   computed: {
     ...mapGetters({
       bestDps: 'calculations/bestDps',
