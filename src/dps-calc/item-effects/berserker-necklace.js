@@ -1,4 +1,4 @@
-import ItemEffect from '../item-effect';
+ import ItemEffect from '../item-effect';
 import Utils from '../../services/utils';
 import { BerserkerNecklacePassive } from '../boosts';
 

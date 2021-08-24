@@ -68,9 +68,17 @@ export default class Calculation {
   /**
    * Reduces attack speed by a percent
    * e.g. Leagues relic halves attack speed
-   * @type {Map<any, any>}
+   * @type {Map<string, float>}
    */
   attackSpeedModifiers = new Map();
+
+  /**
+   * A function that transform the original max hit
+   * Can chain multiple transforms
+   * e.g. Zulrah max hit 50, Chaos gauntlets +3
+   * @type {Map<string, fn>}
+   */
+  maxHitTransformers = new Map();
 
   visibleEffects = new Map();
 
@@ -80,15 +88,6 @@ export default class Calculation {
   }
 
   init() {
-    this.effectiveStrengthBonus = 0;
-    this.effectiveAttackBonus = 0;
-    this.visibleStrengthBonus = 0;
-    this.visibleAttackBonus = 0;
-    this.damageModifiers = new Map();
-    this.averageDamageModifiers = new Map();
-    this.accuracyModifiers = new Map();
-    this.targetDefenceModifiers = new Map();
-    this.visibleEffects = new Map();
     this.bonuses = { ...this.loadout.bonuses };
     this.skills = { ...this.loadout.skills };
     this.target = { ...this.target };
@@ -112,6 +111,11 @@ export default class Calculation {
     result = Math.floor(result);
     for (const value of this.damageModifiers.values()) {
       result = Math.floor(result * value);
+    }
+    for (const fn of this.maxHitTransformers.values()) {
+      if (typeof fn === 'function') {
+        result = fn.call(this, result);
+      }
     }
     return result;
   }
@@ -221,6 +225,14 @@ export default class Calculation {
       throw new Error(`Attempting to add ${name} attack speed modifier to the list twice`);
     } else {
       this.attackSpeedModifiers.set(name, modifier);
+    }
+  }
+
+  addMaxHitTransformer(name, modifier) {
+    if (this.maxHitTransformers.has(name)) {
+      throw new Error(`Attempting to add ${name} max hit transformer to the list twice`);
+    } else {
+      this.maxHitTransformers.set(name, modifier);
     }
   }
 

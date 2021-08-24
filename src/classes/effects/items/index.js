@@ -4,3 +4,6 @@ export { default as TomeOfFire } from './TomeOfFire';
 export { default as Arclight } from './Arclight';
 export { default as TwistedBow } from './TwistedBow';
 export { default as PoweredStaves } from './PoweredStaves';
+export { default as BerserkerNecklace } from './BerserkerNecklace';
+export { default as BrimstoneRing } from './BrimstoneRing';
+export { default as ChaosGauntlets } from './ChaosGauntlets';

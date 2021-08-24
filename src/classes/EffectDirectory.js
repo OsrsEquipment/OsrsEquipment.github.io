@@ -31,7 +31,13 @@ import {
   UltimateStrength,
 } from './effects/prayers';
 import {
-  Arclight, BlackMask, HarmonisedNightmareStaff, PoweredStaves, TomeOfFire, TwistedBow,
+  Arclight,
+  BerserkerNecklace,
+  BlackMask, BrimstoneRing, ChaosGauntlets,
+  HarmonisedNightmareStaff,
+  PoweredStaves,
+  TomeOfFire,
+  TwistedBow,
 } from './effects/items';
 import { VoidSet } from './effects/sets';
 
@@ -76,6 +82,9 @@ export default class EffectDirectory {
     [Arclight.name, Arclight],
     [TwistedBow.name, TwistedBow],
     [PoweredStaves.name, PoweredStaves],
+    [BerserkerNecklace.name, BerserkerNecklace],
+    [BrimstoneRing.name, BrimstoneRing],
+    [ChaosGauntlets.name, ChaosGauntlets],
   ]);
 
   static sets = new Map([

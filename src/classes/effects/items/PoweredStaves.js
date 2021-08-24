@@ -5,7 +5,7 @@ import SpellDirectory from '../../SpellDirectory';
 export default class PoweredStaves extends ItemEffect {
   static name = 'Powered staff';
 
-  static description = 'Autocast standard spells 1 tick faster';
+  static description = 'Powered staves have internal spells';
 
   static categories = ['item', 'magic'];
 

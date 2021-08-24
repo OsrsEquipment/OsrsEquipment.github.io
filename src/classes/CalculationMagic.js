@@ -23,6 +23,12 @@ export default class CalculationMagic extends Calculation {
       max = Math.floor(max * value);
     }
 
+    for (const fn of this.maxHitTransformers.values()) {
+      if (typeof fn === 'function') {
+        max = fn.call(this, max);
+      }
+    }
+
     return max;
   }
 
@@ -91,7 +97,7 @@ export default class CalculationMagic extends Calculation {
   }
 
   isPowered() {
-    return this.spell.attributes.includes('powered');
+    return this.spell && this.spell.attributes.includes('powered');
   }
 
   isMagicDart() {

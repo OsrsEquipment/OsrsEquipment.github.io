@@ -27,7 +27,11 @@ export default class BlackMask extends ItemEffect {
         break;
       case 'ranged':
       case 'magic':
-        if (imbued) calculation.setBonus('slayer', 1.15);
+        if (imbued) {
+          calculation.setBonus('slayer', 1.15);
+        } else {
+          return false;
+        }
     }
     return {
       name: `Black mask${imbued ? ' (i)' : ''}`,
