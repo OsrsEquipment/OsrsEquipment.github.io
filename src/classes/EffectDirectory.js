@@ -43,6 +43,7 @@ import {
   CrystalArmour,
   DharoksSet, InquisitorsArmour, ObsidianArmour, VoidSet,
 } from './effects/sets';
+import { ArclightSpecial, BandosGodswordSpecial, DragonWarhammerSpecial } from './effects/specials';
 
 export default class EffectDirectory {
   static potions = new Map([
@@ -108,4 +109,18 @@ export default class EffectDirectory {
     [ObsidianArmour.name, ObsidianArmour],
     [CrystalArmour.name, CrystalArmour],
   ]);
+
+  static convertSettingsToEffects(settings) {
+    const result = [];
+    if (settings.arclightSpecials && settings.arclightSpecials > 0) {
+      result.push(ArclightSpecial);
+    }
+    if (settings.dwhSpecials && settings.dwhSpecials > 0) {
+      result.push(DragonWarhammerSpecial);
+    }
+    if (settings.bgsSpecialDamage && settings.bgsSpecialDamage > 0) {
+      result.push(BandosGodswordSpecial);
+    }
+    return result;
+  }
 }

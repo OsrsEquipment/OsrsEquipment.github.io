@@ -16,6 +16,8 @@ export default class Calculation {
 
   skills;
 
+  debuffedTarget;
+
   target;
 
   effectiveStrengthBonus = 0;
@@ -90,7 +92,7 @@ export default class Calculation {
   init() {
     this.bonuses = { ...this.loadout.bonuses };
     this.skills = { ...this.loadout.skills };
-    this.target = { ...this.target };
+    this.debuffedTarget = { ...this.target };
     this.effects
       .sort((a, b) => b.priority - a.priority)
       .forEach((effect) => {
@@ -327,11 +329,11 @@ export default class Calculation {
   get targetDefence() {
     switch (this.dpsType) {
       case 'melee':
-        return this.target.defence_level;
+        return this.debuffedTarget.defence_level;
       case 'ranged':
-        return this.target.defence_level;
+        return this.debuffedTarget.defence_level;
       case 'magic':
-        return this.target.magic_level;
+        return this.debuffedTarget.magic_level;
     }
     return undefined;
   }
@@ -339,11 +341,11 @@ export default class Calculation {
   get targetDefenceBonus() {
     switch (this.dpsType) {
       case 'melee':
-        return this.target[`defence_${this.attackType}`];
+        return this.debuffedTarget[`defence_${this.attackType}`];
       case 'ranged':
-        return this.target.defence_ranged;
+        return this.debuffedTarget.defence_ranged;
       case 'magic':
-        return this.target.defence_magic;
+        return this.debuffedTarget.defence_magic;
     }
     return undefined;
   }
@@ -373,6 +375,7 @@ export default class Calculation {
 
   get effects() {
     const result = [];
+
     result.push(...[PassiveEffect, StancePassive, PassiveEffectMagic]);
 
     if (this.loadout.potions) {
@@ -399,6 +402,10 @@ export default class Calculation {
         ...[...EffectDirectory.sets.values()]
           .filter((itemEffect) => itemEffect.check(this)),
       );
+    }
+
+    if (this.loadout.settings) {
+      result.push(...EffectDirectory.convertSettingsToEffects(this.loadout.settings));
     }
 
     return result;
