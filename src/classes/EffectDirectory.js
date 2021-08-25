@@ -35,11 +35,12 @@ import {
   BerserkerNecklace,
   BlackMask, BrimstoneRing, ChaosGauntlets, CrawsBow, DragonHunterCrossbow, DragonHunterLance,
   HarmonisedNightmareStaff, Keris, LeafBladedBattleaxe,
-  PoweredStaves,
+  PoweredStaves, SalveAmulet, ScytheOfVitur, ThammaronsSceptre,
   TomeOfFire,
-  TwistedBow,
+  TwistedBow, ViggorasChainmace,
 } from './effects/items';
 import {
+  CrystalArmour,
   DharoksSet, InquisitorsArmour, ObsidianArmour, VoidSet,
 } from './effects/sets';
 
@@ -92,6 +93,10 @@ export default class EffectDirectory {
     [DragonHunterLance.name, DragonHunterLance],
     [Keris.name, Keris],
     [LeafBladedBattleaxe.name, LeafBladedBattleaxe],
+    [ScytheOfVitur.name, ScytheOfVitur],
+    [SalveAmulet.name, SalveAmulet],
+    [ThammaronsSceptre.name, ThammaronsSceptre],
+    [ViggorasChainmace.name, ViggorasChainmace],
   ]);
 
   static sets = new Map([
@@ -99,5 +104,6 @@ export default class EffectDirectory {
     [DharoksSet.name, DharoksSet],
     [InquisitorsArmour.name, InquisitorsArmour],
     [ObsidianArmour.name, ObsidianArmour],
+    [CrystalArmour.name, CrystalArmour],
   ]);
 }

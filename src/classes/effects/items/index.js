@@ -12,3 +12,7 @@ export { default as DragonHunterCrossbow } from './DragonHunterCrossbow';
 export { default as DragonHunterLance } from './DragonHunterLance';
 export { default as Keris } from './Keris';
 export { default as LeafBladedBattleaxe } from './LeafBladedBattleaxe';
+export { default as ScytheOfVitur } from './ScytheOfVitur';
+export { default as SalveAmulet } from './SalveAmulet';
+export { default as ThammaronsSceptre } from './ThammaronsSceptre';
+export { default as ViggorasChainmace } from './ViggorasChainmace';
