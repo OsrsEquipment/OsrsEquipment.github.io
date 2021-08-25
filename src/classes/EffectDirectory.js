@@ -35,8 +35,8 @@ import {
   BerserkerNecklace,
   BlackMask, BrimstoneRing, ChaosGauntlets, CrawsBow, DragonHunterCrossbow, DragonHunterLance,
   HarmonisedNightmareStaff, Keris, LeafBladedBattleaxe,
-  PoweredStaves, SalveAmulet, ScytheOfVitur, ThammaronsSceptre,
-  TomeOfFire,
+  PoweredStaves, SalveAmulet, ScytheOfVitur, SmokeBattlestaff, ThammaronsSceptre,
+  TomeOfFire, TomeOfWater,
   TwistedBow, ViggorasChainmace,
 } from './effects/items';
 import {
@@ -97,6 +97,8 @@ export default class EffectDirectory {
     [SalveAmulet.name, SalveAmulet],
     [ThammaronsSceptre.name, ThammaronsSceptre],
     [ViggorasChainmace.name, ViggorasChainmace],
+    [SmokeBattlestaff.name, SmokeBattlestaff],
+    [TomeOfWater.name, TomeOfWater],
   ]);
 
   static sets = new Map([
