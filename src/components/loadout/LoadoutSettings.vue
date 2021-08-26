@@ -1,6 +1,10 @@
 <template>
   <div class="loadout-settings-container">
     <div class="loadout-settings-grid">
+      <loadout-name-editor
+        class="loadout-name"
+        :loadout-uuid="loadoutUuid"
+      />
       <!-- Dwh setting -->
       <v-tooltip
         bottom
@@ -120,11 +124,14 @@
 import { mapActions, mapGetters } from 'vuex';
 import OsrsNumberInput from '../OsrsNumberInput.vue';
 import OsrsCheckbox from '../OsrsCheckbox.vue';
+import LoadoutNameEditor from '../loadout-manager/LoadoutNameEditor.vue';
 
 export default {
   name: 'LoadoutSettings',
   components: {
-    OsrsCheckbox, OsrsNumberInput,
+    LoadoutNameEditor,
+    OsrsCheckbox,
+    OsrsNumberInput,
   },
   props: {
     loadoutUuid: {
@@ -149,7 +156,10 @@ export default {
         this.lazySettings = new Proxy(value, {
           set: (obj, prop, val) => {
             obj[prop] = val;
-            this.setSettings({ uuid: this.loadoutUuid, settings: obj });
+            this.setSettings({
+              uuid: this.loadoutUuid,
+              settings: obj,
+            });
             return true;
           },
         });
@@ -161,7 +171,10 @@ export default {
       },
       set(value) {
         this.computedSettings = value;
-        this.setSettings({ uuid: this.loadoutUuid, settings: value });
+        this.setSettings({
+          uuid: this.loadoutUuid,
+          settings: value,
+        });
       },
     },
   },
@@ -195,5 +208,10 @@ export default {
   grid-auto-rows: 32px;
   grid-gap: 16px;
   align-items: center;
+}
+
+.loadout-name {
+  grid-column: 1 / span 4;
+  padding-right: 20px;
 }
 </style>

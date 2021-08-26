@@ -1,5 +1,5 @@
 <template>
-  <v-app class="toolscape-application-wrapper">
+  <v-app class="application-wrapper">
     <v-main class="">
       <osrs-navbar />
       <router-view />
@@ -38,7 +38,7 @@ export default {
 </style>
 
 <style scoped>
-.toolscape-application-wrapper {
+.application-wrapper {
   background: var(--osrs-darkest-brown) !important;
 }
 </style>

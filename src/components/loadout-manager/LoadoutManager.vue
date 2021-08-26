@@ -1,14 +1,35 @@
 <template>
-  <div>
+  <div class="loadout-manager">
     <template
       v-if="selectedLoadoutUuid"
     >
-      <div class="master-view-grid">
-        <loadout-editor
-          :loadout-uuid="selectedLoadoutUuid"
-        />
-        <calculation-result :loadout-uuid="selectedLoadoutUuid" />
-        <target-editor />
+      <div class="loadout-details-grid">
+        <div class="loadout-details-grid-row">
+          <span class="loadout-details-grid-title osrs-text-quill-8">
+            <loadout-name-editor :loadout-uuid="selectedLoadoutUuid" />
+          </span>
+          <loadout-editor
+            :loadout-uuid="selectedLoadoutUuid"
+            class="loadout-details-grid-item"
+          />
+        </div>
+        <div class="loadout-details-grid-item">
+          <span class="loadout-details-grid-title osrs-text-quill-8">
+            Results
+          </span>
+          <calculation-result
+            :loadout-uuid="selectedLoadoutUuid"
+            class="loadout-details-grid-item"
+          />
+        </div>
+        <div class="loadout-details-grid-item">
+          <span class="loadout-details-grid-title osrs-text-quill-8">
+            Target
+          </span>
+          <target-editor
+            class="loadout-details-grid-item"
+          />
+        </div>
       </div>
     </template>
     <div class="data-table-section">
@@ -26,10 +47,12 @@ import LoadoutEditor from '../loadout/LoadoutEditor.vue';
 import CalculationResult from '../results/CalculationResult.vue';
 import TargetEditor from '../target/TargetEditor.vue';
 import CalculationIterator from './CalculationIterator.vue';
+import LoadoutNameEditor from './LoadoutNameEditor.vue';
 
 export default {
   name: 'LoadoutManager',
   components: {
+    LoadoutNameEditor,
     CalculationIterator,
     TargetEditor,
     CalculationResult,
@@ -69,7 +92,12 @@ export default {
       }
       if (mutation.type === 'loadouts/add') {
         this.calculate(mutation.payload.uuid)
-          .then(() => { this.selectedRow = [this.getCalculation(mutation.payload.uuid)]; });
+          .then(() => {
+            this.selectedRow = [this.getCalculation(mutation.payload.uuid)];
+          });
+      }
+      if (mutation.type === 'loadouts/update') {
+        this.calculate(mutation.payload.uuid);
       }
     });
   },
@@ -88,15 +116,42 @@ export default {
 </script>
 
 <style scoped>
-.master-view-grid {
+.loadout-manager {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loadout-details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 350px);
+  grid-gap: 10px;
+}
+
+.loadout-details-grid-title {
+  display: block;
+  text-align: center;
+  height: 50px;
+}
+
+.loadout-details-grid-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.loadout-details-grid-item {
   height: 500px;
-  padding: 10px;
-  gap: 15px;
 }
 
 .data-table-section {
+  margin: 20px 0;
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .loadout-details-grid {
+    grid-template-columns: 350px;
+    grid-template-rows: repeat(3, 550px);
+  }
 }
 </style>

@@ -32,6 +32,10 @@ html { overflow-y: auto }
     fill: #ff9c1f;
 }
 
+.osrs-text {
+    color: #ff9c1f!important;
+}
+
 .osrs-tooltip {
     opacity: 1!important;
     background: #ffffa0!important;
@@ -44,4 +48,16 @@ html { overflow-y: auto }
     padding: 4px!important;
     max-width: 315px;
     transition: none!important;
+}
+
+.theme--dark.v-input {
+    color: #ff981f!important;
+}
+
+.theme--dark.v-label {
+    color: #ff981f!important;
+}
+
+.theme--dark.v-icon {
+    color: #ff981f!important;
 }

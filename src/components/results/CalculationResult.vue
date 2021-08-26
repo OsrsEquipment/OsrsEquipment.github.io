@@ -54,7 +54,7 @@
       <div
         v-for="[effectName, active] in effects"
         :key="effectName"
-        class="effect-line osrs-text-quill-8"
+        class="effect-line osrs-text-plain-12"
         :class="{'effect-inactive': !active}"
       >
         {{ parseEffect(effectName, active) }}

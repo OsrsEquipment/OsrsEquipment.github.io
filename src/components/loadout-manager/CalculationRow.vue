@@ -4,57 +4,101 @@
     :class="{ 'selected-calculation': selected }"
   >
     <div class="calculation-column dps-type-column">
-      <v-img
-        :class="calculation.dpsType"
-      />
+      <div>
+        <img
+          :class="calculation.dpsType"
+        />
+      </div>
     </div>
     <div class="calculation-column name-column">
-      <span>{{ calculation.loadout.name }}</span>
+      <div class="calculation-column-title osrs-text-quill-8">
+        Loadout name
+      </div>
+      <div class="calculation-column-content">
+        {{ calculation.loadout.name }}
+      </div>
     </div>
-    <div class="calculation-column align-center combat-type-column">
-      <template v-if="spellIcon">
-        <v-img
-          :src="`data:image/png;base64,${spellIcon}`"
-          class="spell-icon"
-          contain
-        />
-      </template>
-      <template v-else>
-        <span>{{ combatType }}</span>
-      </template>
+    <div class="calculation-column combat-type-column">
+      <div class="calculation-column-title osrs-text-quill-8">
+        Combat
+      </div>
+      <div class="calculation-column-content">
+        <template v-if="spellIcon">
+          <img
+            :src="`data:image/png;base64,${spellIcon}`"
+            class="spell-icon"
+          />
+        </template>
+        <template v-else>
+          <span>{{ combatType }}</span>
+        </template>
+      </div>
     </div>
-    <div class="calculation-column align-center">
-      <span>{{ calculation.maxHit }}</span>
+    <div class="calculation-column max-hit-column">
+      <div class="calculation-column-title osrs-text-quill-8">
+        Max hit
+      </div>
+      <div class="calculation-column-content">
+        <span>{{ calculation.maxHit }}</span>
+      </div>
     </div>
-    <div class="calculation-column align-center accuracy-column">
-      <span>{{ calculation.hitChance | percentage }}</span>
+    <div class="calculation-column accuracy-column">
+      <div class="calculation-column-title osrs-text-quill-8">
+        Accuracy
+      </div>
+      <div class="calculation-column-content">
+        <span>{{ calculation.hitChance | percentage }}</span>
+      </div>
     </div>
-    <div class="calculation-column align-center dps-column">
-      <span>{{ calculation.dps | toFixed(4) }}</span>
+    <div class="calculation-column dps-column">
+      <div class="calculation-column-title osrs-text-quill-8">
+        DPS
+      </div>
+      <div class="calculation-column-content">
+        <span>{{ calculation.dps | toFixed(4) }}</span>
+      </div>
     </div>
     <div class="calculation-column actions-column">
-      <v-btn
-        icon
-        @click.stop="copyLoadout"
+      <v-tooltip
+        bottom
+        content-class="osrs-tooltip"
       >
-        <v-icon
-          small
-          color="var(--osrs-orange)"
-        >
-          mdi-content-copy
-        </v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="deleteLoadout"
+        <template #activator="{ on }">
+          <v-btn
+            icon
+            v-on="on"
+            @click.stop="copyLoadout"
+          >
+            <v-icon
+              small
+              color="var(--osrs-orange)"
+            >
+              mdi-content-copy
+            </v-icon>
+          </v-btn>
+        </template>
+        <span>Copy</span>
+      </v-tooltip>
+      <v-tooltip
+        bottom
+        content-class="osrs-tooltip"
       >
-        <v-icon
-          small
-          color="var(--osrs-orange)"
-        >
-          mdi-delete
-        </v-icon>
-      </v-btn>
+        <template #activator="{ on }">
+          <v-btn
+            icon
+            v-on="on"
+            @click.stop="deleteLoadout"
+          >
+            <v-icon
+              small
+              color="var(--osrs-orange)"
+            >
+              mdi-delete
+            </v-icon>
+          </v-btn>
+        </template>
+        <span>Delete</span>
+      </v-tooltip>
     </div>
   </div>
 </template>
@@ -88,7 +132,7 @@ export default {
   computed: {
     combatType() {
       if (this.calculation.dpsType === 'melee') {
-        return this.calculation.loadout.stance.attack_type;
+        return `${this.calculation.loadout.stance.attack_style} ${this.calculation.loadout.stance.attack_type}`;
       }
       if (this.calculation.dpsType === 'ranged') {
         return this.calculation.loadout.stance.combat_style;
@@ -124,14 +168,15 @@ export default {
 
 <style scoped>
 .calculation-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  gap: 20px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px 1fr 175px 75px 75px 75px 75px;
+  height: 60px;
   background: var(--osrs-dark-brown);
   padding: 5px;
   border-radius: 4px;
   transition: background 200ms;
+  cursor: pointer;
 }
 
 .calculation-row.selected-calculation {
@@ -139,46 +184,61 @@ export default {
 }
 
 .calculation-column {
-  min-width: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  margin: 0 5px;
+  overflow: hidden;
 }
 
-.calculation-column.dps-type-column {
-  min-width: 0;
-  margin-left: 5px;
+.calculation-column.actions-column {
+  flex-direction: row;
+  align-items: center;
 }
 
-.calculation-column.align-center {
+.calculation-column-title {
+  line-height: 1em;
+  font-size: 16px;
+  opacity: 0.66;
   text-align: center;
+  white-space: nowrap;
 }
 
-.calculation-column.align-right {
-  text-align: right;
+.calculation-column-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.calculation-column.align-left {
-  text-align: left;
+.calculation-column.dps-type-column > div{
+  display: flex;
 }
 
 .name-column {
   flex: 1;
 }
 
+.name-column .calculation-column-title {
+  text-align: left;
+}
+
+.name-column .calculation-column-content {
+  align-self: flex-start;
+}
+
 .combat-type-column {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+  min-width: 175px;
   text-transform: capitalize;
 }
 
 .combat-type-column .spell-icon {
   max-width: 24px;
   max-height: 24px;
-}
-
-.accuracy-column,
-.dps-column {
-  min-width: 75px
 }
 
 .melee {
@@ -192,4 +252,32 @@ export default {
 .magic {
   content: url('../../static/osrs/Magic icon.png')
 }
+
+@media (max-width: 1200px) {
+  .calculation-row {
+    min-width: 300px;
+    grid-template-columns: 40px 1fr 75px 40px;
+    grid-template-rows: 50px 50px 50px;
+    height: auto;
+  }
+
+  .calculation-column {
+    align-items: flex-start;
+  }
+
+  .calculation-column.name-column {
+    grid-column: 2 / span 2;
+  }
+
+  .calculation-column.dps-type-column {
+    grid-row: 1 / -1;
+  }
+
+  .calculation-column.actions-column {
+    grid-row: 1 / -1;
+    grid-column: 4;
+    flex-direction: column;
+  }
+}
 </style>
+<!-- 40px 1fr 175px 75px 75px 75px 75px -->

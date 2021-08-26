@@ -23,6 +23,12 @@ const moduleLoadouts = {
     }) {
       Vue.set(state.list, uuid, loadout);
     },
+    update(state, {
+      uuid,
+      loadout,
+    }) {
+      Vue.set(state.list, uuid, loadout);
+    },
     delete(state, uuid) {
       Vue.delete(state.list, uuid);
     },
@@ -47,6 +53,13 @@ const moduleLoadouts = {
 
       commit('add', {
         uuid,
+        loadout,
+      });
+    },
+    update({ commit }, loadout) {
+      commit('update', {
+        uuid: loadout.uuid,
+        dateUpdated: new Date(),
         loadout,
       });
     },

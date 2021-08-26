@@ -50,6 +50,7 @@ export default {
   display: flex;
   padding: 4px;
   max-width: 100%;
+  gap: 5px;
 }
 
 .osrs-text-input {
@@ -66,11 +67,9 @@ export default {
 }
 
 .osrs-text-input-prepend {
-  padding-right: 5px;
 }
 
 .osrs-text-input-append {
-  padding-left: 5px;
   display: flex;
   align-items: center;
 }
