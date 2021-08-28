@@ -33,8 +33,8 @@ export default class TwistedBow extends ItemEffect {
         + (10 * 3 * targetMagic / 10 - 14) / 100
         - (((3 * targetMagic / 10) - 140) ** 2) / 100;
 
-      calculation.addAccuracyModifier(TwistedBow.name, Math.min(accuracyModifier, 140) / 100);
-      calculation.addDamageModifier(TwistedBow.name, Math.min(damageModifier, 250) / 100);
+      calculation.addModifier('accuracy', Math.min(accuracyModifier, 140) / 100);
+      calculation.addModifier('damage', Math.min(damageModifier, 250) / 100);
       return true;
     }
     return false;

@@ -3,52 +3,87 @@
     :value="value"
     :items="calculations"
     item-key="loadout.uuid"
-    :items-per-page="5"
+    :items-per-page="showItems"
     :search="search"
     :custom-filter="searchFilter"
     :page.sync="currentPage"
+    :sort-by="sortBy"
+    :sort-desc="sortDesc"
     hide-default-footer
     single-select
     @input="$emit('input', $event)"
   >
+    <template #no-data>
+      <div class="no-data-section">
+        <span>Add a new loadout to get started</span>
+      </div>
+    </template>
+    <template #no-results>
+      <div class="no-data-section">
+        <span>No matching loadouts found</span>
+      </div>
+    </template>
     <template #header>
-      <div
+      <v-sheet
         class="header-toolbar"
+        color="secondary"
       >
-        <osrs-text-input
+        <osrs-text-field
           v-model="search"
+          label="Search"
           class="header-search"
+          clearable
+          solo
+          hide-details
+        ></osrs-text-field>
+        <osrs-select
+          v-model="sortBy"
+          :items="sortOptions"
+          label="Sort by"
+          class="header-sort"
+          clearable
+          solo
+          hide-details
+        ></osrs-select>
+        <v-btn-toggle
+          v-model="sortDesc"
+          borderless
+          mandatory
         >
-          <template #prepend>
-            <v-icon large>
-              mdi-magnify
-            </v-icon>
-          </template>
-        </osrs-text-input>
+          <v-btn
+            :value="false"
+          >
+            <v-icon>mdi-arrow-up</v-icon>
+          </v-btn>
+          <v-btn
+            :value="true"
+          >
+            <v-icon>mdi-arrow-down</v-icon>
+          </v-btn>
+        </v-btn-toggle>
         <v-spacer></v-spacer>
         <v-btn
-          color="accent"
           class="mx-1"
           @click="previousPage"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
-        <span class="osrs-text-bold-12 mx-2">{{ currentPage }}/{{ maxPages }}</span>
+        <span class="header-page-text">
+          {{ computedPage }}/{{ maxPages }}
+        </span>
         <v-btn
-          color="accent"
           class="mx-1"
           @click="nextPage"
         >
           <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
         <v-btn
-          color="accent"
           class="ml-4"
           @click="newLoadout"
         >
           <v-icon>mdi-plus</v-icon>
         </v-btn>
-      </div>
+      </v-sheet>
     </template>
     <template #default="{ items, select, isSelected }">
       <v-row>
@@ -69,14 +104,16 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 import CalculationRow from './CalculationRow.vue';
-import OsrsTextInput from '../OsrsTextInput.vue';
+import OsrsSelect from '../OsrsSelect.vue';
+import OsrsTextField from '../OsrsTextField.vue';
 
 export default {
   name: 'CalculationIterator',
   components: {
-    OsrsTextInput,
+    OsrsTextField,
+    OsrsSelect,
     CalculationRow,
   },
   props: {
@@ -91,41 +128,52 @@ export default {
   },
   data() {
     return {
+      showItems: 10,
       search: undefined,
       currentPage: 1,
+      sortBy: 'dps',
+      sortDesc: true,
+      sortOptions: [
+        {
+          text: 'Loadout name',
+          value: 'loadout.name',
+        },
+        {
+          text: 'Max hit',
+          value: 'maxHit',
+        },
+        {
+          text: 'Accuracy',
+          value: 'hitChance',
+        },
+        {
+          text: 'DPS',
+          value: 'dps',
+        },
+      ],
     };
   },
   computed: {
-    ...mapState({
-      loadouts: (state) => Object.values(state.loadouts.list),
-    }),
-    ...mapGetters({
-      getCalculation: 'calculations/getCalculationByUuid',
-    }),
     selectedLoadoutUuid() {
       if (this.selectedRow && this.selectedRow.length > 0) {
         return this.selectedRow[0]?.loadout.uuid;
       }
       return undefined;
     },
+    computedPage() {
+      if (this.calculations && this.calculations.length > 0) {
+        return this.currentPage;
+      }
+      return 0;
+    },
     maxPages() {
-      return Math.ceil(this.calculations.length / 5);
+      return Math.ceil(this.calculations.length / this.showItems);
     },
   },
   methods: {
     ...mapActions({
-      calculate: 'calculations/calculate',
-      bulkCalculate: 'calculations/bulkCalculate',
-      deleteLoadout: 'loadouts/delete',
-      copyLoadout: 'loadouts/copy',
       newLoadout: 'loadouts/new',
     }),
-    copyItem(item) {
-      this.copyLoadout(item.loadout.uuid);
-    },
-    deleteItem(item) {
-      this.deleteLoadout(item.loadout.uuid);
-    },
     searchFilter(items, search) {
       if (items && search) {
         return items.filter((item) => item.loadout.name.toLowerCase().includes(search));
@@ -148,14 +196,23 @@ export default {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  background: var(--osrs-light-brown);
   padding: 5px 10px;
   border-radius: 4px;
+  gap: 10px;
 }
 
 .header-search {
   flex: 1;
   min-width: 300px;
+}
+
+.header-sort {
+  flex: 1;
+  min-width: 200px;
+}
+
+.header-page-text {
+  line-height: 1em;
 }
 
 .data-iteration-section {
@@ -165,6 +222,15 @@ export default {
   overflow-y: auto;
   padding: 0 12px;
   margin-top: 24px;
+}
+
+.no-data-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  user-select: none;
+  min-height: 100px;
 }
 
 @media (max-width: 1200px) {

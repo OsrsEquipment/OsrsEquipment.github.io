@@ -14,7 +14,7 @@ export default class ThammaronsSceptre extends ItemEffect {
 
   static apply(calculation) {
     if (calculation.dpsType === 'magic' && calculation.loadout.settings.inWilderness) {
-      calculation.addAccuracyModifier(ThammaronsSceptre.name, 2);
+      calculation.addModifier('accuracy', 2);
       calculation.magicDamageBonus += 25;
       return true;
     }

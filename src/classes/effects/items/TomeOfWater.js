@@ -2,7 +2,7 @@ import ItemEffect from '../../ItemEffect';
 import Utils from '../../../services/utils';
 
 export default class TomeOfWater extends ItemEffect {
-  static name = 'Tome of fire';
+  static name = 'Tome of water';
 
   static description = 'Increases accuracy and damage of water spells by 20%';
 
@@ -15,8 +15,8 @@ export default class TomeOfWater extends ItemEffect {
   static apply(calculation) {
     if (calculation.dpsType === 'magic') {
       if (calculation.spell && calculation.spell.attributes.includes('water')) {
-        calculation.addAccuracyModifier(TomeOfWater.name, 1.2);
-        calculation.addDamageModifier(TomeOfWater.name, 1.2);
+        calculation.addModifier('damage', 1.2);
+        calculation.addModifier('accuracy', 1.2);
         return true;
       }
     }

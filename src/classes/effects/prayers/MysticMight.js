@@ -10,7 +10,7 @@ class MysticMight extends Effect {
   static apply(calculation) {
     if (calculation.dpsType === 'magic') {
       const { effectiveAttack } = calculation;
-      calculation.effectiveAttackBonus += Math.floor(effectiveAttack * 0.15);
+      calculation.invisibleAttackBonus += Math.floor(effectiveAttack * 0.15);
       return true;
     }
     return false;

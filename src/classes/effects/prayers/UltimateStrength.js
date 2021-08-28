@@ -10,7 +10,7 @@ class UltimateStrength extends Effect {
   static apply(calculation) {
     if (calculation.dpsType === 'melee') {
       const { effectiveStrength } = calculation;
-      calculation.effectiveStrengthBonus += Math.floor(effectiveStrength * 0.15);
+      calculation.invisibleStrengthBonus += Math.floor(effectiveStrength * 0.15);
       return true;
     }
     return false;

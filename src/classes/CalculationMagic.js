@@ -19,17 +19,7 @@ export default class CalculationMagic extends Calculation {
     max += Math.floor(max * this.bonusMagicDamage);
     max += Math.floor(max * this.targetSpecificBonus);
 
-    for (const value of this.damageModifiers.values()) {
-      max = Math.floor(max * value);
-    }
-
-    for (const fn of this.maxHitTransformers.values()) {
-      if (typeof fn === 'function') {
-        max = fn.call(this, max);
-      }
-    }
-
-    return max;
+    return this.processValue('damage', max);
   }
 
   get spellMaxHit() {
@@ -52,7 +42,9 @@ export default class CalculationMagic extends Calculation {
       }
     } else if (this.isPowered()) {
       max = this.spell.baseMaxHit;
-      max += Math.max(0, Math.floor((this.effectiveAttackLevel - 75) / 3));
+      if (!this.isCrystalStaff()) {
+        max += Math.max(0, Math.floor((this.visibleAttackLevel - 75) / 3));
+      }
     }
     return max;
   }
@@ -73,7 +65,7 @@ export default class CalculationMagic extends Calculation {
         bonus = 92;
         break;
     }
-    return Math.floor(0.5 + this.effectiveAttackLevel * (64 + bonus) / 640);
+    return Math.floor(0.5 + this.visibleAttackLevel * (64 + bonus) / 640);
   }
 
   isSalamander() {
@@ -98,6 +90,10 @@ export default class CalculationMagic extends Calculation {
 
   isPowered() {
     return this.spell && this.spell.attributes.includes('powered');
+  }
+
+  isCrystalStaff() {
+    return this.spell && (this.spell.name.includes('Crystal staff') || this.spell.name.includes('Corrupted staff'));
   }
 
   isMagicDart() {

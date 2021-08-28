@@ -10,8 +10,8 @@ class Chivalry extends Effect {
   static apply(calculation) {
     if (calculation.dpsType === 'melee') {
       const { effectiveStrength, effectiveAttack } = calculation;
-      calculation.effectiveStrengthBonus += Math.floor(effectiveStrength * 0.18);
-      calculation.effectiveAttackBonus += Math.floor(effectiveAttack * 0.15);
+      calculation.invisibleStrengthBonus += Math.floor(effectiveStrength * 0.18);
+      calculation.invisibleAttackBonus += Math.floor(effectiveAttack * 0.15);
       return true;
     }
     return false;

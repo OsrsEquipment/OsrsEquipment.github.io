@@ -1,10 +1,6 @@
 <template>
   <div class="loadout-settings-container">
     <div class="loadout-settings-grid">
-      <loadout-name-editor
-        class="loadout-name"
-        :loadout-uuid="loadoutUuid"
-      />
       <!-- Dwh setting -->
       <v-tooltip
         bottom
@@ -124,12 +120,10 @@
 import { mapActions, mapGetters } from 'vuex';
 import OsrsNumberInput from '../OsrsNumberInput.vue';
 import OsrsCheckbox from '../OsrsCheckbox.vue';
-import LoadoutNameEditor from '../loadout-manager/LoadoutNameEditor.vue';
 
 export default {
   name: 'LoadoutSettings',
   components: {
-    LoadoutNameEditor,
     OsrsCheckbox,
     OsrsNumberInput,
   },

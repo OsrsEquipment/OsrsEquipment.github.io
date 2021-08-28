@@ -49,15 +49,3 @@ html { overflow-y: auto }
     max-width: 315px;
     transition: none!important;
 }
-
-.theme--dark.v-input {
-    color: #ff981f!important;
-}
-
-.theme--dark.v-label {
-    color: #ff981f!important;
-}
-
-.theme--dark.v-icon {
-    color: #ff981f!important;
-}

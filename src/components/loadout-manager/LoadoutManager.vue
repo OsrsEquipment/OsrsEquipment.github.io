@@ -6,7 +6,7 @@
       <div class="loadout-details-grid">
         <div class="loadout-details-grid-row">
           <span class="loadout-details-grid-title osrs-text-quill-8">
-            <loadout-name-editor :loadout-uuid="selectedLoadoutUuid" />
+            <loadout-name-editor :loadout-uuid="selectedLoadoutUuid"/>
           </span>
           <loadout-editor
             :loadout-uuid="selectedLoadoutUuid"
@@ -17,7 +17,7 @@
           <span class="loadout-details-grid-title osrs-text-quill-8">
             Results
           </span>
-          <calculation-result
+          <calculation-results
             :loadout-uuid="selectedLoadoutUuid"
             class="loadout-details-grid-item"
           />
@@ -32,6 +32,11 @@
         </div>
       </div>
     </template>
+    <template v-else>
+      <div class="no-loadout-selected-section">
+        <span>Create a loadout to get started</span>
+      </div>
+    </template>
     <div class="data-table-section">
       <calculation-iterator
         v-model="selectedRow"
@@ -44,18 +49,18 @@
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
 import LoadoutEditor from '../loadout/LoadoutEditor.vue';
-import CalculationResult from '../results/CalculationResult.vue';
 import TargetEditor from '../target/TargetEditor.vue';
 import CalculationIterator from './CalculationIterator.vue';
 import LoadoutNameEditor from './LoadoutNameEditor.vue';
+import CalculationResults from '../results/CalculationResults.vue';
 
 export default {
   name: 'LoadoutManager',
   components: {
+    CalculationResults,
     LoadoutNameEditor,
     CalculationIterator,
     TargetEditor,
-    CalculationResult,
     LoadoutEditor,
   },
   data() {
@@ -99,13 +104,19 @@ export default {
       if (mutation.type === 'loadouts/update') {
         this.calculate(mutation.payload.uuid);
       }
+      if (mutation.type === 'calculations/delete') {
+        if (this.calculations && this.calculations.length > 0) {
+          this.selectedRow = [this.calculations[0]];
+        } else {
+          this.selectedRow = undefined;
+        }
+      }
     });
   },
   methods: {
     ...mapActions({
       calculate: 'calculations/calculate',
       bulkCalculate: 'calculations/bulkCalculate',
-      deleteLoadout: 'loadouts/delete',
       copyLoadout: 'loadouts/copy',
     }),
     select(item, row) {
@@ -126,6 +137,8 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, 350px);
   grid-gap: 10px;
+  padding: 5px;
+  overflow: hidden;
 }
 
 .loadout-details-grid-title {
@@ -146,6 +159,14 @@ export default {
 .data-table-section {
   margin: 20px 0;
   width: 100%;
+}
+
+.no-loadout-selected-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  min-height: 250px;
 }
 
 @media (max-width: 1200px) {

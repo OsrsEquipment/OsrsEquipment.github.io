@@ -68,16 +68,18 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import MonsterStatTile from './MonsterStatTile.vue';
 
 export default {
   name: 'MonsterStats',
   components: { MonsterStatTile },
+  props: {
+    target: {
+      type: Object,
+      required: true,
+    },
+  },
   computed: {
-    ...mapState({
-      target: (state) => state.target.target,
-    }),
     targetName() {
       return this.target ? this.target.name : 'Unknown';
     },

@@ -1,7 +1,7 @@
 <template>
   <osrs-container class="target-editor">
     <monster-select v-model="internalTarget" />
-    <monster-stats />
+    <monster-stats :target="target" />
   </osrs-container>
 </template>
 

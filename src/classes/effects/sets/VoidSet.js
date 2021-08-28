@@ -31,16 +31,16 @@ export default class VoidSet extends ItemEffect {
       && Utils.hasEquipped(calculation.loadout.equipment, 13073);
     const { effectiveStrength, effectiveAttack } = calculation;
     if (calculation.dpsType === 'melee') {
-      calculation.effectiveStrengthBonus += Math.floor(effectiveStrength * 0.1);
-      calculation.effectiveAttackBonus += Math.floor(effectiveAttack * 0.1);
+      calculation.invisibleStrengthBonus += Math.floor(effectiveStrength * 0.1);
+      calculation.invisibleAttackBonus += Math.floor(effectiveAttack * 0.1);
     }
     if (calculation.dpsType === 'ranged') {
       const strengthMulti = elite ? 0.125 : 0.1;
-      calculation.effectiveStrengthBonus += Math.floor(effectiveStrength * strengthMulti);
-      calculation.effectiveAttackBonus += Math.floor(effectiveAttack * 0.1);
+      calculation.invisibleStrengthBonus += Math.floor(effectiveStrength * strengthMulti);
+      calculation.invisibleAttackBonus += Math.floor(effectiveAttack * 0.1);
     }
     if (calculation.dpsType === 'magic') {
-      calculation.effectiveAttackBonus += Math.floor(effectiveAttack * 0.45);
+      calculation.invisibleAttackBonus += Math.floor(effectiveAttack * 0.45);
       if (elite) {
         calculation.magicDamageBonus += 2.5;
       }

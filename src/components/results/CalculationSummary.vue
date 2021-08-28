@@ -1,7 +1,7 @@
 <template>
-  <osrs-container
+  <div
     class="calculation-result-container"
-    @click.native="debug"
+    @click="debug"
   >
     <div class="result-list">
       <div class="result-line">
@@ -49,27 +49,15 @@
         </div>
       </div>
     </div>
-    <v-divider/>
-    <div class="effect-list">
-      <div
-        v-for="[effectName, active] in effects"
-        :key="effectName"
-        class="effect-line osrs-text-plain-12"
-        :class="{'effect-inactive': !active}"
-      >
-        {{ parseEffect(effectName, active) }}
-      </div>
-    </div>
-  </osrs-container>
+  </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
-import OsrsContainer from '../OsrsContainer.vue';
 
 export default {
-  name: 'CalculationResult',
-  components: { OsrsContainer },
+  name: 'CalculationSummary',
+  components: {},
   filters: {
     percentage(value) {
       if (!value) return undefined;
@@ -199,12 +187,6 @@ export default {
 </script>
 
 <style scoped>
-.calculation-result-container {
-  display: flex;
-  flex-direction: column;
-  width: 350px;
-  max-height: 100%;
-}
 
 .result-list {
   display: flex;

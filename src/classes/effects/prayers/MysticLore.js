@@ -10,7 +10,7 @@ class MysticWill extends Effect {
   static apply(calculation) {
     if (calculation.dpsType === 'magic') {
       const { effectiveAttack } = calculation;
-      calculation.effectiveAttackBonus += Math.floor(effectiveAttack * 0.1);
+      calculation.invisibleAttackBonus += Math.floor(effectiveAttack * 0.1);
       return true;
     }
     return false;

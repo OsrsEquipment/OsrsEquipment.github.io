@@ -13,8 +13,8 @@ export default class PassiveEffect extends Effect {
     switch (calculation.dpsType) {
       case 'melee':
       case 'ranged':
-        calculation.effectiveStrengthBonus += 8;
-        calculation.effectiveAttackBonus += 8;
+        calculation.invisibleStrengthBonus += 8;
+        calculation.invisibleAttackBonus += 8;
     }
     return true;
   }

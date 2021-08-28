@@ -16,8 +16,8 @@ export default class DragonHunterLance extends ItemEffect {
 
   static apply(calculation) {
     if (calculation.dpsType === 'melee' && DragonHunterLance.isTargetDraconic(calculation.target)) {
-      calculation.addAccuracyModifier(DragonHunterLance.name, 1.2);
-      calculation.addDamageModifier(DragonHunterLance.name, 1.2);
+      calculation.addModifier('accuracy', 1.2);
+      calculation.addModifier('damage', 1.2);
       return true;
     }
     return false;

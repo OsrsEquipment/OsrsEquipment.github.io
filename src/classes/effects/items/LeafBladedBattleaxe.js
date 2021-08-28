@@ -16,8 +16,8 @@ export default class LeafBladedBattleaxe extends ItemEffect {
     if (calculation.dpsType === 'melee' && LeafBladedBattleaxe.isTargetLeafy(calculation.target)) {
       // Conflicting information on the accuracy part.
       // Official news post only mentions damage increase.
-      // calculation.addAccuracyModifier(LeafBladedBattleaxe.name, 1.175);
-      calculation.addDamageModifier(LeafBladedBattleaxe.name, 1.175);
+      // calculation.addModifier('accuracy', 1.175);
+      calculation.addModifier('damage', 1.175);
       return true;
     }
     return false;

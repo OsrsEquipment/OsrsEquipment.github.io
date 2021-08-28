@@ -20,45 +20,29 @@ export default class Calculation {
 
   target;
 
-  effectiveStrengthBonus = 0;
+  invisibleStrengthBonus = 0;
 
-  effectiveAttackBonus = 0;
+  invisibleAttackBonus = 0;
 
   visibleStrengthBonus = 0;
 
   visibleAttackBonus = 0;
 
   /**
-   * Key = name of the boost
-   * Value = float to modify damage by
-   * Modifies max hit
-   * @type {Map<string, float>}
+   * Key = What the modifer applies to (e.g. damage, max hit, ...)
+   * Value = array of float values to modify value with
+   * Contains all sorts of modifiers
+   * @type {Map<string, float[]>}
    */
-  damageModifiers = new Map();
+  modifiers = new Map();
 
   /**
-   * Key = name of the boost
-   * Value = float to modify damage by
-   * Modifies average damage
-   * @type {Map<string, float>}
+   * Key = What the modifer applies to (e.g. damage, max hit, ...)
+   * Value = array of functions that returns the transformed value
+   * Contains all sorts of modifiers
+   * @type {Map<string, function[]>}
    */
-  averageDamageModifiers = new Map();
-
-  /**
-   * Key = name of the boost
-   * Value = float to modify damage by
-   * Modifies attack roll
-   * @type {Map<string, float>}
-   */
-  accuracyModifiers = new Map();
-
-  /**
-   * Key = name of the boost
-   * Value = float to modify damage by
-   * Modifies target defence roll
-   * @type {Map<string, float>}
-   */
-  targetDefenceModifiers = new Map();
+  transformers = new Map();
 
   /**
    * Reduces attack speed by a constant value
@@ -73,14 +57,6 @@ export default class Calculation {
    * @type {Map<string, float>}
    */
   attackSpeedModifiers = new Map();
-
-  /**
-   * A function that transform the original max hit
-   * Can chain multiple transforms
-   * e.g. Zulrah max hit 50, Chaos gauntlets +3
-   * @type {Map<string, fn>}
-   */
-  maxHitTransformers = new Map();
 
   visibleEffects = new Map();
 
@@ -111,15 +87,7 @@ export default class Calculation {
     result = Math.floor(result);
     result *= Math.max(this.bonuses.slayer, this.bonuses.undead);
     result = Math.floor(result);
-    for (const value of this.damageModifiers.values()) {
-      result = Math.floor(result * value);
-    }
-    for (const fn of this.maxHitTransformers.values()) {
-      if (typeof fn === 'function') {
-        result = fn.call(this, result);
-      }
-    }
-    return result;
+    return this.processValue('damage', result);
   }
 
   get attackRoll() {
@@ -127,20 +95,14 @@ export default class Calculation {
     result *= (this.attackBonus + 64);
     result *= Math.max(this.bonuses.slayer, this.bonuses.undead);
     result = Math.floor(result);
-    for (const value of this.accuracyModifiers.values()) {
-      result = Math.floor(result * value);
-    }
-    return result;
+    return this.processValue('accuracy', result);
   }
 
   get targetDefenceRoll() {
     const targetDefence = this.targetDefence + 9;
     const targetStyleDefence = this.targetDefenceBonus + 64;
-    let result = targetDefence * targetStyleDefence;
-    for (const value of this.targetDefenceModifiers.values()) {
-      result = Math.floor(result * value);
-    }
-    return result;
+    const result = targetDefence * targetStyleDefence;
+    return this.processValue('targetDefence', result);
   }
 
   get hitChance() {
@@ -155,11 +117,8 @@ export default class Calculation {
   }
 
   get averageDamage() {
-    let avgDmg = this.maxHit * this.hitChance / 2;
-    for (const value of this.averageDamageModifiers.values()) {
-      avgDmg *= value;
-    }
-    return avgDmg;
+    const result = this.maxHit * this.hitChance / 2;
+    return this.processValue('averageDamage', result);
   }
 
   get dps() {
@@ -182,60 +141,37 @@ export default class Calculation {
     }
   }
 
-  addDamageModifier(name, modifier) {
-    if (this.damageModifiers.has(name)) {
-      throw new Error(`Attempting to add ${name} damage modifier to the list twice`);
-    } else {
-      this.damageModifiers.set(name, modifier);
+  addModifier(key, modifier) {
+    if (!this.modifiers.has(key)) {
+      this.modifiers.set(key, []);
     }
+    this.modifiers.get(key)
+      .push(modifier);
   }
 
-  addAccuracyModifier(name, modifier) {
-    if (this.accuracyModifiers.has(name)) {
-      throw new Error(`Attempting to add ${name} accuracy modifier to the list twice`);
-    } else {
-      this.accuracyModifiers.set(name, modifier);
+  addTransformer(key, fn) {
+    if (!this.transformers.has(key)) {
+      this.transformers.set(key, []);
     }
+    this.transformers.get(key)
+      .push(fn);
   }
 
-  addAverageDamageModifier(name, modifier) {
-    if (this.averageDamageModifiers.has(name)) {
-      throw new Error(`Attempting to add ${name} average damage modifier to the list twice`);
-    } else {
-      this.averageDamageModifiers.set(name, modifier);
+  processValue(key, val) {
+    let result = val;
+    if (this.modifiers.has(key)) {
+      for (const value of this.modifiers.get(key)) {
+        result = Math.floor(result * value);
+      }
     }
-  }
-
-  addTargetDefenceRollModifier(name, modifier) {
-    if (this.targetDefenceModifiers.has(name)) {
-      throw new Error(`Attempting to add ${name} target defence roll modifier to the list twice`);
-    } else {
-      this.targetDefenceModifiers.set(name, modifier);
+    if (this.transformers.has(key)) {
+      for (const fn of this.transformers.get(key)) {
+        if (typeof fn === 'function') {
+          result = fn.call(undefined, result, this);
+        }
+      }
     }
-  }
-
-  addAttackSpeedReduction(name, modifier) {
-    if (this.attackSpeedReductions.has(name)) {
-      throw new Error(`Attempting to add ${name} attack speed reduction to the list twice`);
-    } else {
-      this.attackSpeedReductions.set(name, modifier);
-    }
-  }
-
-  addAttackSpeedModifier(name, modifier) {
-    if (this.attackSpeedModifiers.has(name)) {
-      throw new Error(`Attempting to add ${name} attack speed modifier to the list twice`);
-    } else {
-      this.attackSpeedModifiers.set(name, modifier);
-    }
-  }
-
-  addMaxHitTransformer(name, modifier) {
-    if (this.maxHitTransformers.has(name)) {
-      throw new Error(`Attempting to add ${name} max hit transformer to the list twice`);
-    } else {
-      this.maxHitTransformers.set(name, modifier);
-    }
+    return result;
   }
 
   get effectiveStrength() {
@@ -251,7 +187,7 @@ export default class Calculation {
         result = this.loadout.skills.magic;
         break;
     }
-    return result + this.effectiveStrengthBonus + this.visibleStrengthBonus;
+    return result + this.invisibleStrengthBonus + this.visibleStrengthBonus;
   }
 
   get strengthBonus() {
@@ -279,10 +215,10 @@ export default class Calculation {
         result = this.loadout.skills.magic;
         break;
     }
-    return result + this.effectiveAttackBonus + this.visibleAttackBonus;
+    return result + this.invisibleAttackBonus + this.visibleAttackBonus;
   }
 
-  get effectiveAttackLevel() {
+  get visibleAttackLevel() {
     let result;
     switch (this.dpsType) {
       case 'melee':
@@ -298,7 +234,7 @@ export default class Calculation {
     return result + this.visibleAttackBonus;
   }
 
-  get effectiveStrengthLevel() {
+  get visibleStrengthLevel() {
     let result;
     switch (this.dpsType) {
       case 'melee':
@@ -355,14 +291,20 @@ export default class Calculation {
   }
 
   get attackSpeed() {
-    let baseAttackSpeed = this.loadout.weapon.attackSpeed;
-    for (const value of this.attackSpeedReductions.values()) {
-      baseAttackSpeed -= value;
+    let result = this.loadout.weapon.attackSpeed;
+    if (this.transformers.has('attackSpeed')) {
+      for (const fn of this.transformers.get('attackSpeed')) {
+        if (typeof fn === 'function') {
+          result = fn.call(undefined, result, this);
+        }
+      }
     }
-    for (const value of this.attackSpeedModifiers.values()) {
-      baseAttackSpeed = Math.ceil(baseAttackSpeed * value);
+    if (this.modifiers.has('attackSpeed')) {
+      for (const value of this.modifiers.get('attackSpeed')) {
+        result = Math.ceil(result * value);
+      }
     }
-    return baseAttackSpeed;
+    return result;
   }
 
   get attackSpeedInSeconds() {
@@ -406,6 +348,13 @@ export default class Calculation {
 
     if (this.loadout.settings) {
       result.push(...EffectDirectory.convertSettingsToEffects(this.loadout.settings));
+    }
+
+    if (this.target) {
+      result.push(
+        ...[...EffectDirectory.targets.values()]
+          .filter((targetEffect) => targetEffect.check(this)),
+      );
     }
 
     return result;

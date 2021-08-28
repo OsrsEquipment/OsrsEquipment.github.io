@@ -44,8 +44,8 @@ export default class CrystalArmour extends ItemEffect {
         bonusDamage += 0.05;
         bonusAccuracy += 0.1;
       }
-      calculation.addDamageModifier(CrystalArmour.name, bonusDamage);
-      calculation.addAccuracyModifier(CrystalArmour.name, bonusAccuracy);
+      calculation.addModifier('damage', bonusDamage);
+      calculation.addModifier('accuracy', bonusAccuracy);
       return true;
     }
     return false;

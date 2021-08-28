@@ -14,7 +14,7 @@ export default class Keris extends ItemEffect {
 
   static apply(calculation) {
     if (calculation.dpsType === 'melee' && Keris.isTargetKalphite(calculation.target)) {
-      calculation.addDamageModifier(Keris.name, 1.33);
+      calculation.addModifier('damage', 1.33);
       return true;
     }
     return false;

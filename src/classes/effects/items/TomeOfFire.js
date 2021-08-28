@@ -15,7 +15,7 @@ export default class TomeOfFire extends ItemEffect {
   static apply(calculation) {
     if (calculation.dpsType === 'magic') {
       if (calculation.spell && calculation.spell.attributes.includes('fire')) {
-        calculation.addDamageModifier(TomeOfFire.name, 1.5);
+        calculation.addModifier('damage', 1.5);
         return true;
       }
     }

@@ -1,5 +1,5 @@
 <template>
-  <div
+  <v-sheet
     class="calculation-row osrs-text-plain-11"
     :class="{ 'selected-calculation': selected }"
   >
@@ -69,10 +69,7 @@
             v-on="on"
             @click.stop="copyLoadout"
           >
-            <v-icon
-              small
-              color="var(--osrs-orange)"
-            >
+            <v-icon small>
               mdi-content-copy
             </v-icon>
           </v-btn>
@@ -89,10 +86,7 @@
             v-on="on"
             @click.stop="deleteLoadout"
           >
-            <v-icon
-              small
-              color="var(--osrs-orange)"
-            >
+            <v-icon small>
               mdi-delete
             </v-icon>
           </v-btn>
@@ -100,7 +94,7 @@
         <span>Delete</span>
       </v-tooltip>
     </div>
-  </div>
+  </v-sheet>
 </template>
 
 <script>
@@ -172,7 +166,6 @@ export default {
   display: grid;
   grid-template-columns: 40px 1fr 175px 75px 75px 75px 75px;
   height: 60px;
-  background: var(--osrs-dark-brown);
   padding: 5px;
   border-radius: 4px;
   transition: background 200ms;
@@ -180,7 +173,7 @@ export default {
 }
 
 .calculation-row.selected-calculation {
-  background: var(--osrs-light-brown);
+  background: var(--v-secondary-base);
 }
 
 .calculation-column {
@@ -203,6 +196,7 @@ export default {
   opacity: 0.66;
   text-align: center;
   white-space: nowrap;
+  color: inherit;
 }
 
 .calculation-column-content {
@@ -255,6 +249,7 @@ export default {
 
 @media (max-width: 1200px) {
   .calculation-row {
+    flex: 1;
     min-width: 300px;
     grid-template-columns: 40px 1fr 75px 40px;
     grid-template-rows: 50px 50px 50px;

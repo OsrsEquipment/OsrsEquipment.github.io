@@ -10,8 +10,8 @@ class Piety extends Effect {
   static apply(calculation) {
     if (calculation.dpsType === 'melee') {
       const { effectiveStrength, effectiveAttack } = calculation;
-      calculation.effectiveStrengthBonus += Math.floor(effectiveStrength * 0.23);
-      calculation.effectiveAttackBonus += Math.floor(effectiveAttack * 0.20);
+      calculation.invisibleStrengthBonus += Math.floor(effectiveStrength * 0.23);
+      calculation.invisibleAttackBonus += Math.floor(effectiveAttack * 0.20);
       return true;
     }
     return false;

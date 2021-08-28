@@ -14,7 +14,7 @@ export default class ScytheOfVitur extends ItemEffect {
 
   static apply(calculation) {
     if (calculation.dpsType === 'melee' && ScytheOfVitur.isLarge(calculation.target)) {
-      calculation.addAverageDamageModifier(ScytheOfVitur.name, 1.75);
+      calculation.addModifier('averageDamage', 1.75);
       return true;
     }
     return false;

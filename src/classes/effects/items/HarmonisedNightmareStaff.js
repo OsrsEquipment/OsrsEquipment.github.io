@@ -15,7 +15,7 @@ export default class HarmonisedNightmareStaff extends ItemEffect {
   static apply(calculation) {
     if (calculation.dpsType === 'magic') {
       if (calculation.spell && calculation.isStandardSpell()) {
-        calculation.addAttackSpeedReduction(HarmonisedNightmareStaff.name, 1);
+        calculation.addTransformer('attackSpeed', (attackSpeed) => attackSpeed - 1);
         return true;
       }
     }

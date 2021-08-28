@@ -14,33 +14,33 @@ export default class StancePassive extends Effect {
       case 'melee':
         switch (calculation.loadout.stance.attack_style) {
           case 'aggressive':
-            calculation.effectiveStrengthBonus += 3;
+            calculation.invisibleStrengthBonus += 3;
             break;
           case 'accurate':
-            calculation.effectiveAttackBonus += 3;
+            calculation.invisibleAttackBonus += 3;
             break;
           case 'controlled':
-            calculation.effectiveStrengthBonus += 1;
-            calculation.effectiveAttackBonus += 1;
+            calculation.invisibleStrengthBonus += 1;
+            calculation.invisibleAttackBonus += 1;
             break;
         }
         break;
       case 'ranged':
         switch (calculation.loadout.stance.combat_style) {
           case 'accurate':
-            calculation.effectiveStrengthBonus += 3;
-            calculation.effectiveAttackBonus += 3;
+            calculation.invisibleStrengthBonus += 3;
+            calculation.invisibleAttackBonus += 3;
             break;
           case 'rapid':
           case 'flare':
-            calculation.addAttackSpeedReduction('rapid', 1);
+            calculation.addTransformer('attackSpeed', (attackSpeed) => attackSpeed - 1);
             break;
         }
         break;
       case 'magic':
         switch (calculation.loadout.stance.combat_style) {
           case 'accurate':
-            calculation.effectiveAttackBonus += 2;
+            calculation.invisibleAttackBonus += 2;
             break;
         }
         break;

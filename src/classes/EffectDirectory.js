@@ -44,6 +44,7 @@ import {
   DharoksSet, InquisitorsArmour, ObsidianArmour, VoidSet,
 } from './effects/sets';
 import { ArclightSpecial, BandosGodswordSpecial, DragonWarhammerSpecial } from './effects/specials';
+import { CorporealBeast, Zulrah } from './effects/target';
 
 export default class EffectDirectory {
   static potions = new Map([
@@ -108,6 +109,11 @@ export default class EffectDirectory {
     [InquisitorsArmour.name, InquisitorsArmour],
     [ObsidianArmour.name, ObsidianArmour],
     [CrystalArmour.name, CrystalArmour],
+  ]);
+
+  static targets = new Map([
+    [Zulrah.name, Zulrah],
+    [CorporealBeast.name, CorporealBeast],
   ]);
 
   static convertSettingsToEffects(settings) {

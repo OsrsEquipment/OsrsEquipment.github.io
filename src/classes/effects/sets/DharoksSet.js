@@ -26,7 +26,7 @@ export default class DharoksSet extends ItemEffect {
       const playerMaxHp = calculation.skills.hitpoints;
       const playerCurrentHp = calculation.loadout.settings.currentHitpoints;
       const damageModifier = 1 + (playerMaxHp - playerCurrentHp) / 100 * (playerMaxHp / 100);
-      calculation.addDamageModifier(DharoksSet.name, damageModifier);
+      calculation.addModifier('damage', damageModifier);
       return true;
     }
     return false;

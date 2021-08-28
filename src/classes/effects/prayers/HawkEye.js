@@ -10,8 +10,8 @@ class HawkEye extends Effect {
   static apply(calculation) {
     if (calculation.dpsType === 'ranged') {
       const { effectiveStrength, effectiveAttack } = calculation;
-      calculation.effectiveStrengthBonus += Math.floor(effectiveStrength * 0.1);
-      calculation.effectiveAttackBonus += Math.floor(effectiveAttack * 0.1);
+      calculation.invisibleStrengthBonus += Math.floor(effectiveStrength * 0.1);
+      calculation.invisibleAttackBonus += Math.floor(effectiveAttack * 0.1);
       return true;
     }
     return false;

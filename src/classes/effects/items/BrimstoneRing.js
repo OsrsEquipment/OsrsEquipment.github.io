@@ -14,7 +14,7 @@ export default class BrimstoneRing extends ItemEffect {
 
   static apply(calculation) {
     if (calculation.dpsType === 'magic') {
-      calculation.addTargetDefenceRollModifier(BrimstoneRing.name, 0.975);
+      calculation.addModifier('targetDefence', 0.975);
       return true;
     }
     return false;

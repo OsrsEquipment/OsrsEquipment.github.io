@@ -10,7 +10,7 @@ class BurstOfStrength extends Effect {
   static apply(calculation) {
     if (calculation.dpsType === 'melee') {
       const { effectiveStrength } = calculation;
-      calculation.effectiveStrengthBonus += Math.floor(effectiveStrength * 0.05);
+      calculation.invisibleStrengthBonus += Math.floor(effectiveStrength * 0.05);
       return true;
     }
     return false;

@@ -11,7 +11,7 @@ export default class PassiveEffectMagic extends Effect {
 
   static apply(calculation) {
     if (calculation.dpsType === 'magic') {
-      calculation.effectiveAttackBonus += 9;
+      calculation.invisibleAttackBonus += 9;
     }
     return true;
   }

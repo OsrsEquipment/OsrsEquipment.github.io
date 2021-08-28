@@ -16,8 +16,8 @@ export default class CrawsBow extends ItemEffect {
 
   static apply(calculation) {
     if (calculation.dpsType === 'ranged' && calculation.loadout.settings.inWilderness) {
-      calculation.addAccuracyModifier(CrawsBow.name, 1.5);
-      calculation.addDamageModifier(CrawsBow.name, 1.5);
+      calculation.addModifier('damage', 1.5);
+      calculation.addModifier('accuracy', 1.5);
       return true;
     }
     return false;
