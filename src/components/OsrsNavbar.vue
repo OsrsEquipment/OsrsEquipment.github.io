@@ -16,6 +16,14 @@
     </router-link>
     <router-link
       class="osrs-navbar-link"
+      :to="{ name: 'DataManagement' }"
+      active-class="osrs-navbar-active-link"
+      exact
+    >
+      Data
+    </router-link>
+    <router-link
+      class="osrs-navbar-link"
       :to="{ name: 'About' }"
       active-class="osrs-navbar-active-link"
       exact
