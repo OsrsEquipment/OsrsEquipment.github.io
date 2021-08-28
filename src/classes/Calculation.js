@@ -110,10 +110,13 @@ export default class Calculation {
       attackRoll,
       targetDefenceRoll,
     } = this;
+    let result;
     if (attackRoll > targetDefenceRoll) {
-      return 1 - ((targetDefenceRoll + 2) / (2 * attackRoll + 1));
+      result = 1 - ((targetDefenceRoll + 2) / (2 * attackRoll + 1));
+    } else {
+      result = attackRoll / (2 * targetDefenceRoll + 1);
     }
-    return attackRoll / (2 * targetDefenceRoll + 1);
+    return this.processValue('hitChance', result);
   }
 
   get averageDamage() {
