@@ -1,14 +1,14 @@
 <template>
   <osrs-container class="result-controls">
     <v-btn
-      color="var(--osrs-orange)"
+      color="var(--osrs-font-color)"
       icon
       @click="copyLoadout(loadoutUuid)"
     >
       <v-icon>mdi-content-copy</v-icon>
     </v-btn>
     <v-btn
-      color="var(--osrs-orange)"
+      color="var(--osrs-font-color)"
       icon
       @click="deleteLoadout(loadoutUuid)"
     >
@@ -45,6 +45,6 @@ export default {
   margin: 0 5px;
   display: flex;
   justify-content: space-around;
-  color: var(--osrs-orange);
+  color: var(--osrs-font-color);
 }
 </style>

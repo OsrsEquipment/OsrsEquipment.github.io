@@ -204,7 +204,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--osrs-dark-brown);
+  background: var(--osrs-dark);
   text-align: center;
 }
 

@@ -17,7 +17,7 @@ export default {
 }
 
 .osrs-divider > hr {
-  border: 1px solid var(--osrs-darker-brown);
+  border: 1px solid var(--osrs-darker);
   border-radius: 100%;
   min-width: 95%;
   margin: 10px 0;

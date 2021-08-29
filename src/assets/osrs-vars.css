@@ -1,11 +1,11 @@
 html {
-    --osrs-darkest-brown: #1d1b17;
-    --osrs-darker-brown: #28251e;
-    --osrs-dark-brown: #372e22;
-    --osrs-brown: #483e33;
-    --osrs-pale-brown: #726451;
-    --osrs-light-brown: #554c41;
-    --osrs-orange: #ff981f;
+    --osrs-darkest: #0c0c0c;
+    --osrs-darker: #1d1d1d;
+    --osrs-dark: #272727;
+    --osrs-black-brown: #1f1f1f;
+    --osrs-light-black-brown: #2f2f2f;
+    --osrs-lightest-black-brown: #3c3c3c;
+    --osrs-font-color: #ffffff;
     --osrs-yellow: #ffff00;
     --osrs-green: #00fe00;
     --osrs-red: #fe0000;

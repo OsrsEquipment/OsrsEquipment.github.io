@@ -56,12 +56,12 @@ export default {
 .osrs-number-input {
   appearance: none;
   outline: none;
-  background: var(--osrs-dark-brown);
+  background: var(--osrs-dark);
   border-radius: 8px;
   box-shadow: 2px 2px 1px rgba(0,0,0, 0.5) inset;
-  caret-color: var(--osrs-orange);
+  caret-color: var(--osrs-font-color);
   text-indent: 10px;
-  color: var(--osrs-orange);
+  color: var(--osrs-font-color);
   max-width: 100%;
 }
 

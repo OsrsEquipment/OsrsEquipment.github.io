@@ -23,10 +23,10 @@ export default {
 
 <style scoped>
 .osrs-tab-container {
-  border: 2px solid var(--osrs-pale-brown);
+  border: 2px solid var(--osrs-lightest-black-brown);
   border-radius: 8px 8px 0 0;
   padding: 2px 8px;
-  background: var(--osrs-darker-brown);
+  background: var(--osrs-darker);
   user-select: none;
   cursor: pointer;
   display: flex;
@@ -45,7 +45,7 @@ export default {
 }
 
 .osrs-tab-container.osrs-active-tab {
-  background: var(--osrs-brown);
+  background: var(--osrs-black-brown);
   border-bottom: 2px solid transparent;
 }
 </style>

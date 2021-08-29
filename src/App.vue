@@ -39,6 +39,6 @@ export default {
 
 <style scoped>
 .application-wrapper {
-  background: var(--osrs-darkest-brown) !important;
+  background: var(--osrs-darkest) !important;
 }
 </style>

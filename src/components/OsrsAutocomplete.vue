@@ -240,9 +240,9 @@ export default {
 
 .osrs-autocomplete-list {
   list-style: none;
-  background: var(--osrs-brown);
+  background: var(--osrs-black-brown);
   padding: 5px 0;
-  border: 2px solid var(--osrs-dark-brown);
+  border: 2px solid var(--osrs-dark);
   border-radius: 4px;
 }
 
@@ -252,10 +252,10 @@ export default {
 }
 
 .osrs-autocomplete-list-item.osrs-autocomplete-active-item {
-  background: var(--osrs-pale-brown);
+  background: var(--osrs-lightest-black-brown);
 }
 
 .osrs-autocomplete-list-item:hover {
-  background: var(--osrs-light-brown);
+  background: var(--osrs-light-black-brown);
 }
 </style>

@@ -68,7 +68,7 @@ export default {
   display: flex;
   align-items: center;
   padding: 0 20px;
-  background: var(--osrs-brown);
+  background: var(--osrs-black-brown);
 }
 
 .equip-select-dialog-clear-slot {

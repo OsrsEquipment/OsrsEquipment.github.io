@@ -45,7 +45,7 @@ export default {
   position: relative;
   appearance: none;
   display: block;
-  background: var(--osrs-pale-brown);
+  background: var(--osrs-lightest-black-brown);
   height: 24px;
   width: 24px;
   cursor: pointer;
@@ -62,7 +62,7 @@ export default {
   align-items: center;
   width: 100%;
   height: 100%;
-  background: var(--osrs-darker-brown);
+  background: var(--osrs-darker);
   box-shadow: 1px 1px 1px black inset;
 
 }
