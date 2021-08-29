@@ -54,8 +54,9 @@ import {
   ViggorasChainmace,
 } from './effects/items';
 import {
+  AhrimsSet,
   CrystalArmour,
-  DharoksSet, InquisitorsArmour, ObsidianArmour, VeracsSet, VoidSet,
+  DharoksSet, InquisitorsArmour, KarilsSet, ObsidianArmour, VeracsSet, VoidSet,
 } from './effects/sets';
 import {
   ArclightSpecial,
@@ -130,6 +131,8 @@ export default class EffectDirectory {
     [ObsidianArmour.name, ObsidianArmour],
     [CrystalArmour.name, CrystalArmour],
     [VeracsSet.name, VeracsSet],
+    [KarilsSet.name, KarilsSet],
+    [AhrimsSet.name, AhrimsSet],
   ]);
 
   static targets = new Map([
