@@ -1,7 +1,14 @@
 <template>
   <osrs-container class="target-editor">
     <monster-select v-model="internalTarget" />
-    <monster-stats :target="target" />
+    <template v-if="target">
+      <monster-stats :target="target" />
+    </template>
+    <template v-else>
+      <div class="no-target">
+        <span class="osrs-text-quill-8">Select a target</span>
+      </div>
+    </template>
   </osrs-container>
 </template>
 
@@ -42,5 +49,12 @@ export default {
   flex-direction: column;
   width: 350px;
   min-height: 420px;
+}
+
+.no-target {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px;
 }
 </style>

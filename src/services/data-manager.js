@@ -130,8 +130,16 @@ class DataManager {
   keepItem(item) {
     if (item.duplicate) return false;
     if (!this.itemHasStats(item)) return false;
-    if (this.isMaxCapeVaration(item)) return false;
-    return true;
+    if (this.isVariationOfItem('max cape', item)) return false;
+    if (this.isVariationOfItem('abyssal whip', item)) return false;
+    if (this.isVariationOfItem('crystal shield', item)) return false;
+    if (this.isVariationOfItem('crystal bow', item)) return false;
+    if (this.isVariationOfItem('combat bracelet', item)) return false;
+    if (this.isVariationOfItem('dragon hunter crossbow', item)) return false;
+    if (this.isVariationOfItem('scythe of vitur', item)) return false;
+    if (this.isVariationOfItem('sanguinesti staff', item)) return false;
+    if (this.isVariationOfItem('amulet of glory', item)) return false;
+    return !this.checkItemName(item);
   }
 
   itemHasStats(item) {
@@ -161,8 +169,14 @@ class DataManager {
     return false;
   }
 
-  isMaxCapeVaration(item) {
-    return item.name.toLowerCase().includes('max cape') && item.name.toLowerCase() !== 'max cape';
+  isVariationOfItem(name, item) {
+    return item.name.toLowerCase().includes(name.toLowerCase())
+      && item.name.toLowerCase() !== name.toLowerCase();
+  }
+
+  checkItemName(item) {
+    const regex = /\([cltgur]\)$|\w+? slayer helmet|black mask \(\d+?\)|\(or\)$|\(full\)$|\d+?$|^uncharged|\(p\+{0,2}\)$|fire arrow|\(h\d\)|broodoo shield \(\d+?\)$|crystal halberd (full|\d\/\d+?)|rod of ivandis \(\d\)|\(nz\)$/;
+    return regex.test(item.name.toLowerCase());
   }
 }
 
