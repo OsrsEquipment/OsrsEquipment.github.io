@@ -43,7 +43,12 @@ import {
   CrystalArmour,
   DharoksSet, InquisitorsArmour, ObsidianArmour, VoidSet,
 } from './effects/sets';
-import { ArclightSpecial, BandosGodswordSpecial, DragonWarhammerSpecial } from './effects/specials';
+import {
+  ArclightSpecial,
+  BandosGodswordSpecial,
+  DragonWarhammerSpecial,
+  RubyBoltsEnchanted,
+} from './effects/specials';
 import { CorporealBeast, NylocasMatomenos, Zulrah } from './effects/target';
 
 export default class EffectDirectory {
@@ -115,6 +120,12 @@ export default class EffectDirectory {
     [Zulrah.name, Zulrah],
     [CorporealBeast.name, CorporealBeast],
     [NylocasMatomenos.name, NylocasMatomenos],
+  ]);
+
+  static specials = new Map([]);
+
+  static specialEffects = new Map([
+    [RubyBoltsEnchanted.name, RubyBoltsEnchanted],
   ]);
 
   static convertSettingsToEffects(settings) {

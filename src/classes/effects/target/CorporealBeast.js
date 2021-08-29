@@ -20,7 +20,7 @@ export default class CorporealBeast extends TargetEffect {
       if (!vunerableTo.includes(calculation.loadout.weapon.type)
         || exceptions.includes(calculation.loadout.weapon.id)
         || !CorporealBeast.isStabStance(calculation.loadout.stance)) {
-        calculation.addModifier('damage', 0.5);
+        calculation.addModifier('maxHit', 0.5);
       }
     }
     return true;

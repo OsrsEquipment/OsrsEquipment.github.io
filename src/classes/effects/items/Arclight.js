@@ -14,8 +14,8 @@ export default class Arclight extends ItemEffect {
 
   static apply(calculation) {
     if (calculation.dpsType === 'melee' && Arclight.isTargetDemon(calculation.target)) {
-      calculation.addModifier('accuracy', 1.7);
-      calculation.addModifier('damage', 1.7);
+      calculation.addModifier('attackRoll', 1.7);
+      calculation.addModifier('maxHit', 1.7);
       return true;
     }
     return false;

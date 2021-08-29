@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="calculation"
     class="calculation-result-container"
     @click="debug"
   >
@@ -9,7 +10,7 @@
           Combat
         </div>
         <div class="result-line-value">
-          <span>{{ combatType }}</span>
+          <span>{{ calculation.dpsType }}</span>
         </div>
       </div>
       <div class="result-line">
@@ -21,7 +22,7 @@
           >{{ comparisons.maxHit }}</span>
         </div>
         <div class="result-line-value">
-          <span>{{ maxHit }}</span>
+          <span>{{ calculation.maxHit }}</span>
         </div>
       </div>
       <div class="result-line">
@@ -33,7 +34,7 @@
           >{{ comparisons.accuracy }}</span>
         </div>
         <div class="result-line-value">
-          <span>{{ accuracy | percentage }}</span>
+          <span>{{ calculation.hitChance | percentage }}</span>
         </div>
       </div>
       <div class="result-line">
@@ -45,7 +46,27 @@
           >{{ comparisons.dps }}</span>
         </div>
         <div class="result-line-value">
-          <span>{{ dps | toFixed(6) }}</span>
+          <span>{{ calculation.dps | toFixed(6) }}</span>
+        </div>
+      </div>
+      <div
+        v-if="calculation.hasSpecialEffect"
+        class="result-line"
+      >
+        <div class="result-line-title osrs-text-quill-8">
+          Special effect
+        </div>
+        <div class="result-line-value multi-line-result">
+          <div class="multi-line-result-line">
+            <span class="multi-line-result-label">Max hit:</span>
+            <span class="multi-line-result-text">{{ calculation.specialEffectMaxHit }}</span>
+          </div>
+          <div class="multi-line-result-line">
+            <span class="multi-line-result-label">Proc chance:</span>
+            <span class="multi-line-result-text">
+              {{ calculation.specialEffectHitChance | percentage }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -90,24 +111,6 @@ export default {
     }),
     calculation() {
       return this.getCalculationByUuid(this.loadoutUuid);
-    },
-    combatType() {
-      return this.calculation?.dpsType;
-    },
-    dps() {
-      return this.calculation?.dps;
-    },
-    maxHit() {
-      return this.calculation?.maxHit;
-    },
-    accuracy() {
-      return this.calculation?.hitChance;
-    },
-    effects() {
-      return this.calculation?.visibleEffects;
-    },
-    effectCount() {
-      return this.calculation?.visibleEffects.size;
     },
     comparisons() {
       if (this.bestDps) {
@@ -238,15 +241,28 @@ export default {
   color: var(--osrs-red);
 }
 
-.effect-list {
-  overflow: auto;
+.multi-line-result {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  line-height: 1em;
 }
 
-.effect-line {
-  padding: 2px 4px;
+.multi-line-result-line {
+  display: flex;
+  gap: 5px;
+  width: 100%;
 }
 
-.effect-inactive {
-  opacity: 0.5;
+.multi-line-result-label {
+  display: block;
+  flex: 1;
+  text-align: right;
 }
+
+.multi-line-result-text {
+  flex: 1;
+  text-align: left;
+}
+
 </style>

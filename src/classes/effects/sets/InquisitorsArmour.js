@@ -39,8 +39,8 @@ export default class InquisitorsArmour extends ItemEffect {
         bonus += 0.01;
       }
 
-      calculation.addModifier('accuracy', bonus);
-      calculation.addModifier('damage', bonus);
+      calculation.addModifier('attackRoll', bonus);
+      calculation.addModifier('maxHit', bonus);
       return true;
     }
     return false;

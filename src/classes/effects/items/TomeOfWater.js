@@ -15,8 +15,8 @@ export default class TomeOfWater extends ItemEffect {
   static apply(calculation) {
     if (calculation.dpsType === 'magic') {
       if (calculation.spell && calculation.spell.attributes.includes('water')) {
-        calculation.addModifier('damage', 1.2);
-        calculation.addModifier('accuracy', 1.2);
+        calculation.addModifier('maxHit', 1.2);
+        calculation.addModifier('attackRoll', 1.2);
         return true;
       }
     }

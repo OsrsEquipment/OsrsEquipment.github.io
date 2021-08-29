@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import DataManager from '../services/data-manager';
 
 export default {
@@ -66,6 +67,10 @@ export default {
     this.checkForUpdates();
   },
   methods: {
+    ...mapActions({
+      initMonsters: 'monsters/init',
+      initEquipment: 'equipment/init',
+    }),
     async checkForUpdates() {
       try {
         this.checking = true;
@@ -78,6 +83,8 @@ export default {
       try {
         this.updating = true;
         await DataManager.update(this.updateData);
+        this.initMonsters();
+        this.initEquipment();
         this.updateData = await DataManager.checkForUpdates();
       } finally {
         this.updating = false;

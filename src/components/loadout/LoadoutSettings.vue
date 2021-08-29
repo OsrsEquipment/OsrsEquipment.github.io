@@ -112,6 +112,23 @@
       <osrs-checkbox
         v-model="internalSettings.inWilderness"
       />
+      <!-- Wilderness setting -->
+      <v-tooltip
+        bottom
+        content-class="osrs-tooltip"
+      >
+        <template #activator="{ on }">
+          <img
+            src="../../static/osrs/Achievement Diaries icon.png"
+            alt="Achievement diaries"
+            v-on="on"
+          >
+        </template>
+        <span>Hard Kandarin achievement diary completed?</span>
+      </v-tooltip>
+      <osrs-checkbox
+        v-model="internalSettings.completedHardKandarinDiary"
+      />
     </div>
   </div>
 </template>

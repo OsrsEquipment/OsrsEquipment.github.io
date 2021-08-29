@@ -16,8 +16,8 @@ export default class DragonHunterCrossbow extends ItemEffect {
 
   static apply(calculation) {
     if (calculation.dpsType === 'ranged' && DragonHunterCrossbow.isTargetDraconic(calculation.target)) {
-      calculation.addModifier('accuracy', 1.3);
-      calculation.addModifier('damage', 1.25);
+      calculation.addModifier('attackRoll', 1.3);
+      calculation.addModifier('maxHit', 1.25);
       return true;
     }
     return false;

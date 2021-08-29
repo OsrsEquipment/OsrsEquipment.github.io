@@ -17,7 +17,7 @@ export default class BerserkerNecklace extends ItemEffect {
   static apply(calculation) {
     if (calculation.dpsType === 'melee'
       && BerserkerNecklace.isObsidianMeleeWeapon(calculation.loadout.equipment)) {
-      calculation.addModifier('damage', 1.2);
+      calculation.addModifier('maxHit', 1.2);
       return true;
     }
     return false;

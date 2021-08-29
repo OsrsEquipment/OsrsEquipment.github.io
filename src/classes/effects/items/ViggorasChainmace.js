@@ -16,8 +16,8 @@ export default class ViggorasChainmace extends ItemEffect {
 
   static apply(calculation) {
     if (calculation.dpsType === 'melee' && calculation.loadout.settings.inWilderness) {
-      calculation.addModifier('accuracy', 1.5);
-      calculation.addModifier('damage', 1.5);
+      calculation.addModifier('attackRoll', 1.5);
+      calculation.addModifier('maxHit', 1.5);
       return true;
     }
     return false;

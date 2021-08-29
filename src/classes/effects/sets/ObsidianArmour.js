@@ -27,8 +27,8 @@ export default class ObsidianArmour extends ItemEffect {
 
   static apply(calculation) {
     if (calculation.dpsType === 'melee' && ObsidianArmour.isObsidianWeapon(calculation.loadout.equipment)) {
-      calculation.addModifier('accuracy', 1.1);
-      calculation.addModifier('damage', 1.1);
+      calculation.addModifier('attackRoll', 1.1);
+      calculation.addModifier('maxHit', 1.1);
       return true;
     }
     return false;

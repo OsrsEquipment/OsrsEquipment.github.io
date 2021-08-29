@@ -2,3 +2,4 @@
 export { default as ArclightSpecial } from './ArclightSpecial';
 export { default as DragonWarhammerSpecial } from './DragonWarhammerSpecial';
 export { default as BandosGodswordSpecial } from './BandosGodswordSpecial';
+export { default as RubyBoltsEnchanted } from './RubyBoltsEnchanted';

@@ -44,8 +44,8 @@ export default class CrystalArmour extends ItemEffect {
         bonusDamage += 0.05;
         bonusAccuracy += 0.1;
       }
-      calculation.addModifier('damage', bonusDamage);
-      calculation.addModifier('accuracy', bonusAccuracy);
+      calculation.addModifier('maxHit', bonusDamage);
+      calculation.addModifier('attackRoll', bonusAccuracy);
       return true;
     }
     return false;

@@ -12,6 +12,10 @@ export default class Calculation {
    */
   dpsType = 'melee';
 
+  hasSpecial = false;
+
+  hasSpecialEffect = false;
+
   bonuses;
 
   skills;
@@ -44,20 +48,6 @@ export default class Calculation {
    */
   transformers = new Map();
 
-  /**
-   * Reduces attack speed by a constant value
-   * e.g. Rapid -1 tick, Harm staff -1 tick
-   * @type {Map<string, number>}
-   */
-  attackSpeedReductions = new Map();
-
-  /**
-   * Reduces attack speed by a percent
-   * e.g. Leagues relic halves attack speed
-   * @type {Map<string, float>}
-   */
-  attackSpeedModifiers = new Map();
-
   visibleEffects = new Map();
 
   constructor(loadout, target) {
@@ -87,7 +77,15 @@ export default class Calculation {
     result = Math.floor(result);
     result *= Math.max(this.bonuses.slayer, this.bonuses.undead);
     result = Math.floor(result);
-    return this.processValue('damage', result);
+    return this.processValue('maxHit', result);
+  }
+
+  get specialMaxHit() {
+    throw new Error('Not Yet Implemented');
+  }
+
+  get specialEffectMaxHit() {
+    return this.processValue('specialEffectMaxHit', 0);
   }
 
   get attackRoll() {
@@ -95,7 +93,7 @@ export default class Calculation {
     result *= (this.attackBonus + 64);
     result *= Math.max(this.bonuses.slayer, this.bonuses.undead);
     result = Math.floor(result);
-    return this.processValue('accuracy', result);
+    return this.processValue('attackRoll', result);
   }
 
   get targetDefenceRoll() {
@@ -117,6 +115,14 @@ export default class Calculation {
       result = attackRoll / (2 * targetDefenceRoll + 1);
     }
     return this.processValue('hitChance', result);
+  }
+
+  get specialHitChance() {
+    throw new Error('Not Yet Implemented');
+  }
+
+  get specialEffectHitChance() {
+    return this.processValue('specialEffectHitChance', 0);
   }
 
   get averageDamage() {
@@ -347,6 +353,12 @@ export default class Calculation {
         ...[...EffectDirectory.sets.values()]
           .filter((itemEffect) => itemEffect.check(this)),
       );
+      const specialEffects = [...EffectDirectory.specialEffects.values()]
+        .filter((itemEffect) => itemEffect.check(this));
+      if (specialEffects && specialEffects.length > 0) {
+        this.hasSpecialEffect = true;
+        result.push(...specialEffects);
+      }
     }
 
     if (this.loadout.settings) {
