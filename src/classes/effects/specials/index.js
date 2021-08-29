@@ -1,5 +1,9 @@
-// eslint-disable-next-line import/prefer-default-export
 export { default as ArclightSpecial } from './ArclightSpecial';
 export { default as DragonWarhammerSpecial } from './DragonWarhammerSpecial';
 export { default as BandosGodswordSpecial } from './BandosGodswordSpecial';
 export { default as RubyBoltsEnchanted } from './RubyBoltsEnchanted';
+export { default as OpalBoltsEnchanted } from './OpalBoltsEnchanted';
+export { default as PearlBoltsEnchanted } from './PearlBoltsEnchanted';
+export { default as DiamondBoltsEnchanted } from './DiamondBoltsEnchanted';
+export { default as DragonstoneBoltsEnchanted } from './DragonstoneBoltsEnchanted';
+export { default as OnyxBoltsEnchanted } from './OnyxBoltsEnchanted';

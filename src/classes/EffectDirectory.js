@@ -45,8 +45,8 @@ import {
 } from './effects/sets';
 import {
   ArclightSpecial,
-  BandosGodswordSpecial,
-  DragonWarhammerSpecial,
+  BandosGodswordSpecial, DiamondBoltsEnchanted, DragonstoneBoltsEnchanted,
+  DragonWarhammerSpecial, OnyxBoltsEnchanted, OpalBoltsEnchanted, PearlBoltsEnchanted,
   RubyBoltsEnchanted,
 } from './effects/specials';
 import { CorporealBeast, NylocasMatomenos, Zulrah } from './effects/target';
@@ -126,6 +126,11 @@ export default class EffectDirectory {
 
   static specialEffects = new Map([
     [RubyBoltsEnchanted.name, RubyBoltsEnchanted],
+    [OpalBoltsEnchanted.name, OpalBoltsEnchanted],
+    [PearlBoltsEnchanted.name, PearlBoltsEnchanted],
+    [DiamondBoltsEnchanted.name, DiamondBoltsEnchanted],
+    [DragonstoneBoltsEnchanted.name, DragonstoneBoltsEnchanted],
+    [OnyxBoltsEnchanted.name, OnyxBoltsEnchanted],
   ]);
 
   static convertSettingsToEffects(settings) {

@@ -124,7 +124,8 @@
             v-on="on"
           >
         </template>
-        <span>Hard Kandarin achievement diary completed?</span>
+        <span>If you have hard Kandarin diary completed
+          your bolt specs have a 10% increased proc chance</span>
       </v-tooltip>
       <osrs-checkbox
         v-model="internalSettings.completedHardKandarinDiary"

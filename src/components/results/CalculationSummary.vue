@@ -81,7 +81,7 @@ export default {
   components: {},
   filters: {
     percentage(value) {
-      if (!value) return undefined;
+      if (value == null) return undefined;
       return `${(Number(value) * 100).toFixed(2)}%`;
     },
     toFixed(value, number) {

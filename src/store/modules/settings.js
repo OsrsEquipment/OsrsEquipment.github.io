@@ -7,6 +7,7 @@ const defaultSettings = {
   onSlayerTask: true,
   inWilderness: true,
   currentHitpoints: 1,
+  completedHardKandarinDiary: true,
 };
 
 const moduleSettings = {
