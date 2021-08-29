@@ -64,7 +64,14 @@ export default class Calculation {
       .forEach((effect) => {
         const activated = effect.apply(this);
         if (effect.show) {
-          this.visibleEffects.set(effect.name, activated);
+          let effectObj = {
+            activated: !!activated,
+            description: effect.description,
+          };
+          if (typeof activated === 'object') {
+            effectObj = { ...effectObj, ...activated };
+          }
+          this.visibleEffects.set(effect.name, effectObj);
         }
       });
   }

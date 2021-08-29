@@ -1,13 +1,22 @@
 <template>
   <div class="effect-list">
-    <div
-      v-for="[effectName, active] in effects"
+    <v-tooltip
+      v-for="[effectName, effect] in effects"
       :key="effectName"
-      class="effect-line osrs-text-plain-12"
-      :class="{'effect-inactive': !active}"
+      bottom
+      content-class="osrs-tooltip"
     >
-      {{ parseEffect(effectName, active) }}
-    </div>
+      <template #activator="{ on }">
+        <div
+          class="effect-line osrs-text-plain-12"
+          :class="{'effect-inactive': !effect.activated}"
+          v-on="on"
+        >
+          {{ effect.name || effectName }}
+        </div>
+      </template>
+      <span>{{ effect.description }}</span>
+    </v-tooltip>
   </div>
 </template>
 
@@ -33,14 +42,6 @@ export default {
       return this.calculation?.visibleEffects;
     },
   },
-  methods: {
-    parseEffect(effectName, active) {
-      if (typeof active === 'object') {
-        if (active.name) return active.name;
-      }
-      return effectName;
-    },
-  },
 };
 </script>
 
@@ -49,5 +50,9 @@ export default {
   padding: 5px 10px;
   overflow-y: auto;
   max-height: calc(500px - 40px);
+}
+
+.effect-line {
+  cursor: default;
 }
 </style>
