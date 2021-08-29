@@ -3,7 +3,7 @@ import Calculation from './Calculation';
 export default class CalculationMagic extends Calculation {
   dpsType = 'magic';
 
-  magicDamageBonus = 0;
+  invisibleMagicDamageBonus = 0;
 
   maxHitBonus = 0;
 
@@ -16,7 +16,7 @@ export default class CalculationMagic extends Calculation {
     }
 
     max += this.maxHitBonus;
-    max += Math.floor(max * this.bonusMagicDamage);
+    max += Math.floor(max * this.magicDamageBonus);
     max += Math.floor(max * this.targetSpecificBonus);
 
     return this.processValue('damage', max);
@@ -114,17 +114,24 @@ export default class CalculationMagic extends Calculation {
     if (this.spell) {
       baseAttackSpeed = this.spell.castSpeed;
     }
-    for (const value of this.attackSpeedReductions.values()) {
-      baseAttackSpeed -= value;
+    if (this.transformers.has('attackSpeed')) {
+      for (const fn of this.transformers.get('attackSpeed')) {
+        if (typeof fn === 'function') {
+          baseAttackSpeed = fn.call(undefined, baseAttackSpeed, this);
+        }
+      }
     }
-    for (const value of this.attackSpeedModifiers.values()) {
-      baseAttackSpeed = Math.ceil(baseAttackSpeed * value);
+    if (this.modifiers.has('attackSpeed')) {
+      for (const value of this.modifiers.get('attackSpeed')) {
+        baseAttackSpeed = Math.ceil(baseAttackSpeed * value);
+      }
     }
     return baseAttackSpeed;
   }
 
-  get bonusMagicDamage() {
-    return (this.strengthBonus + this.magicDamageBonus) / 100;
+  get magicDamageBonus() {
+    // strengthBonus is the +% magic damage on stat sheet
+    return (this.strengthBonus + this.invisibleMagicDamageBonus) / 100;
   }
 
   get targetSpecificBonus() {

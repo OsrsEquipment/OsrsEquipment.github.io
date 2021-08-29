@@ -42,7 +42,7 @@ export default class VoidSet extends ItemEffect {
     if (calculation.dpsType === 'magic') {
       calculation.invisibleAttackBonus += Math.floor(effectiveAttack * 0.45);
       if (elite) {
-        calculation.magicDamageBonus += 2.5;
+        calculation.invisibleMagicDamageBonus += 2.5;
       }
     }
 

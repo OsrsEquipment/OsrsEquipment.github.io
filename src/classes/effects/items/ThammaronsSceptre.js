@@ -15,7 +15,7 @@ export default class ThammaronsSceptre extends ItemEffect {
   static apply(calculation) {
     if (calculation.dpsType === 'magic' && calculation.loadout.settings.inWilderness) {
       calculation.addModifier('attackRoll', 2);
-      calculation.magicDamageBonus += 25;
+      calculation.invisibleMagicDamageBonus += 25;
       return true;
     }
     return false;

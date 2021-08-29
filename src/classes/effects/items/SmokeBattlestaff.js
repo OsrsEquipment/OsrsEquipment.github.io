@@ -18,7 +18,7 @@ export default class SmokeBattlestaff extends ItemEffect {
     if (calculation.dpsType === 'magic') {
       if (calculation.spell && calculation.isStandardSpell()) {
         calculation.addModifier('attackRoll', 1.1);
-        calculation.magicDamageBonus += 10;
+        calculation.invisibleMagicDamageBonus += 10;
         return true;
       }
     }
