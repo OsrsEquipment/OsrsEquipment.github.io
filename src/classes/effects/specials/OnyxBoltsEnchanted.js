@@ -13,12 +13,14 @@ export default class OnyxBoltsEnchanted extends ItemEffect {
   }
 
   static apply(calculation) {
+    if (calculation.dpsType !== 'ranged') return false;
     const isImmune = OnyxBoltsEnchanted.isTargetUndead(calculation.target);
     const procChance = isImmune
       ? 0 : 0.11 * (calculation.loadout.settings.completedHardKandarinDiary ? 1.1 : 1);
     calculation.addTransformer('averageDamage', (averageDamage, calc) => (Math.floor(calc.maxHit * 1.2) / 2) * procChance * calc.hitChance + averageDamage * (1 - procChance));
     calculation.addTransformer('specialEffectMaxHit', (seMaxHit, calc) => Math.floor(calc.maxHit * 1.2));
     calculation.addTransformer('specialEffectHitChance', () => procChance);
+    calculation.hasSpecialEffect = true;
     return true;
   }
 

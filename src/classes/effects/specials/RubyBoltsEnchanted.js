@@ -13,11 +13,13 @@ export default class RubyBoltsEnchanted extends ItemEffect {
   }
 
   static apply(calculation) {
+    if (calculation.dpsType !== 'ranged') return false;
     const procChance = 0.06 * (calculation.loadout.settings.completedHardKandarinDiary ? 1.1 : 1);
     const specMaxHit = Math.min(calculation.target.hitpoints * 0.2, 100);
     calculation.addTransformer('averageDamage', (averageDamage) => specMaxHit * procChance + averageDamage * (1 - procChance));
     calculation.addTransformer('specialEffectMaxHit', () => specMaxHit);
     calculation.addTransformer('specialEffectHitChance', () => procChance);
+    calculation.hasSpecialEffect = true;
     return true;
   }
 }

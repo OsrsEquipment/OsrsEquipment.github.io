@@ -13,11 +13,13 @@ export default class OpalBoltsEnchanted extends ItemEffect {
   }
 
   static apply(calculation) {
+    if (calculation.dpsType !== 'ranged') return false;
     const procChance = 0.05 * (calculation.loadout.settings.completedHardKandarinDiary ? 1.1 : 1);
     const specMaxHit = Math.floor(calculation.visibleAttackLevel * 0.1);
     calculation.addTransformer('averageDamage', (averageDamage, calc) => (calc.maxHit / 2 + specMaxHit) * procChance * calc.hitChance + averageDamage * (1 - procChance));
     calculation.addTransformer('specialEffectMaxHit', (seMaxHit, calc) => specMaxHit + calc.maxHit);
     calculation.addTransformer('specialEffectHitChance', () => procChance);
+    calculation.hasSpecialEffect = true;
     return true;
   }
 }

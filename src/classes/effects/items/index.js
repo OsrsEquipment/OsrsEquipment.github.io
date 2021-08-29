@@ -18,3 +18,4 @@ export { default as ThammaronsSceptre } from './ThammaronsSceptre';
 export { default as ViggorasChainmace } from './ViggorasChainmace';
 export { default as SmokeBattlestaff } from './SmokeBattlestaff';
 export { default as TomeOfWater } from './TomeOfWater';
+export { default as DarkBow } from './DarkBow';

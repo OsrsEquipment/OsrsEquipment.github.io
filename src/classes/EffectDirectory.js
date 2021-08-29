@@ -33,15 +33,29 @@ import {
 import {
   Arclight,
   BerserkerNecklace,
-  BlackMask, BrimstoneRing, ChaosGauntlets, CrawsBow, DragonHunterCrossbow, DragonHunterLance,
-  HarmonisedNightmareStaff, Keris, LeafBladedBattleaxe,
-  PoweredStaves, SalveAmulet, ScytheOfVitur, SmokeBattlestaff, ThammaronsSceptre,
-  TomeOfFire, TomeOfWater,
-  TwistedBow, ViggorasChainmace,
+  BlackMask,
+  BrimstoneRing,
+  ChaosGauntlets,
+  CrawsBow,
+  DarkBow,
+  DragonHunterCrossbow,
+  DragonHunterLance,
+  HarmonisedNightmareStaff,
+  Keris,
+  LeafBladedBattleaxe,
+  PoweredStaves,
+  SalveAmulet,
+  ScytheOfVitur,
+  SmokeBattlestaff,
+  ThammaronsSceptre,
+  TomeOfFire,
+  TomeOfWater,
+  TwistedBow,
+  ViggorasChainmace,
 } from './effects/items';
 import {
   CrystalArmour,
-  DharoksSet, InquisitorsArmour, ObsidianArmour, VoidSet,
+  DharoksSet, InquisitorsArmour, ObsidianArmour, VeracsSet, VoidSet,
 } from './effects/sets';
 import {
   ArclightSpecial,
@@ -106,6 +120,7 @@ export default class EffectDirectory {
     [ViggorasChainmace.name, ViggorasChainmace],
     [SmokeBattlestaff.name, SmokeBattlestaff],
     [TomeOfWater.name, TomeOfWater],
+    [DarkBow.name, DarkBow],
   ]);
 
   static sets = new Map([
@@ -114,6 +129,7 @@ export default class EffectDirectory {
     [InquisitorsArmour.name, InquisitorsArmour],
     [ObsidianArmour.name, ObsidianArmour],
     [CrystalArmour.name, CrystalArmour],
+    [VeracsSet.name, VeracsSet],
   ]);
 
   static targets = new Map([

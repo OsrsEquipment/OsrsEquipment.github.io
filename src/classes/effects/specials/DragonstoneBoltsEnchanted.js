@@ -13,6 +13,7 @@ export default class DragonstoneBoltsEnchanted extends ItemEffect {
   }
 
   static apply(calculation) {
+    if (calculation.dpsType !== 'ranged') return false;
     const isImmune = DragonstoneBoltsEnchanted.isTargetDragon(calculation.target);
     const procChance = isImmune
       ? 0 : 0.06 * (calculation.loadout.settings.completedHardKandarinDiary ? 1.1 : 1);
@@ -22,6 +23,7 @@ export default class DragonstoneBoltsEnchanted extends ItemEffect {
     calculation.addTransformer('averageDamage', (averageDamage, calc) => (calc.maxHit / 2 + specMaxHit) * procChance * calc.hitChance + averageDamage * (1 - procChance));
     calculation.addTransformer('specialEffectMaxHit', (seMaxHit, calc) => specMaxHit + calc.maxHit);
     calculation.addTransformer('specialEffectHitChance', () => procChance);
+    calculation.hasSpecialEffect = true;
     return true;
   }
 

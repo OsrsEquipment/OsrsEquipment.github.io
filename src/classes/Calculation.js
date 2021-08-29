@@ -84,7 +84,7 @@ export default class Calculation {
     result = Math.floor(result);
     result *= Math.max(this.bonuses.slayer, this.bonuses.undead);
     result = Math.floor(result);
-    return this.processValue('maxHit', result);
+    return this.processValue('maxHit', result, 'floor');
   }
 
   get specialMaxHit() {
@@ -92,7 +92,7 @@ export default class Calculation {
   }
 
   get specialEffectMaxHit() {
-    return this.processValue('specialEffectMaxHit', 0);
+    return this.processValue('specialEffectMaxHit', 0, 'floor');
   }
 
   get attackRoll() {
@@ -100,14 +100,14 @@ export default class Calculation {
     result *= (this.attackBonus + 64);
     result *= Math.max(this.bonuses.slayer, this.bonuses.undead);
     result = Math.floor(result);
-    return this.processValue('attackRoll', result);
+    return this.processValue('attackRoll', result, 'floor');
   }
 
   get targetDefenceRoll() {
     const targetDefence = this.targetDefence + 9;
     const targetStyleDefence = this.targetDefenceBonus + 64;
     const result = targetDefence * targetStyleDefence;
-    return this.processValue('targetDefence', result);
+    return this.processValue('targetDefence', result, 'floor');
   }
 
   get hitChance() {
@@ -173,11 +173,17 @@ export default class Calculation {
       .push(fn);
   }
 
-  processValue(key, val) {
+  processValue(key, val, rounding) {
+    let roundingFn = (v) => v;
+    if (rounding === 'floor') {
+      roundingFn = Math.floor;
+    } else if (rounding === 'ceil') {
+      roundingFn = Math.ceil;
+    }
     let result = val;
     if (this.modifiers.has(key)) {
       for (const value of this.modifiers.get(key)) {
-        result = Math.floor(result * value);
+        result = roundingFn(result * value);
       }
     }
     if (this.transformers.has(key)) {
@@ -360,12 +366,10 @@ export default class Calculation {
         ...[...EffectDirectory.sets.values()]
           .filter((itemEffect) => itemEffect.check(this)),
       );
-      const specialEffects = [...EffectDirectory.specialEffects.values()]
-        .filter((itemEffect) => itemEffect.check(this));
-      if (specialEffects && specialEffects.length > 0) {
-        this.hasSpecialEffect = true;
-        result.push(...specialEffects);
-      }
+      result.push(
+        ...[...EffectDirectory.specialEffects.values()]
+          .filter((itemEffect) => itemEffect.check(this)),
+      );
     }
 
     if (this.loadout.settings) {
