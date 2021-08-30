@@ -49,6 +49,19 @@
           <span>{{ calculation.dps | toFixed(6) }}</span>
         </div>
       </div>
+      <div class="result-line">
+        <div class="result-line-title osrs-text-quill-8">
+          Overkill DPS
+          <span
+            class="result-comparison osrs-text-plain-11"
+            :class="{'positive': comparisons.overkillDps > 0,
+             'negative': comparisons.overkillDps < 0}"
+          >{{ comparisons.overkillDps }}</span>
+        </div>
+        <div class="result-line-value">
+          <span>{{ calculation.overkillDps | toFixed(6) }}</span>
+        </div>
+      </div>
       <div
         v-if="calculation.hasSpecialEffect"
         class="result-line"
@@ -113,11 +126,12 @@ export default {
       return this.getCalculationByUuid(this.loadoutUuid);
     },
     comparisons() {
-      if (this.bestDps) {
+      if (this.calculation && this.bestDps) {
         return {
-          maxHit: this.compare(this.maxHit, this.bestDps.maxHit),
-          accuracy: this.compare(this.accuracy, this.bestDps.hitChance),
-          dps: this.compare(this.dps, this.bestDps.dps),
+          maxHit: this.compare(this.calculation.maxHit, this.bestDps.maxHit),
+          accuracy: this.compare(this.calculation.accuracy, this.bestDps.hitChance),
+          dps: this.compare(this.calculation.dps, this.bestDps.dps),
+          overkillDps: this.compare(this.calculation.overkillDps, this.bestDps.overkillDps),
         };
       }
       return {};
@@ -175,12 +189,6 @@ export default {
         return ((a / b - 1) * 100).toFixed(2);
       }
       return -((b / a - 1) * 100).toFixed(2);
-    },
-    parseEffect(effectName, active) {
-      if (typeof active === 'object') {
-        if (active.name) return active.name;
-      }
-      return effectName;
     },
     debug() {
       console.log(this.calculation);

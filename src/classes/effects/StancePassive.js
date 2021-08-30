@@ -33,6 +33,7 @@ export default class StancePassive extends Effect {
             break;
           case 'rapid':
           case 'flare':
+          case 'medium fuse':
             calculation.addTransformer('attackSpeed', (attackSpeed) => attackSpeed - 1);
             break;
         }

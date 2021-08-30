@@ -141,6 +141,33 @@ export default class Calculation {
     return this.averageDamage / this.attackSpeedInSeconds;
   }
 
+  get timeToKill() {
+    // https://github.com/Nukelawe/osrs-markov
+    // Very simplified formula, generally good for high end pvm, bad for low level pvm
+    // return 2 / (a * m) * (h + (m - 1) / 3) * this.attackSpeedInSeconds;
+    //
+    // Method used in Bitterkoekjes spreadsheet:
+    // https://docs.google.com/spreadsheets/d/1wBXIlvAmqoQpu5u9XBfD4B0PW7D8owyO_CnRDiTHBKQ
+    const h = this.target.hitpoints;
+    const m = this.maxHit;
+    const a = this.hitChance;
+    const accuracy = a * (1 - 1 / (m + 1));
+    const expectation = [0.0];
+    let runningSum = 0.0;
+    for (let i = 1; i < h + 1; i++) {
+      if (i - m - 1 >= 0) {
+        runningSum -= expectation[i - m - 1];
+      }
+      runningSum += expectation[i - 1];
+      expectation.push(1 / accuracy + runningSum / m);
+    }
+    return (expectation[expectation.length - 1]) * this.attackSpeedInSeconds;
+  }
+
+  get overkillDps() {
+    return this.target.hitpoints / this.timeToKill;
+  }
+
   setSkill(name, level) {
     if (Object.prototype.hasOwnProperty.call(this.skills, name)) {
       this.skills[name] = level;

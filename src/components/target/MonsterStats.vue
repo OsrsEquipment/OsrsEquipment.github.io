@@ -167,6 +167,14 @@ export default {
   align-items: center;
 }
 
+.monster-name {
+  padding: 0 4px;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .monster-extra-info {
   display: flex;
 }

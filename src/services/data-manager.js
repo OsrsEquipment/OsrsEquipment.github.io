@@ -139,6 +139,9 @@ class DataManager {
     if (this.isVariationOfItem('scythe of vitur', item)) return false;
     if (this.isVariationOfItem('sanguinesti staff', item)) return false;
     if (this.isVariationOfItem('amulet of glory', item)) return false;
+    if (this.isVariationOfItem('ancestral hat', item)) return false;
+    if (this.isVariationOfItem('ancestral robe top', item)) return false;
+    if (this.isVariationOfItem('ancestral robe bottom', item)) return false;
     return !this.checkItemName(item);
   }
 
@@ -175,7 +178,7 @@ class DataManager {
   }
 
   checkItemName(item) {
-    const regex = /\([cltgur]\)$|\w+? slayer helmet|black mask \(\d+?\)|\(or\)$|\(full\)$|\d+?$|^uncharged|\(p\+{0,2}\)$|fire arrow|\(h\d\)|broodoo shield \(\d+?\)$|crystal halberd (full|\d\/\d+?)|rod of ivandis \(\d\)|\(nz\)$/;
+    const regex = /\([cltgur]\)$|\w+? slayer helmet|black mask \(\d+?\)|\(or\)$|\(full\)$|^(?!rada).*\d+?$|^uncharged|\(p\+{0,2}\)$|fire arrow|\(h\d\)|broodoo shield \(\d+?\)$|crystal halberd (full|\d\/\d+?)|rod of ivandis \(\d\)|\(nz\)$/;
     return regex.test(item.name.toLowerCase());
   }
 }
