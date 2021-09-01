@@ -1,6 +1,6 @@
 import Effect from '../../Effect';
 
-export default class BandosGodswordSpecial extends Effect {
+export default class BandosGodswordSpecialSetting extends Effect {
   static name = 'Warstrike';
 
   static description = 'Lowers the target\'s combat stats based on damage dealt';

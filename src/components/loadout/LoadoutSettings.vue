@@ -58,23 +58,6 @@
         v-model="internalSettings.bgsSpecialDamage"
         :max="9999"
       />
-      <!-- Slayer setting -->
-      <v-tooltip
-        bottom
-        content-class="osrs-tooltip"
-      >
-        <template #activator="{ on }">
-          <img
-            src="../../static/osrs/Slayer icon.png"
-            alt="Slayer"
-            v-on="on"
-          >
-        </template>
-        <span>Are you on a slayer task?</span>
-      </v-tooltip>
-      <osrs-checkbox
-        v-model="internalSettings.onSlayerTask"
-      />
       <!-- Hitpoints setting -->
       <v-tooltip
         bottom
@@ -95,6 +78,63 @@
         :min="1"
         :max="99"
       />
+      <!-- Prayer setting -->
+      <v-tooltip
+        bottom
+        content-class="osrs-tooltip"
+      >
+        <template #activator="{ on }">
+          <img
+            src="../../static/osrs/Prayer icon.png"
+            alt="Prayer"
+            v-on="on"
+          >
+        </template>
+        <span>Your current prayer points</span> <br>
+        <span>Certain effects need this information (e.g. Abyssal bludgeon special)</span>
+      </v-tooltip>
+      <osrs-number-input
+        v-model="internalSettings.currentPrayerPoints"
+        :min="0"
+        :max="99"
+      />
+      <!-- Special energy setting -->
+      <v-tooltip
+        bottom
+        content-class="osrs-tooltip"
+      >
+        <template #activator="{ on }">
+          <img
+            src="../../static/osrs/Special attack orb.png"
+            alt="Prayer"
+            v-on="on"
+          >
+        </template>
+        <span>Your special attack energy</span> <br>
+        <span>Certain effects need this information (e.g. Dragon hasta special)</span>
+      </v-tooltip>
+      <osrs-number-input
+        v-model="internalSettings.currentSpecialEnergy"
+        :min="0"
+        :max="100"
+      />
+      <!-- Slayer setting -->
+      <v-tooltip
+        bottom
+        content-class="osrs-tooltip"
+      >
+        <template #activator="{ on }">
+          <img
+            src="../../static/osrs/Slayer icon.png"
+            alt="Slayer"
+            v-on="on"
+          >
+        </template>
+        <span>Are you on a slayer task?</span>
+      </v-tooltip>
+      <osrs-checkbox
+        v-model="internalSettings.onSlayerTask"
+      />
       <!-- Wilderness setting -->
       <v-tooltip
         bottom
@@ -112,7 +152,7 @@
       <osrs-checkbox
         v-model="internalSettings.inWilderness"
       />
-      <!-- Wilderness setting -->
+      <!-- Kandarin diary setting -->
       <v-tooltip
         bottom
         content-class="osrs-tooltip"

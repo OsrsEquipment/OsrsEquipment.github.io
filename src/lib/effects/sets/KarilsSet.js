@@ -24,9 +24,9 @@ export default class KarilsSet extends ItemEffect {
 
   static apply(calculation) {
     if (calculation.dpsType === 'ranged') {
-      calculation.addTransformer('averageDamage', (averageDamage, calc) => (calc.maxHit + calc.maxHit / 2) / 2 * 0.25 * calc.hitChance + averageDamage * 0.75);
       calculation.addTransformer('specialEffectMaxHit', (seMaxHit, calc) => calc.maxHit / 2);
       calculation.addTransformer('specialEffectHitChance', () => 0.25);
+      calculation.addTransformer('averageDamage', (averageDamage, calc) => (calc.maxHit + calc.specialEffectMaxHit) / 2 * calc.specialEffectHitChance * calc.hitChance + averageDamage * (1 - calc.specialEffectHitChance));
       calculation.hasSpecialEffect = true;
       return true;
     }

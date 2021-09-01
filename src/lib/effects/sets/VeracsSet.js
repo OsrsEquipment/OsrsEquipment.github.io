@@ -23,9 +23,9 @@ export default class VeracsSet extends ItemEffect {
 
   static apply(calculation) {
     if (calculation.dpsType === 'melee') {
-      calculation.addTransformer('averageDamage', (averageDamage, calc) => (calc.maxHit + 1) / 2 * 0.25 + averageDamage * 0.75);
       calculation.addTransformer('specialEffectMaxHit', (seMaxHit, calc) => calc.maxHit + 1);
       calculation.addTransformer('specialEffectHitChance', () => 0.25);
+      calculation.addTransformer('averageDamage', (averageDamage, calc) => calc.specialEffectMaxHit / 2 * calc.specialEffectHitChance + averageDamage * (1 - calc.specialEffectHitChance));
       calculation.hasSpecialEffect = true;
       return true;
     }

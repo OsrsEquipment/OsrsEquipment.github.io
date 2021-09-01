@@ -1,6 +1,6 @@
 import Effect from '../../Effect';
 
-export default class ArclightSpecial extends Effect {
+export default class ArclightSpecialSetting extends Effect {
   static name = 'Weaken';
 
   static description = 'Reduce target\'s Attack, Strength and Defence by 5% (10% on demons)';
@@ -14,7 +14,7 @@ export default class ArclightSpecial extends Effect {
         target,
         debuffedTarget,
       } = calculation;
-      const percentage = (ArclightSpecial.isTargetDemon(target) ? 0.1 : 0.05);
+      const percentage = (ArclightSpecialSetting.isTargetDemon(target) ? 0.1 : 0.05);
       const defenceReduction = target.defence_level * Math.max((percentage * amount), 0);
       const strengthReduction = target.strength_level * Math.max((percentage * amount), 0);
       const attackReduction = target.attack_level * Math.max((percentage * amount), 0);

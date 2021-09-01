@@ -57,7 +57,7 @@ import { mapActions, mapGetters } from 'vuex';
 import {
   capitalize, difference, uniq, kebabCase,
 } from 'lodash';
-import EffectDirectory from '../../classes/EffectDirectory';
+import EffectDirectory from '../../lib/EffectDirectory';
 
 export default {
   name: 'LoadoutPotions',

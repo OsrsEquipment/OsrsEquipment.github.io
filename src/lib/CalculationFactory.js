@@ -17,8 +17,6 @@ export default class CalculationFactory {
         calculation = new CalculationMelee(new Loadout(loadout), target);
     }
 
-    calculation.init();
-
     return calculation;
   }
 

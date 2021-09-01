@@ -52,6 +52,10 @@ export default {
   max-height: calc(500px - 40px);
 }
 
+.effect-inactive {
+  opacity: 0.5;
+}
+
 .effect-line {
   cursor: default;
 }

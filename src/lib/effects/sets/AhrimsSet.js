@@ -24,9 +24,9 @@ export default class AhrimsSet extends ItemEffect {
 
   static apply(calculation) {
     if (calculation.dpsType === 'magic') {
-      calculation.addTransformer('averageDamage', (averageDamage, calc) => Math.floor(calc.maxHit * 1.3) / 2 * 0.25 * calc.hitChance + averageDamage * 0.75);
       calculation.addTransformer('specialEffectMaxHit', (seMaxHit, calc) => Math.floor(calc.maxHit * 1.3));
       calculation.addTransformer('specialEffectHitChance', () => 0.25);
+      calculation.addTransformer('averageDamage', (averageDamage, calc) => calc.specialEffectMaxHit / 2 * calc.specialEffectHitChance * calc.hitChance + averageDamage * (1 - calc.specialEffectHitChance));
       calculation.hasSpecialEffect = true;
       return true;
     }

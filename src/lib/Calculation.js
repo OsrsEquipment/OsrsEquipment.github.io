@@ -50,12 +50,10 @@ export default class Calculation {
 
   visibleEffects = new Map();
 
-  constructor(loadout, target) {
+  constructor(loadout, target, dpsType) {
+    this.dpsType = dpsType;
     this.loadout = loadout;
     this.target = target;
-  }
-
-  init() {
     this.bonuses = { ...this.loadout.bonuses };
     this.skills = { ...this.loadout.skills };
     this.debuffedTarget = { ...this.target };
@@ -88,7 +86,8 @@ export default class Calculation {
   }
 
   get specialMaxHit() {
-    throw new Error('Not Yet Implemented');
+    const base = this.maxHit;
+    return this.processValue('specialMaxHit', base, 'floor');
   }
 
   get specialEffectMaxHit() {
@@ -103,11 +102,21 @@ export default class Calculation {
     return this.processValue('attackRoll', result, 'floor');
   }
 
+  get specialAttackRoll() {
+    const base = this.attackRoll;
+    return this.processValue('specialAttackRoll', base, 'floor');
+  }
+
   get targetDefenceRoll() {
     const targetDefence = this.targetDefence + 9;
     const targetStyleDefence = this.targetDefenceBonus + 64;
     const result = targetDefence * targetStyleDefence;
     return this.processValue('targetDefence', result, 'floor');
+  }
+
+  get specialTargetDefenceRoll() {
+    const base = this.targetDefenceRoll;
+    return this.processValue('specialTargetDefenceRoll', base, 'floor');
   }
 
   get hitChance() {
@@ -125,7 +134,17 @@ export default class Calculation {
   }
 
   get specialHitChance() {
-    throw new Error('Not Yet Implemented');
+    const {
+      specialAttackRoll,
+      specialTargetDefenceRoll,
+    } = this;
+    let result;
+    if (specialAttackRoll > specialTargetDefenceRoll) {
+      result = 1 - ((specialTargetDefenceRoll + 2) / (2 * specialAttackRoll + 1));
+    } else {
+      result = specialAttackRoll / (2 * specialTargetDefenceRoll + 1);
+    }
+    return this.processValue('specialHitChance', result);
   }
 
   get specialEffectHitChance() {
@@ -137,8 +156,17 @@ export default class Calculation {
     return this.processValue('averageDamage', result);
   }
 
+  get specialAverageDamage() {
+    const result = this.specialMaxHit * this.specialHitChance / 2;
+    return this.processValue('specialAverageDamage', result);
+  }
+
   get dps() {
     return this.averageDamage / this.attackSpeedInSeconds;
+  }
+
+  get specialDps() {
+    return this.processValue('specialDps', this.specialAverageDamage / this.attackSpeedInSeconds);
   }
 
   get timeToKill() {
@@ -364,6 +392,10 @@ export default class Calculation {
     return this.loadout.spell;
   }
 
+  get settings() {
+    return this.loadout.settings;
+  }
+
   get effects() {
     const result = [];
 
@@ -394,7 +426,7 @@ export default class Calculation {
           .filter((itemEffect) => itemEffect.check(this)),
       );
       result.push(
-        ...[...EffectDirectory.specialEffects.values()]
+        ...[...EffectDirectory.specials.values()]
           .filter((itemEffect) => itemEffect.check(this)),
       );
     }

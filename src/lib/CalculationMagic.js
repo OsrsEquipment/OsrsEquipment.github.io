@@ -7,6 +7,10 @@ export default class CalculationMagic extends Calculation {
 
   maxHitBonus = 0;
 
+  constructor(loadout, target) {
+    super(loadout, target, 'magic');
+  }
+
   get maxHit() {
     let max;
     if (this.spell) {

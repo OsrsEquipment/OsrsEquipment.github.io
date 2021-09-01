@@ -63,6 +63,32 @@
         </div>
       </div>
       <div
+        v-if="calculation.hasSpecial"
+        class="result-line"
+      >
+        <div class="result-line-title osrs-text-quill-8">
+          Special attack
+        </div>
+        <div class="result-line-value multi-line-result">
+          <div class="multi-line-result-line">
+            <span class="multi-line-result-label">Max hit:</span>
+            <span class="multi-line-result-text">{{ calculation.specialMaxHit }}</span>
+          </div>
+          <div class="multi-line-result-line">
+            <span class="multi-line-result-label">Accuracy:</span>
+            <span class="multi-line-result-text">
+              {{ calculation.specialHitChance | percentage }}
+            </span>
+          </div>
+          <div class="multi-line-result-line">
+            <span class="multi-line-result-label">DPS:</span>
+            <span class="multi-line-result-text">
+              {{ calculation.specialDps | toFixed(6) }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
         v-if="calculation.hasSpecialEffect"
         class="result-line"
       >
@@ -202,6 +228,7 @@ export default {
 .result-list {
   display: flex;
   flex-direction: column;
+  max-height: calc(500px - 42px);
 }
 
 .result-line {

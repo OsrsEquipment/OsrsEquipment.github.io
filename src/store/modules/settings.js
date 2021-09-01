@@ -7,6 +7,8 @@ const defaultSettings = {
   onSlayerTask: true,
   inWilderness: true,
   currentHitpoints: 1,
+  currentPrayerPoints: 0,
+  currentSpecialEnergy: 100,
   completedHardKandarinDiary: true,
 };
 

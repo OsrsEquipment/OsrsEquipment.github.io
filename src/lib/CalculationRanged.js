@@ -1,5 +1,7 @@
 import Calculation from './Calculation';
 
 export default class CalculationRanged extends Calculation {
-  dpsType = 'ranged';
+  constructor(loadout, target) {
+    super(loadout, target, 'ranged');
+  }
 }

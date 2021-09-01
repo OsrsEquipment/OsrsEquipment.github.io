@@ -59,12 +59,30 @@ import {
   DharoksSet, InquisitorsArmour, KarilsSet, ObsidianArmour, VeracsSet, VoidSet,
 } from './effects/sets';
 import {
-  ArclightSpecial,
-  BandosGodswordSpecial, DiamondBoltsEnchanted, DragonstoneBoltsEnchanted,
-  DragonWarhammerSpecial, OnyxBoltsEnchanted, OpalBoltsEnchanted, PearlBoltsEnchanted,
+  AbyssalBludgeonSpecial,
+  AbyssalDaggerSpecial,
+  AbyssalWhipSpecial,
+  DiamondBoltsEnchanted,
+  DragonClawsSpecial,
+  DragonDaggerSpecial,
+  DragonHalberdSpecial,
+  DragonHastaSpecial,
+  DragonLongswordSpecial,
+  DragonMaceSpecial, DragonScimitarSpecial,
+  DragonstoneBoltsEnchanted, DragonSwordSpecial, DragonWarhammerSpecial,
+  OnyxBoltsEnchanted,
+  OpalBoltsEnchanted,
+  PearlBoltsEnchanted,
   RubyBoltsEnchanted,
+  StatiusWarhammerSpecial,
+  VestasLongswordSpecial,
 } from './effects/specials';
 import { CorporealBeast, NylocasMatomenos, Zulrah } from './effects/target';
+import {
+  ArclightSpecialSetting,
+  BandosGodswordSpecialSetting,
+  DragonWarhammerSpecialSetting,
+} from './effects/settings';
 
 export default class EffectDirectory {
   static potions = new Map([
@@ -141,27 +159,39 @@ export default class EffectDirectory {
     [NylocasMatomenos.name, NylocasMatomenos],
   ]);
 
-  static specials = new Map([]);
-
-  static specialEffects = new Map([
+  static specials = new Map([
     [RubyBoltsEnchanted.name, RubyBoltsEnchanted],
     [OpalBoltsEnchanted.name, OpalBoltsEnchanted],
     [PearlBoltsEnchanted.name, PearlBoltsEnchanted],
     [DiamondBoltsEnchanted.name, DiamondBoltsEnchanted],
     [DragonstoneBoltsEnchanted.name, DragonstoneBoltsEnchanted],
     [OnyxBoltsEnchanted.name, OnyxBoltsEnchanted],
+    [AbyssalBludgeonSpecial.name, AbyssalBludgeonSpecial],
+    [AbyssalDaggerSpecial.name, AbyssalDaggerSpecial],
+    [AbyssalWhipSpecial.name, AbyssalWhipSpecial],
+    [StatiusWarhammerSpecial.name, StatiusWarhammerSpecial],
+    [VestasLongswordSpecial.name, VestasLongswordSpecial],
+    [DragonClawsSpecial.name, DragonClawsSpecial],
+    [DragonDaggerSpecial.name, DragonDaggerSpecial],
+    [DragonHalberdSpecial.name, DragonHalberdSpecial],
+    [DragonHastaSpecial.name, DragonHastaSpecial],
+    [DragonLongswordSpecial.name, DragonLongswordSpecial],
+    [DragonMaceSpecial.name, DragonMaceSpecial],
+    [DragonScimitarSpecial.name, DragonScimitarSpecial],
+    [DragonSwordSpecial.name, DragonSwordSpecial],
+    [DragonWarhammerSpecial.name, DragonWarhammerSpecial],
   ]);
 
   static convertSettingsToEffects(settings) {
     const result = [];
     if (settings.arclightSpecials && settings.arclightSpecials > 0) {
-      result.push(ArclightSpecial);
+      result.push(ArclightSpecialSetting);
     }
     if (settings.dwhSpecials && settings.dwhSpecials > 0) {
-      result.push(DragonWarhammerSpecial);
+      result.push(DragonWarhammerSpecialSetting);
     }
     if (settings.bgsSpecialDamage && settings.bgsSpecialDamage > 0) {
-      result.push(BandosGodswordSpecial);
+      result.push(BandosGodswordSpecialSetting);
     }
     return result;
   }

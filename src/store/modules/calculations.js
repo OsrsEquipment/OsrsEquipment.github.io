@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import CalculationFactory from '../../classes/CalculationFactory';
+import CalculationFactory from '../../lib/CalculationFactory';
 
 function performCalculation({ rootGetters, rootState }, uuid) {
   const existingLoadout = rootGetters['loadouts/getLoadoutByUuid'](uuid);

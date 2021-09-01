@@ -148,7 +148,7 @@ export default {
         if (!this.showDartsSlot) {
           localEquipment.darts = undefined;
         }
-        if (/^\w+\sdart$/.test(item.name)) {
+        if (this.showDartsSlot && /^\w+\sdart$/.test(item.name)) {
           slot = 'darts';
         }
         if (item.equipment.slot === '2h') {

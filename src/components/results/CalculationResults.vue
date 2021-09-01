@@ -78,7 +78,8 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: 100%;
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 .calculation-result-tab-items {

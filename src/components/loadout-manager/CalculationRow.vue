@@ -58,6 +58,14 @@
         <span>{{ calculation.dps | toFixed(4) }}</span>
       </div>
     </div>
+    <div class="calculation-column dps-column">
+      <div class="calculation-column-title osrs-text-quill-8">
+        Overkill
+      </div>
+      <div class="calculation-column-content">
+        <span>{{ calculation.overkillDps | toFixed(4) }}</span>
+      </div>
+    </div>
     <div class="calculation-column actions-column">
       <v-tooltip
         bottom
@@ -164,7 +172,7 @@ export default {
 .calculation-row {
   position: relative;
   display: grid;
-  grid-template-columns: 40px 1fr 175px 75px 75px 75px 75px;
+  grid-template-columns: 40px 1fr 175px 75px 75px 75px 75px 75px;
   height: 60px;
   padding: 5px;
   border-radius: 4px;
@@ -173,7 +181,7 @@ export default {
 }
 
 .calculation-row.selected-calculation {
-  background: var(--v-secondary-base);
+  background: #424242;
 }
 
 .calculation-column {
@@ -252,7 +260,7 @@ export default {
     flex: 1;
     min-width: 300px;
     grid-template-columns: 40px 1fr 75px 40px;
-    grid-template-rows: 50px 50px 50px;
+    grid-template-rows: 50px 50px 50px 50px;
     height: auto;
   }
 

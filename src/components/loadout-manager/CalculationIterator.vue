@@ -150,6 +150,10 @@ export default {
           text: 'DPS',
           value: 'dps',
         },
+        {
+          text: 'Overkill',
+          value: 'overkillDps',
+        },
       ],
     };
   },

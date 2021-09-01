@@ -19,10 +19,9 @@ export default class DragonstoneBoltsEnchanted extends ItemEffect {
       ? 0 : 0.06 * (calculation.loadout.settings.completedHardKandarinDiary ? 1.1 : 1);
     const specMaxHit = isImmune
       ? 0 : Math.floor(calculation.visibleAttackLevel * 0.2);
-    // Spreadsheet seems to do an accuracy check for the spec hit as well? No reference as to why
-    calculation.addTransformer('averageDamage', (averageDamage, calc) => (calc.maxHit / 2 + specMaxHit) * procChance * calc.hitChance + averageDamage * (1 - procChance));
     calculation.addTransformer('specialEffectMaxHit', (seMaxHit, calc) => specMaxHit + calc.maxHit);
     calculation.addTransformer('specialEffectHitChance', () => procChance);
+    calculation.addTransformer('averageDamage', (averageDamage, calc) => (calc.maxHit / 2 + calc.specialEffectMaxHit) * calc.specialEffectHitChance * calc.hitChance + averageDamage * (1 - calc.specialEffectHitChance));
     calculation.hasSpecialEffect = true;
     return true;
   }
